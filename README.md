@@ -11,4 +11,4 @@ Under `Settings -> Languages & Frameworks -> JavaScript -> Libraries` select `Ad
 
 The name must be the same. We use phaser version 2.3.0
 
-Do the same for the jQuery file. Use jQuery version 2.1.3 and name the library **jQuery** (important).
+For **jQuery** use the `Download...` functionality for the libraries (it is the jQuery version 2.0.0).

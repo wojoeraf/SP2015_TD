@@ -5,6 +5,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Phaser" level="application" />
-    <orderEntry type="library" name="jQuery" level="application" />
+    <orderEntry type="library" name="jQuery-2.0.0" level="application" />
   </component>
 </module>
