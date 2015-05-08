@@ -1,27 +1,54 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html>
-<head lang="de">
-    <meta charset="UTF-8">
-    <title>SP2015 Tower Defense</title>
-    <script src="https://code.jquery.com/jquery-2.1.3.js"></script>
-    <link href="style/main.css" rel="stylesheet">
+<head>
+	<meta charset="UTF-8" />
+	<title>Phaser Basic Project Template</title>
+	<script src="js/phaser.min.js"></script>
+	<script src="js/Boot.js"></script>
+	<script src="js/Preloader.js"></script>
+    <script src="js/LoginMenu.js"></script>
+    <script src="js/RegisterMenu.js"></script>
+	<script src="js/MainMenu.js"></script>
+	<script src="js/Game.js"></script>
 </head>
 <body>
 
+<div id="gameContainer"></div>
 
-<div class="wrapper">
-    <div class="content">
-        <h1>Softwarepraktikum 2015 - Tower Defense</h1>
+<script type="text/javascript">
 
-        <h3>Ein paar einleitende Worte</h3>
+window.onload = function() {
 
-        <p>bla blub</p>
 
-        <h3>Das Spiel</h3>
+    //Neues Phaser-Game initialisieren
+	var game = new Phaser.Game(1024, 768, Phaser.AUTO, 'gameContainer');
 
-        <a href="menu/login.html">Zum Spiel</a>
-    </div>
-</div>
+
+    //States des Spiels:
+    // 1.Boot
+    // 2.Preloader
+    // 3.LoginMenu (TODO)
+    // 4.evtl. RegisterMenu (wenn Neu-Registrierung) (TODO), sonst weiter mit
+    // 5.MainMenu
+    //im MainMenu: je nach Button:
+    //GameMenu oder SettingMenu oder RankingMenu oder BuyMenu oder wieder zurück zum LoginMenu
+	game.state.add('Boot', BasicGame.Boot);
+	game.state.add('Preloader', BasicGame.Preloader);
+    game.state.add('LoginMenu', BasicGame.LoginMenu);
+    game.state.add('RegisterMenu', BasicGame.RegisterMenu);
+	game.state.add('MainMenu', BasicGame.MainMenu);
+	game.state.add('Game', BasicGame.Game);
+    //game.state.add('SettingMenu', BasicGame.SettingMenu); (TODO)
+    //game.state.add('RankingMenu', BasicGame.RankingMenu); (TODO)
+    //game.state.add('BuyMenu', BasicGame.BuyMenu);
+    //game.state.add('AchievementMenu', BasicGame.AchievementMenu);
+
+	//Anfang mit Boot
+	game.state.start('Boot');
+
+};
+
+</script>
 
 </body>
 </html>
