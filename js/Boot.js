@@ -6,6 +6,7 @@ BasicGame.Boot = function (game) {
 
 BasicGame.Boot.prototype = {
 
+    // init ist die Erste Funktion die automatisch aufgerufen wird sobald der State 'Boot' von der index.html aufgerufen wird
     init: function () {
 
         //  Multi-Touch austellen
@@ -32,6 +33,7 @@ BasicGame.Boot.prototype = {
 
     },
 
+    // Sobald 'init' komplett durchgelaufen ist wird preload aufgerufen. Anschließend 'create'
     preload: function () {
 
         //Laden der Dateien, die beim Preloader angezeigt werden sollen
