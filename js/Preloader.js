@@ -43,6 +43,7 @@ BasicGame.Preloader.prototype = {
 
 
 
+
         //Dateien fürs MainMenu
 
 		this.load.image('titlepage', 'images/title.jpg');
@@ -65,7 +66,10 @@ BasicGame.Preloader.prototype = {
 
         //Dateien fürs SettingMenu
 
-        //TODO
+         this.load.image('point', 'images/point.png');
+         this.load.image('settingsText', 'images/settings_text.png');
+         this.load.image('musicvolumeText','images/musicvolume_text.png');
+         this.load.image('soundvolumeText', 'images/soundvolume_text.png');
 
 
         //Dateien fürs RankingMenu

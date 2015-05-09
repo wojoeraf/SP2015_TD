@@ -10,6 +10,7 @@
     <script src="js/RegisterMenu.js"></script>
 	<script src="js/MainMenu.js"></script>
 	<script src="js/Game.js"></script>
+    <script src="js/SettingsMenu.js"></script>
 </head>
 <body>
 
@@ -31,14 +32,14 @@ window.onload = function() {
     // 4.evtl. RegisterMenu (wenn Neu-Registrierung) (TODO), sonst weiter mit
     // 5.MainMenu
     //im MainMenu: je nach Button:
-    //GameMenu oder SettingMenu oder RankingMenu oder BuyMenu oder wieder zurück zum LoginMenu
+    //GameMenu oder SettingMenu oder RankingMenu oder BuyMenu oder wieder zurück zum LoginMenu+
 	game.state.add('Boot', BasicGame.Boot);
 	game.state.add('Preloader', BasicGame.Preloader);
     game.state.add('LoginMenu', BasicGame.LoginMenu);
     game.state.add('RegisterMenu', BasicGame.RegisterMenu);
 	game.state.add('MainMenu', BasicGame.MainMenu);
 	game.state.add('Game', BasicGame.Game);
-    //game.state.add('SettingMenu', BasicGame.SettingMenu); (TODO)
+    game.state.add('SettingsMenu', BasicGame.SettingsMenu);
     //game.state.add('RankingMenu', BasicGame.RankingMenu); (TODO)
     //game.state.add('BuyMenu', BasicGame.BuyMenu);
     //game.state.add('AchievementMenu', BasicGame.AchievementMenu);

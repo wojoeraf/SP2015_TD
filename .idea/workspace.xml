@@ -2,43 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ed8cd9d0-2d8d-4f48-8a9e-6c6e41097ad1" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/images/a_Button.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/images/back_Button2.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/images/back_button.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/images/buy_Button.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/images/cwl_Button.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/images/fp_Button.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/images/login_Button.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/images/login_text.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/images/login_text2.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/audio/main_menu.mp3" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/images/musicOut.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/images/note.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/images/play_button.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/images/preloader_background.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/images/preloadr_bar.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/images/rankings_button.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/images/register_Button.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/images/register_Button2.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/images/registration_text.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/images/settings_button.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/images/start_button.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/images/title.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/js/Boot.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/js/Game.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/js/LoginMenu.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/js/MainMenu.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/js/Preloader.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/js/RegisterMenu.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/js/phaser.min.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/images/play_button.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/SP2015_TD.iml" afterPath="$PROJECT_DIR$/.idea/SP2015_TD.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/encodings.xml" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/LoginMenu.js" afterPath="$PROJECT_DIR$/js/LoginMenu.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/MainMenu.js" afterPath="$PROJECT_DIR$/js/MainMenu.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/Preloader.js" afterPath="$PROJECT_DIR$/js/Preloader.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/RegisterMenu.js" afterPath="$PROJECT_DIR$/js/RegisterMenu.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="SP2015_TD.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -73,7 +42,7 @@
       <file leaf-file-name="index.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="10" column="42" selection-start="351" selection-end="351" vertical-scroll-proportion="0.41564792" vertical-offset="0" max-vertical-offset="1003">
+            <state line="21" column="0" selection-start="545" selection-end="545" vertical-scroll-proportion="0.14265734" vertical-offset="255" max-vertical-offset="1020">
               <folding />
             </state>
           </provider>
@@ -121,6 +90,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -139,19 +109,49 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SP2015_TD" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SP2015_TD" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SP2015_TD" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SP2015_TD" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="images" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="recentsLimit" value="5" />
+    <property name="FullScreen" value="false" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Felix\Documents\GitHub\SP2015_TD" />
+      <recent name="C:\Users\Felix\Documents\GitHub\SP2015_TD\js" />
+      <recent name="C:\Users\Felix\Documents\GitHub\SP2015_TD\images" />
     </key>
   </component>
   <component name="RunManager" selected="JavaScript Debug.index.html">
@@ -232,26 +232,26 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1616" height="876" extended-state="7" />
+    <frame x="-8" y="-8" width="1616" height="876" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.39895698" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39895698" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -271,6 +271,11 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/images/soundvolume_text.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/js/Boot.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="986">
@@ -280,7 +285,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="42" selection-start="351" selection-end="351" vertical-scroll-proportion="0.41564792" vertical-offset="0" max-vertical-offset="1003">
+        <state line="21" column="0" selection-start="545" selection-end="545" vertical-scroll-proportion="0.14265734" vertical-offset="255" max-vertical-offset="1020">
           <folding />
         </state>
       </provider>
