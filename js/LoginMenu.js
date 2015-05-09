@@ -17,10 +17,10 @@ BasicGame.LoginMenu.prototype = {
 
         this.add.sprite(0, 0, 'titlepage');
         this.add.sprite(360, 350, 'loginText');
-        this.loginButton = this.add.button(250, 550, 'loginButton', this.login, this, 'buttonOver','buttonOut', 'buttonOver');
-        this.cwlButton = this.add.button(250, 610, 'cwlButton', this.goMain, this, 'buttonOver','buttonOut', 'buttonOver');
-        this.fpButton = this.add.button(420, 555, 'fpButton', this.forgotPassword, this, 'buttonOver','buttonOut', 'buttonOver');
-        this.registerButton = this.add.button(420, 575, 'registerButton', this.register, this, 'buttonOver','buttonOut', 'buttonOver');
+        this.loginButton = this.add.button(250, 550, 'loginButton', this.login, this);
+        this.cwlButton = this.add.button(250, 610, 'cwlButton', this.goMain, this);
+        this.fpButton = this.add.button(420, 555, 'fpButton', this.forgotPassword, this);
+        this.registerButton = this.add.button(420, 575, 'registerButton', this.register, this);
     },
 
 

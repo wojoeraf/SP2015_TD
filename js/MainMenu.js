@@ -34,13 +34,13 @@ BasicGame.MainMenu.prototype = {
 
 		this.add.sprite(0, 0, 'titlepage');
 
-		this.playButton = this.add.button(380, 400, 'playButton', this.startGame, this, 'buttonOver', 'buttonOut', 'buttonOver');
-        this.settingButton = this.add.button(380,460,'settingButton', this.showSettings, this, 'buttonOver','buttonOut', 'buttonOver');
-        this.rankingButton = this.add.button(380,520,'rankingButton', this.showRanking, this, 'buttonOver','buttonOut', 'buttonOver');
-        this.backButton = this.add.button(0,685,'backButton', this.goBack, this, 'buttonOver','buttonOut', 'buttonOver');
-        this.musicButton = this.add.button(900,675,'musicButton', this.musicInOut, this, 'buttonOver','buttonOut', 'buttonOver');
-        this.buyButton = this.add.button(900,125,'buyButton', this.buyDiamonds, this, 'buttonOver','buttonOut', 'buttonOver');
-        this.aButton = this.add.button(780,685,'aButton', this.achieve, this, 'buttonOver','buttonOut', 'buttonOver');
+		this.playButton = this.add.button(380, 400, 'playButton', this.startGame, this);
+        this.settingButton = this.add.button(380,460,'settingButton', this.showSettings, this);
+        this.rankingButton = this.add.button(380,520,'rankingButton', this.showRanking, this);
+        this.backButton = this.add.button(0,685,'backButton', this.goBack, this);
+        this.musicButton = this.add.button(900,675,'musicButton', this.musicInOut, this);
+        this.buyButton = this.add.button(900,125,'buyButton', this.buyDiamonds, this);
+        this.aButton = this.add.button(780,685,'aButton', this.achieve, this);
 
 
 	},
@@ -52,10 +52,10 @@ BasicGame.MainMenu.prototype = {
         //wenn musicout==true -> Button mit durchgestrichener Note laden, sonst den normalen Music-Button
 
         if(this.musicout==true){
-            this.musicButton = this.add.button(900,675,'musicOutButton', this.musicInOut, this, 'buttonOver','buttonOut', 'buttonOver');
+            this.musicButton = this.add.button(900,675,'musicOutButton', this.musicInOut, this);
         }
         else{
-            this.musicButton = this.add.button(900,675,'musicButton', this.musicInOut, this, 'buttonOver','buttonOut', 'buttonOver');
+            this.musicButton = this.add.button(900,675,'musicButton', this.musicInOut, this);
         }
 
 	},
@@ -74,7 +74,7 @@ BasicGame.MainMenu.prototype = {
     //Wenn Settings-Button gedrückt wurde -> SettingMenu-State aufrufen
     showSettings: function(pointer){
         this.music.stop();
-        this.state.start("SettingMenu");
+        this.state.start("SettingsMenu");
     },
 
     //Wenn Ranking-Button gedrückt wurde -> RankingMenu-State aufrufen
