@@ -48,10 +48,16 @@ BasicGame.Preloader.prototype = {
         //TODO
 
         //Dateien fürs SettingMenu
-         this.load.image('point', 'images/point.png');
-         this.load.image('settingsText', 'images/settings_text.png');
-         this.load.image('musicvolumeText','images/musicvolume_text.png');
-         this.load.image('soundvolumeText', 'images/soundvolume_text.png');
+
+        this.load.image('point', 'images/point.png');
+        this.load.image('point2','images/point2.png');
+        this.load.image('settingsText', 'images/settings_text.png');
+        this.load.image('musicvolumeText','images/musicvolume_text2.png');
+        this.load.image('soundvolumeText', 'images/soundvolume_text3.jpg');
+        this.load.image('line', 'images/line.png');
+        this.load.image('line2', 'images/line2.png');
+
+
 
         //Dateien fürs RankingMenu
         //TODO
