@@ -1,8 +1,4 @@
-/**
- * Created by Felix on 08.05.15.
- */
-
-BasicGame.SettingsMenu = function (game) {
+Menu.SettingsMenu = function () {
 
 }
 
@@ -10,11 +6,11 @@ BasicGame.SettingsMenu = function (game) {
 var spite;
 var result;
 var sonic;
-BasicGame.SettingsMenu.prototype = {
+Menu.SettingsMenu.prototype = {
 
     create: function () {
 
-        this.add.sprite(0, 0, 'titlepage');
+        this.add.sprite(0, 0, 'menuBG');
         this.add.sprite(355, 350, 'settingsText');
         this.add.sprite(300, 500, 'soundvolumeText');
 

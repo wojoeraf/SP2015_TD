@@ -1,53 +1,119 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-	<meta charset="UTF-8" />
-	<title>Phaser Basic Project Template</title>
-	<script src="js/phaser.min.js"></script>
-	<script src="js/Boot.js"></script>
-	<script src="js/Preloader.js"></script>
-    <script src="js/LoginMenu.js"></script>
-    <script src="js/RegisterMenu.js"></script>
-	<script src="js/MainMenu.js"></script>
-	<script src="js/Game.js"></script>
-    <script src="js/SettingsMenu.js"></script>
+    <meta charset="UTF-8"/>
+    <title>Phaser Basic Project Template</title>
+
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
+    <link href="style/menu.css" rel="stylesheet">
+    <link href="style/main.css" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="libs/phaser.js"></script>
+
+    <script src="game/Player.js"></script>
+
+    <script src="processing/forms.js"></script>
+    <script src="processing/helpers.js"></script>
+
+    <script src="states/Boot.js"></script>
+    <script src="states/Preloader.js"></script>
+    <script src="states/LoginMenu.js"></script>
+    <script src="states/RegisterMenu.js"></script>
+    <script src="states/MainMenu.js"></script>
+    <script src="states/Game.js"></script>
+    <script src="states/SettingsMenu.js"></script>
+    <script src="states/ForgotPasswordMenu.js"></script>
+
 </head>
 <body>
 
-<div id="gameContainer"></div>
+<div class="wrapper">
+
+    <div id="gameContainer"></div>
+
+    <div id="formWrapper">
+
+        <div id="loginArea" class="invisible formBody">
+            <h1>Login</h1>
+
+            <div class="pure-form pure-form-stacked innerForm">
+                <form method="POST" action="">
+                    <input type="text" name="loginName" placeholder="Username or Email">
+                    <input type="password" name="loginPassword" placeholder="Password">
+                </form>
+                <a id="forgotPasswordLink" href=#>Forgot password</a><br>
+                <a id="registerLink" href=#>Register</a>
+            </div>
+        </div>
+
+        <div id="registerArea" class="invisible formBody">
+            <h1>Registration</h1>
+
+            <p>Enter your data:</p>
+
+            <div class="pure-form pure-form-stacked innerForm">
+                <form method="POST" action="">
+                    <input type="text" name="registerUsername" placeholder="Username">
+                    <input type="text" name="registerEmail" placeholder="Email">
+                    <input type="password" name="registerPassword" placeholder="Password">
+                    <input type="password" name="registerConfirmPassword" placeholder="Confirm Password">
+                </form>
+            </div>
+        </div>
+
+        <div id="forgotPasswordArea" class="invisible formBody">
+            <h1>Forgot your Password?</h1>
+
+            <p>Enter your Email-address in order to receive a new password.</p>
+
+            <div class="pure-form pure-form-stacked innerForm">
+                <form method="POST" action="">
+                    <input type="text" name="forgotPasswordEmail" placeholder="Email">
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
 
 <script type="text/javascript">
 
-window.onload = function() {
+    $(function () {
+        // Initialize new Phaser.Game
+        var game = new Phaser.Game(canvasWidth, canvasHeight, Phaser.AUTO, 'gameContainer');
+
+        // Add all states of the game
+        game.state.add('Boot', Menu.Boot);
+        game.state.add('Preloader', Menu.Preloader);
+        game.state.add('LoginMenu', Menu.LoginMenu);
+        game.state.add('RegisterMenu', Menu.RegisterMenu);
+        game.state.add('MainMenu', Menu.MainMenu);
+        game.state.add('Game', Menu.Game);
+        game.state.add('SettingsMenu', Menu.SettingsMenu);
+        game.state.add('ForgotPasswordMenu', Menu.ForgotPasswordMenu);
+        //game.state.add('RankingMenu', Menu.RankingMenu); (TODO)
+        //game.state.add('BuyMenu', Menu.BuyMenu);
+        //game.state.add('AchievementMenu', Menu.AchievementMenu);
+
+        //Start game with boot state
+        game.state.start('Boot');
 
 
-    //Neues Phaser-Game initialisieren
-	var game = new Phaser.Game(1024, 768, Phaser.AUTO, 'gameContainer');
+        // Listen for link click events (forgot password, register)
+        $("#forgotPasswordLink").click(function () {
+            fp = new FormProcessing();
+            fp.hideLoginForm();
+            game.state.start('ForgotPasswordMenu');
+        });
 
+        $("#registerLink").click(function () {
+            fp = new FormProcessing();
+            fp.hideLoginForm();
+            game.state.start('RegisterMenu');
+        });
+    });
 
-    //States des Spiels:
-    // 1.Boot
-    // 2.Preloader
-    // 3.LoginMenu (TODO)
-    // 4.evtl. RegisterMenu (wenn Neu-Registrierung) (TODO), sonst weiter mit
-    // 5.MainMenu
-    //im MainMenu: je nach Button:
-    //GameMenu oder SettingMenu oder RankingMenu oder BuyMenu oder wieder zurück zum LoginMenu+
-	game.state.add('Boot', BasicGame.Boot);
-	game.state.add('Preloader', BasicGame.Preloader);
-    game.state.add('LoginMenu', BasicGame.LoginMenu);
-    game.state.add('RegisterMenu', BasicGame.RegisterMenu);
-	game.state.add('MainMenu', BasicGame.MainMenu);
-	game.state.add('Game', BasicGame.Game);
-    game.state.add('SettingsMenu', BasicGame.SettingsMenu);
-    //game.state.add('RankingMenu', BasicGame.RankingMenu); (TODO)
-    //game.state.add('BuyMenu', BasicGame.BuyMenu);
-    //game.state.add('AchievementMenu', BasicGame.AchievementMenu);
-
-	//Anfang mit Boot
-	game.state.start('Boot');
-
-};
 
 </script>
 
