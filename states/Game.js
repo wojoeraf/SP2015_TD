@@ -26,14 +26,16 @@ Menu.Game = function (game) {
 
 
 //TODO
-
+var map;
+var layer;
 Menu.Game.prototype = {
 
-    create: function () {
 
-        //TODO
+    preload: function(){
 
-        this.state.start('MainMenu');
+        this.state.start("Level1");
+
+
 
 
     },
@@ -41,8 +43,8 @@ Menu.Game.prototype = {
     update: function () {
 
         //TODO
+        this.state.start("Level1");
 
-        this.state.start('MainMenu');
         //  Honestly, just about anything could go here. It's YOUR game after all. Eat your heart out!
 
     },
@@ -51,7 +53,7 @@ Menu.Game.prototype = {
 
         //TODO
 
-        this.state.start('MainMenu');
+
 
     }
 
