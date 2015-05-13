@@ -125,7 +125,7 @@ Menu.SettingsMenu.prototype = {
     // Go back
     back: function () {
         this.helper.playSound(this, 'menuClick');
-        this.state.start("LoginMenu");
+        this.state.start("MainMenu");
     }
 };
 
