@@ -24,6 +24,9 @@
     <script src="states/Game.js"></script>
     <script src="states/SettingsMenu.js"></script>
     <script src="states/ForgotPasswordMenu.js"></script>
+    <script src="states/BuyMenu.js"></script>
+    <script src="states/AchievementMenu.js"></script>
+    <script src="states/RankingMenu.js"></script>
 
 </head>
 <body>
@@ -92,9 +95,9 @@
         game.state.add('Game', Menu.Game);
         game.state.add('SettingsMenu', Menu.SettingsMenu);
         game.state.add('ForgotPasswordMenu', Menu.ForgotPasswordMenu);
-        //game.state.add('RankingMenu', Menu.RankingMenu); (TODO)
-        //game.state.add('BuyMenu', Menu.BuyMenu);
-        //game.state.add('AchievementMenu', Menu.AchievementMenu);
+        game.state.add('RankingMenu', Menu.RankingMenu);
+        game.state.add('BuyMenu', Menu.BuyMenu);
+        game.state.add('AchievementMenu', Menu.AchievementMenu);
 
         //Start game with boot state
         game.state.start('Boot');

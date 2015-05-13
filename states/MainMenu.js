@@ -1,9 +1,7 @@
 Menu.MainMenu = function () {
 
-    this.loggedIn = false;
     //Buttons, Music etc...
-    this.musicMenu = null;
-    this.buttonPlay = null;
+
     this.buttonSettings = null;
     this.buttonRanking = null;
     this.buttonBack = null;
