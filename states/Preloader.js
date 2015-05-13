@@ -48,7 +48,10 @@ Menu.Preloader.prototype = {
         this.load.spritesheet('buttonAchievements', 'assets/menu/menuButton_achievements.png');
 
         // Settings
-
+        this.load.spritesheet('point', 'assets/point.png');
+        this.load.spritesheet('point2', 'assets/point.png');
+        this.load.spritesheet('line', 'assets/menu/line.png');
+        this.load.spritesheet('line2', 'assets/menu/line.png');
 
         // Ranking
 

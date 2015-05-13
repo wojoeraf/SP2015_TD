@@ -1,44 +1,50 @@
-Menu.SettingsMenu = function () {
+Menu.SettingsMenu = function (game) {
+
+    this.helper = new Helper.Menu();
+
+//Variablen deklarieren
+    this.soundvolume = 50;
+    this.musicvolume = 50;
+    this.textS = null;
+    this.textM = null;
+    this.style = {font: "25px Arial", fill: "#ff0044", align: "center"};
 
 }
 
-
-var spite;
-var result;
-var sonic;
+var point;
+var pointM;
 Menu.SettingsMenu.prototype = {
 
     create: function () {
-
+        //Titlebild, Settings-Text und Soundvolume+MusicVolume-Schriftzug hinzufügen
         this.add.sprite(0, 0, 'menuBG');
-        this.add.sprite(355, 350, 'settingsText');
-        this.add.sprite(300, 500, 'soundvolumeText');
+        //this.add.sprite(355,350, 'settingsText');
+        //this.add.sprite(285, 499, 'soundvolumeText');
+        //this.add.sprite(285,599, 'musicvolumeText');
 
-        /*
-         spite = this.add.sprite(200, 400, 'point');
+        this.helper.placeBackButton(this, this.back);
 
-
-         //  Enable Input detection. Sprites have this disabled by default,
-         //  so you have to start it if you want to interact with them.
-         spite.inputEnabled = true;
-
-         //  This allows you to drag the sprite. The parameter controls if you drag from the position you touched it (false)
-         //  or if it will snap to the center (true)
-         spite.input.enableDrag();
+        //Balken für die Volume-Anzeigen hinzufügen
+        this.add.sprite(455, 507, 'line');
+        this.add.sprite(455, 607, 'line2');
 
 
-         //  This will lock the sprite so it can only be dragged horizontally, not vertically
-         spite.input.allowVerticalDrag = false;
+        //Schieberegel-Punkt hinzufügen und Drag-Event aktivieren
+        //auf Veränderung des Punktes
+        point = this.add.sprite(552.5, 500, 'point');
+        point.inputEnabled = true;
+        point.input.enableDrag();
+        point.input.allowVerticalDrag = false;
+        //neben dem Balken: Textanzeige des aktuellen Volumes
+        this.textS = this.add.text(670, 495, this.soundvolume, this.style);
 
-         */
 
-        sonic = this.add.sprite(450, 500, 'point');
-
-        sonic.inputEnabled = true;
-        sonic.input.enableDrag();
-        sonic.input.allowVerticalDrag = false;
-        sonic.events.onDragStart.add(onDragStart, this);
-        sonic.events.onDragStop.add(onDragStop, this);
+        //MusicVolume
+        pointM = this.add.sprite(552.5, 600, 'point2');
+        pointM.inputEnabled = true;
+        pointM.input.enableDrag();
+        pointM.input.allowVerticalDrag = false;
+        this.textM = this.add.text(670, 595, this.musicvolume, this.style);
 
 
     },
@@ -46,76 +52,85 @@ Menu.SettingsMenu.prototype = {
 
     update: function () {
 
+        //Soundeffekte-Punkt
+        if (point.x < 455) {
+            point.destroy();
+            point = this.add.sprite(455, 500, 'point');
+            point.inputEnabled = true;
+            point.input.enableDrag();
+            point.input.allowVerticalDrag = false;
+            this.textS.destroy();
+            this.soundvolume = 1;
+            this.textS = this.add.text(670, 495, this.soundvolume, this.style);
+        }
+        else if (point.x > 650) {
+            point.destroy();
+            point = this.add.sprite(650, 500, 'point');
+            point.inputEnabled = true;
+            point.input.enableDrag();
+            point.input.allowVerticalDrag = false;
+            this.textS.destroy();
+            this.soundvolume = 100;
+            this.textS = this.add.text(670, 495, this.soundvolume, this.style);
 
+
+        }
+        else {
+            this.textS.destroy();
+            this.soundvolume = 100 - Math.round(((650 - point.x) / 195) * 100);
+            if (this.soundvolume < 1) {
+                this.soundvolume = 1;
+            }
+            if (this.soundvolume > 100) {
+                this.soundvolume = 100;
+            }
+            this.textS = this.add.text(670, 495, this.soundvolume, this.style);
+        }
+
+
+        //Musicvolume-Punkt
+        if (pointM.x < 455) {
+            pointM.destroy();
+            pointM = this.add.sprite(455, 600, 'point2');
+            pointM.inputEnabled = true;
+            pointM.input.enableDrag();
+            pointM.input.allowVerticalDrag = false;
+            this.textM.destroy();
+            this.musicvolume = 1;
+            this.textM = this.add.text(670, 595, this.musicvolume, this.style);
+        }
+        else if (pointM.x > 650) {
+            pointM.destroy();
+            pointM = this.add.sprite(650, 600, 'point2');
+            pointM.inputEnabled = true;
+            pointM.input.enableDrag();
+            pointM.input.allowVerticalDrag = false;
+            this.textM.destroy();
+            this.musicvolume = 100;
+            this.textM = this.add.text(670, 595, this.musicvolume, this.style);
+        }
+        else {
+            this.textM.destroy();
+            this.musicvolume = 100 - Math.round(((650 - pointM.x) / 195) * 100);
+            if (this.musicvolume < 1) {
+                this.musicvolume = 1;
+            }
+            if (this.musicvolume > 100) {
+                this.musicvolume = 100;
+            }
+            this.textM = this.add.text(670, 595, this.musicvolume, this.style);
+        }
+    },
+
+    // Go back
+    back: function () {
+        this.helper.playSound(this, 'menuClick');
+        this.state.start("LoginMenu");
     }
-
-
 };
 
-function onDragStart(sprite, pointer) {
 
 
-    if (pointer.x <= 440) {
-        sonic.destroy();
-
-        sonic = this.add.sprite(450, 500, 'point');
-        sonic.inputEnabled = true;
-        sonic.input.enableDrag();
-        sonic.input.allowVerticalDrag = false;
-        sonic.events.onDragStart.add(onDragStart, this);
-        sonic.events.onDragStop.add(onDragStop, this);
-
-    }
 
 
-    if (pointer.x >= 650) {
-        sonic.destroy();
 
-        sonic = this.add.sprite(640, 500, 'point');
-        sonic.inputEnabled = true;
-        sonic.input.enableDrag();
-        sonic.input.allowVerticalDrag = false;
-        sonic.events.onDragStart.add(onDragStart, this);
-        sonic.events.onDragStop.add(onDragStop, this);
-
-    }
-
-
-}
-
-function onDragStop(sprite, pointer) {
-
-    //result = sprite.key + " dropped at x:"  ++ pointer.x " y: " + pointer.y;
-
-    if (pointer.x <= 440) {
-        sonic.destroy();
-
-        sonic = this.add.sprite(450, 500, 'point');
-        sonic.inputEnabled = true;
-        sonic.input.enableDrag();
-        sonic.input.allowVerticalDrag = false;
-        sonic.events.onDragStart.add(onDragStart, this);
-        sonic.events.onDragStop.add(onDragStop, this);
-
-    }
-
-    if (pointer.x >= 650) {
-        sonic.destroy();
-
-        sonic = this.add.sprite(640, 500, 'point');
-        sonic.inputEnabled = true;
-        sonic.input.enableDrag();
-        sonic.input.allowVerticalDrag = false;
-        sonic.events.onDragStart.add(onDragStart, this);
-        sonic.events.onDragStop.add(onDragStop, this);
-
-
-    }
-
-}
-
-function render() {
-
-    this.debug.text("THIS IS A DEBUG STRING", 100, 200);
-
-}
