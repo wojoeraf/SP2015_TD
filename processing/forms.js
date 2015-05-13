@@ -9,7 +9,7 @@
 
 FormProcessing = function () {
     this.helper = new Helper.Html();
-}
+};
 
 FormProcessing.prototype = {
 

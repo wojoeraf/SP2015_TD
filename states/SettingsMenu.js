@@ -1,4 +1,4 @@
-Menu.SettingsMenu = function (game) {
+Menu.SettingsMenu = function () {
 
     this.helper = new Helper.Menu(this);
 
@@ -9,7 +9,7 @@ Menu.SettingsMenu = function (game) {
     this.textM = null;
     this.style = {font: "25px Arial", fill: "#ff0044", align: "center"};
 
-}
+};
 
 var point;
 var pointM;

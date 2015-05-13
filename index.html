@@ -105,13 +105,13 @@
 
         // Listen for link click events (forgot password, register)
         $("#forgotPasswordLink").click(function () {
-            fp = new FormProcessing();
+            var fp = new FormProcessing();
             fp.hideLoginForm();
             game.state.start('ForgotPasswordMenu');
         });
 
         $("#registerLink").click(function () {
-            fp = new FormProcessing();
+            var fp = new FormProcessing();
             fp.hideLoginForm();
             game.state.start('RegisterMenu');
         });

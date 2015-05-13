@@ -1,6 +1,7 @@
 Menu.MainMenu = function () {
 
-    //Buttons, Music etc...
+    this.helper = new Helper.Menu(this);
+    this.fp = new FormProcessing();
 
     this.buttonSettings = null;
     this.buttonRanking = null;
@@ -8,12 +9,7 @@ Menu.MainMenu = function () {
     this.buttonMusic = null;
     this.buttonBuy = null;
     this.buttonAchievements = null;
-    this.soundOn = true;
-    this.musicOn = true;
-    this.buttonSoundClick = null;
 
-    this.helper = new Helper.Menu(this);
-    this.fp = new FormProcessing();
 };
 
 Menu.MainMenu.prototype = {

@@ -2,7 +2,7 @@
  * @author Rafael Wörner
  * @file
  * This file contains some helping classes e.g. to hide form elements easily {@link Helper} or placing back buttons in
- * the menu {@link HelperMenu}
+ * the menu {@link Helper.Menu}
  */
 
 /**
@@ -23,7 +23,7 @@ var Helper = {};
 
 Helper.Html = function () {
 
-}
+};
 
 Helper.Html.prototype = {
 
@@ -53,13 +53,12 @@ Helper.Html.prototype = {
 
 Helper.Menu = function (game) {
     this.game = game;
-}
+};
 
 Helper.Menu.prototype = {
 
     /**
      * Place the back button every time on the same place.
-     * @param {Phaser.Game} game - The reference to the game.
      * @param {function} callback - The callback function for the button.
      */
     placeBackButton: function (callback) {
@@ -70,7 +69,6 @@ Helper.Menu.prototype = {
 
     /**
      * Place the back button every time on the same place.
-     * @param {Phaser.Game} game - The reference to the game.
      * @param {function} callback - The callback function for the button.
      */
     placeLogoutButton: function (callback) {
@@ -81,7 +79,6 @@ Helper.Menu.prototype = {
 
     /**
      * Place the music button every time on the same place.
-     * @param {Phaser.Game} game - The reference to the game.
      * @param {function} callback - The callback function for the button.
      */
     placeMusicButton: function (callback) {
@@ -94,7 +91,6 @@ Helper.Menu.prototype = {
 
     /**
      * Place the sound button every time on the same place.
-     * @param {Phaser.Game} game - The reference to the game.
      * @param {function} callback - The callback function for the button.
      */
     placeSoundButton: function (callback) {
@@ -107,7 +103,6 @@ Helper.Menu.prototype = {
 
     /**
      * Start or stop music depending on whether it is playing or not
-     * @param game {Phaser.Game} - The reference to the game.
      * @param btn {Phaser.Button} - The music button whose frame have to be toggled.
      */
     toggleMusic: function (btn) {
@@ -131,7 +126,6 @@ Helper.Menu.prototype = {
 
     /**
      * Mute or unmute sounds depending on whether they are muted or not.
-     * @param game {Phaser.Game} - The reference to the game.
      * @param btn {Phaser.Button} - The sound button whose frame have to be toggled.
      */
     toggleSound: function(btn) {
@@ -156,7 +150,8 @@ Helper.Menu.prototype = {
 
     /**
      * Toggle the frame of the sound button
-     * @param btn {Phaser.Button} - The sound button whose frame have to be toggled.
+     * @param bool
+ * @param btn {Phaser.Button} - The sound button whose frame have to be toggled.
      */
     toggleButtonFrame: function (bool, btn) {
         btn.frame = bool ? 1 : 0;
