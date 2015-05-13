@@ -1,5 +1,5 @@
 Menu.LoginMenu = function () {
-    this.helper = new Helper.Menu();
+    this.helper = new Helper.Menu(this);
     this.fp = new FormProcessing();
 
     this.buttonMusic = null;
@@ -24,8 +24,8 @@ Menu.LoginMenu.prototype = {
         // Add buttons and change anchors to center in order to easy align them in the middle of screen
         this.add.button(canvasWidth / 2 - 100, 500, 'buttonLogin', this.login, this).anchor.setTo(0.5, 0.5);
         this.add.button(canvasWidth / 2 + 100, 500, 'buttonSkip', this.skip, this).anchor.setTo(0.5, 0.5);
-        this.buttonMusic = this.helper.placeMusicButton(this, this.musicToggle);
-        this.buttonSound = this.helper.placeSoundButton(this, this.soundToggle);
+        this.buttonMusic = this.helper.placeMusicButton(this.musicToggle);
+        this.buttonSound = this.helper.placeSoundButton(this.soundToggle);
 
     },
 
@@ -37,7 +37,7 @@ Menu.LoginMenu.prototype = {
 
     // Login button callback
     login: function () {
-        this.helper.playSound(this, 'menuClick');
+        this.helper.playSound('menuClick');
         this.fp.hideLoginForm();
         player.loggedIn = true;
         this.state.start("MainMenu");
@@ -46,7 +46,7 @@ Menu.LoginMenu.prototype = {
 
     // Skip button callback
     skip: function () {
-        this.helper.playSound(this, 'menuClick');
+        this.helper.playSound('menuClick');
         this.fp.hideLoginForm();
         player.loggedIn = false;
         this.state.start("MainMenu");
@@ -54,11 +54,11 @@ Menu.LoginMenu.prototype = {
 
 
     musicToggle: function () {
-        this.helper.toggleMusic(this, this.buttonMusic);
+        this.helper.toggleMusic(this.buttonMusic);
     },
 
 
     soundToggle: function () {
-        this.helper.toggleSound(this, this.buttonSound);
+        this.helper.toggleSound(this.buttonSound);
     }
 };

@@ -1,6 +1,6 @@
 // Preloading state
 Menu.Preloader = function () {
-    this.fp = new FormProcessing(); // for handling the forms and input
+
 };
 
 Menu.Preloader.prototype = {
@@ -71,12 +71,12 @@ Menu.Preloader.prototype = {
         // Check whether audio files are ready
         if (this.cache.isSoundReady('titleMusic') && this.cache.isSoundReady('menuClick')) {
             // Add audios to game audio
-            this.musicMenu = this.add.audio('titleMusic', 1, true);
-            this.buttonSoundClick = this.add.audio('menuClick', 0.2);
+            this.add.audio('titleMusic', 1, true);
+            this.add.audio('menuClick', 0.2);
 
             // Play music when not muted
             if (!Audio.musicIsMuted) {
-                this.musicMenu.play();
+                this.sound.play('titleMusic');
             }
 
             // Go to login state

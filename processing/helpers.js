@@ -51,8 +51,8 @@ Helper.Html.prototype = {
  * @class
  */
 
-Helper.Menu = function () {
-
+Helper.Menu = function (game) {
+    this.game = game;
 }
 
 Helper.Menu.prototype = {
@@ -62,8 +62,8 @@ Helper.Menu.prototype = {
      * @param {Phaser.Game} game - The reference to the game.
      * @param {function} callback - The callback function for the button.
      */
-    placeBackButton: function (game, callback) {
-        var btn = game.add.button(100, canvasHeight - 80, 'buttonBack', callback, game);
+    placeBackButton: function (callback) {
+        var btn = this.game.add.button(100, canvasHeight - 80, 'buttonBack', callback, this.game);
         btn.anchor.setTo(0, 1);
         return btn;
     },
@@ -73,8 +73,8 @@ Helper.Menu.prototype = {
      * @param {Phaser.Game} game - The reference to the game.
      * @param {function} callback - The callback function for the button.
      */
-    placeLogoutButton: function (game, callback) {
-        var btn = game.add.button(100, canvasHeight - 80, 'buttonLogout', callback, game);
+    placeLogoutButton: function (callback) {
+        var btn = this.game.add.button(100, canvasHeight - 80, 'buttonLogout', callback, this.game);
         btn.anchor.setTo(0, 1);
         return btn;
     },
@@ -84,8 +84,8 @@ Helper.Menu.prototype = {
      * @param {Phaser.Game} game - The reference to the game.
      * @param {function} callback - The callback function for the button.
      */
-    placeMusicButton: function (game, callback) {
-        var btn = game.add.button(canvasWidth - 100, canvasHeight - 80, 'buttonMusic', callback, game);
+    placeMusicButton: function (callback) {
+        var btn = this.game.add.button(canvasWidth - 100, canvasHeight - 80, 'buttonMusic', callback, this.game);
         btn.anchor.setTo(1, 1);
         btn.scale.setTo(0.75, 0.75);
         btn.frame = Audio.musicIsMuted ? 1 : 0;
@@ -97,8 +97,8 @@ Helper.Menu.prototype = {
      * @param {Phaser.Game} game - The reference to the game.
      * @param {function} callback - The callback function for the button.
      */
-    placeSoundButton: function (game, callback) {
-        var btn = game.add.button(canvasWidth - 150, canvasHeight - 80, 'buttonSound', callback, game);
+    placeSoundButton: function (callback) {
+        var btn = this.game.add.button(canvasWidth - 150, canvasHeight - 80, 'buttonSound', callback, this.game);
         btn.anchor.setTo(1, 1);
         btn.scale.setTo(0.6, 0.6);
         btn.frame = Audio.soundIsMuted ? 1 : 0;
@@ -110,15 +110,15 @@ Helper.Menu.prototype = {
      * @param game {Phaser.Game} - The reference to the game.
      * @param btn {Phaser.Button} - The music button whose frame have to be toggled.
      */
-    toggleMusic: function (game, btn) {
+    toggleMusic: function (btn) {
         // Start menu music
         if (Audio.musicIsMuted) {
-            game.sound.stopAll();
-            game.sound.play(Audio.menuMusicKeys[0]);
+            this.game.sound.stopAll();
+            this.game.sound.play(Audio.menuMusicKeys[0]);
         }
         // Stop menu music
         else {
-            game.sound.stopAll();
+            this.game.sound.stopAll();
         }
 
         // Toggle boolean and btn
@@ -126,7 +126,7 @@ Helper.Menu.prototype = {
         this.toggleButtonFrame(Audio.musicIsMuted, btn);
 
         // Play menu click sound
-        if (!Audio.soundIsMuted) game.sound.play('menuClick', Audio.soundVolume);
+        if (!Audio.soundIsMuted) this.game.sound.play('menuClick', Audio.soundVolume);
     },
 
     /**
@@ -134,23 +134,23 @@ Helper.Menu.prototype = {
      * @param game {Phaser.Game} - The reference to the game.
      * @param btn {Phaser.Button} - The sound button whose frame have to be toggled.
      */
-    toggleSound: function(game, btn) {
+    toggleSound: function(btn) {
         // Toggle boolean
         Audio.soundIsMuted = !Audio.soundIsMuted;
 
         // Play menu click sound
-        if (!Audio.soundIsMuted) game.sound.play('menuClick', Audio.soundVolume);
+        if (!Audio.soundIsMuted) this.game.sound.play('menuClick', Audio.soundVolume);
 
         // Toggle btn frame
         this.toggleButtonFrame(Audio.soundIsMuted, btn);
     },
 
-    playSound: function(game, key, vol, loop) {
+    playSound: function(key, vol, loop) {
         var volume = vol;
         if (volume === undefined)
             volume = Audio.soundVolume;
         if (!Audio.soundIsMuted) {
-            game.sound.play(key, volume, loop);
+            this.game.sound.play(key, volume, loop);
         }
     },
 

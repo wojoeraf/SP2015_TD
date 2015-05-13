@@ -1,6 +1,6 @@
 Menu.ForgotPasswordMenu = function () {
     this.fp = new FormProcessing();
-    this.helper = new Helper.Menu();
+    this.helper = new Helper.Menu(this);
 };
 
 Menu.ForgotPasswordMenu.prototype = {
@@ -15,7 +15,7 @@ Menu.ForgotPasswordMenu.prototype = {
 
         // Add buttons and change anchors to center in order to easy align them in the middle of screen
         this.add.button(canvasWidth / 2, 450, 'buttonSendRequest', this.request, this).anchor.setTo(0.5, 0.5);
-        this.helper.placeBackButton(this, this.goBack);
+        this.helper.placeBackButton(this.goBack);
     },
 
 

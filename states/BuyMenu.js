@@ -1,6 +1,6 @@
 Menu.BuyMenu = function () {
 
-    this.helper = new Helper.Menu();
+    this.helper = new Helper.Menu(this);
 
 };
 
@@ -12,8 +12,8 @@ Menu.BuyMenu.prototype = {
         this.add.sprite(0, 0, 'menuBG');
 
         // Add buttons
-        this.buttonMusic = this.helper.placeMusicButton(this, this.musicToggle);
-        this.buttonSound = this.helper.placeSoundButton(this, this.soundToggle);
+        this.buttonMusic = this.helper.placeMusicButton(this.musicToggle);
+        this.buttonSound = this.helper.placeSoundButton(this.soundToggle);
     },
 
     update: function () {
@@ -22,17 +22,17 @@ Menu.BuyMenu.prototype = {
 
     // Go back
     back: function () {
-        this.helper.playSound(this, 'menuClick');
+        this.helper.playSound('menuClick');
         this.state.start("LoginMenu");
     },
 
     // Toggle music
     musicToggle: function () {
-        this.helper.toggleMusic(this, this.buttonMusic);
+        this.helper.toggleMusic(this.buttonMusic);
     },
 
     // Toggle sound
     soundToggle: function () {
-        this.helper.toggleSound(this, this.buttonSound);
+        this.helper.toggleSound(this.buttonSound);
     }
 };

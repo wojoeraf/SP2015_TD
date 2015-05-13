@@ -12,7 +12,7 @@ Menu.MainMenu = function () {
     this.musicOn = true;
     this.buttonSoundClick = null;
 
-    this.helper = new Helper.Menu();
+    this.helper = new Helper.Menu(this);
     this.fp = new FormProcessing();
 };
 
@@ -28,14 +28,14 @@ Menu.MainMenu.prototype = {
         this.add.button(437, 300, 'buttonPlay', this.startGame, this);
         this.add.button(437, 370, 'buttonSettings', this.showSettings, this);
         this.add.button(437, 440, 'buttonRanking', this.showRanking, this);
-        this.buttonMusic = this.helper.placeMusicButton(this, this.musicToggle);
-        this.buttonSound = this.helper.placeSoundButton(this, this.soundToggle);
+        this.buttonMusic = this.helper.placeMusicButton(this.musicToggle);
+        this.buttonSound = this.helper.placeSoundButton(this.soundToggle);
         this.buttonAchievements = this.add.button(437, 650, 'buttonAchievements', this.achieve, this);
 
         if (player.loggedIn)
-            this.helper.placeLogoutButton(this, this.back);
+            this.helper.placeLogoutButton(this.back);
         else
-            this.helper.placeBackButton(this, this.back);
+            this.helper.placeBackButton(this.back);
 
         this.buttonMusic.scale.setTo(0.75, 0.75);
         this.buttonSound.scale.setTo(0.6, 0.6);
@@ -47,47 +47,47 @@ Menu.MainMenu.prototype = {
 
     // Start game
     startGame: function () {
-        this.helper.playSound(this, 'menuClick');
+        this.helper.playSound('menuClick');
         this.state.start("Game");
     },
 
     // Got to settings
     showSettings: function () {
-        this.helper.playSound(this, 'menuClick');
+        this.helper.playSound('menuClick');
         this.state.start("SettingsMenu");
     },
 
     // Got to rankings
     showRanking: function () {
-        this.helper.playSound(this, 'menuClick');
+        this.helper.playSound('menuClick');
         this.state.start("RankingMenu");
     },
 
     // Go back
     back: function () {
-        this.helper.playSound(this, 'menuClick');
+        this.helper.playSound('menuClick');
         this.state.start("LoginMenu");
     },
 
     // Toggle music
     musicToggle: function () {
-        this.helper.toggleMusic(this, this.buttonMusic);
+        this.helper.toggleMusic(this.buttonMusic);
     },
 
     // Toggle sound
     soundToggle: function () {
-        this.helper.toggleSound(this, this.buttonSound);
+        this.helper.toggleSound(this.buttonSound);
     },
 
     // Buy diamonds
     buyDiamonds: function () {
-        this.helper.playSound(this, 'menuClick');
+        this.helper.playSound('menuClick');
         this.state.start("BuyMenu");
     },
 
     // Vew achievements
     achieve: function () {
-        this.helper.playSound(this, 'menuClick');
+        this.helper.playSound('menuClick');
         this.state.start("AchievementMenu");
     }
 

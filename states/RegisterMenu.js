@@ -1,6 +1,6 @@
 Menu.RegisterMenu = function(){
     this.fp = new FormProcessing();
-    this.helper = new Helper.Menu();
+    this.helper = new Helper.Menu(this);
 };
 
 Menu.RegisterMenu.prototype = {
@@ -15,7 +15,7 @@ Menu.RegisterMenu.prototype = {
 
         // Add buttons
         this.add.button(canvasWidth/2, 600, 'buttonRegister', this.registration, this).anchor.setTo(0.5, 0.5);
-        this.helper.placeBackButton(this, this.goBack);
+        this.helper.placeBackButton(this.goBack);
     },
 
 

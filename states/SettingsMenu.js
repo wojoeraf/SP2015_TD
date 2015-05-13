@@ -1,6 +1,6 @@
 Menu.SettingsMenu = function (game) {
 
-    this.helper = new Helper.Menu();
+    this.helper = new Helper.Menu(this);
 
 //Variablen deklarieren
     this.soundvolume = 50;
@@ -22,7 +22,7 @@ Menu.SettingsMenu.prototype = {
         //this.add.sprite(285, 499, 'soundvolumeText');
         //this.add.sprite(285,599, 'musicvolumeText');
 
-        this.helper.placeBackButton(this, this.back);
+        this.helper.placeBackButton(this.back);
 
         //Balken für die Volume-Anzeigen hinzufügen
         this.add.sprite(455, 507, 'line');
@@ -124,7 +124,7 @@ Menu.SettingsMenu.prototype = {
 
     // Go back
     back: function () {
-        this.helper.playSound(this, 'menuClick');
+        this.helper.playSound('menuClick');
         this.state.start("MainMenu");
     }
 };
