@@ -9,6 +9,7 @@ Menu.SettingsMenu = function (game) {
     this.textM = null;
     this.style = {font: "25px Arial", fill: "#ff0044", align: "center"};
 
+
 }
 
 var point;
@@ -31,19 +32,21 @@ Menu.SettingsMenu.prototype = {
 
         //Schieberegel-Punkt hinzufügen und Drag-Event aktivieren
         //auf Veränderung des Punktes
-        point = this.add.sprite(552.5, 500, 'point');
+        point = this.add.sprite(455+(Audio.soundVolume)*195, 500, 'point');
         point.inputEnabled = true;
         point.input.enableDrag();
         point.input.allowVerticalDrag = false;
+        this.soundvolume=Audio.soundVolume*195;
         //neben dem Balken: Textanzeige des aktuellen Volumes
         this.textS = this.add.text(670, 495, this.soundvolume, this.style);
 
 
         //MusicVolume
-        pointM = this.add.sprite(552.5, 600, 'point2');
+        pointM = this.add.sprite(455+(Audio.musicVolume)*195, 600, 'point2');
         pointM.inputEnabled = true;
         pointM.input.enableDrag();
         pointM.input.allowVerticalDrag = false;
+        this.musicvolume=Audio.musicVolume*195;
         this.textM = this.add.text(670, 595, this.musicvolume, this.style);
 
 
@@ -54,29 +57,23 @@ Menu.SettingsMenu.prototype = {
 
         //Soundeffekte-Punkt
         if (point.x < 455) {
-            point.destroy();
-            point = this.add.sprite(455, 500, 'point');
-            point.inputEnabled = true;
-            point.input.enableDrag();
-            point.input.allowVerticalDrag = false;
-            this.textS.destroy();
+
+            point.x=455;
             this.soundvolume = 1;
-            this.textS = this.add.text(670, 495, this.soundvolume, this.style);
+            this.textS.text=this.soundvolume;
+            Audio.soundVolume=this.soundvolume/100;
+
+
         }
         else if (point.x > 650) {
-            point.destroy();
-            point = this.add.sprite(650, 500, 'point');
-            point.inputEnabled = true;
-            point.input.enableDrag();
-            point.input.allowVerticalDrag = false;
-            this.textS.destroy();
-            this.soundvolume = 100;
-            this.textS = this.add.text(670, 495, this.soundvolume, this.style);
 
+            point.x=650;
+            this.soundvolume = 100;
+            this.textS.text=this.soundvolume;
+            Audio.soundVolume=this.soundvolume/100;
 
         }
         else {
-            this.textS.destroy();
             this.soundvolume = 100 - Math.round(((650 - point.x) / 195) * 100);
             if (this.soundvolume < 1) {
                 this.soundvolume = 1;
@@ -84,33 +81,33 @@ Menu.SettingsMenu.prototype = {
             if (this.soundvolume > 100) {
                 this.soundvolume = 100;
             }
-            this.textS = this.add.text(670, 495, this.soundvolume, this.style);
+            this.textS.text=this.soundvolume;
+            Audio.soundVolume=this.soundvolume/100;
+
         }
 
 
         //Musicvolume-Punkt
         if (pointM.x < 455) {
-            pointM.destroy();
-            pointM = this.add.sprite(455, 600, 'point2');
-            pointM.inputEnabled = true;
-            pointM.input.enableDrag();
-            pointM.input.allowVerticalDrag = false;
-            this.textM.destroy();
+
+            pointM.x=455;
             this.musicvolume = 1;
-            this.textM = this.add.text(670, 595, this.musicvolume, this.style);
+            this.textM.text=this.musicvolume;
+            Audio.musicVolume=this.musicvolume/100;
+
+
         }
         else if (pointM.x > 650) {
-            pointM.destroy();
-            pointM = this.add.sprite(650, 600, 'point2');
-            pointM.inputEnabled = true;
-            pointM.input.enableDrag();
-            pointM.input.allowVerticalDrag = false;
-            this.textM.destroy();
+
+            pointM.x=650;
             this.musicvolume = 100;
-            this.textM = this.add.text(670, 595, this.musicvolume, this.style);
+            this.textM.text=this.musicvolume;
+            Audio.musicVolume=this.musicvolume/100;
+
+
         }
         else {
-            this.textM.destroy();
+
             this.musicvolume = 100 - Math.round(((650 - pointM.x) / 195) * 100);
             if (this.musicvolume < 1) {
                 this.musicvolume = 1;
@@ -118,7 +115,10 @@ Menu.SettingsMenu.prototype = {
             if (this.musicvolume > 100) {
                 this.musicvolume = 100;
             }
-            this.textM = this.add.text(670, 595, this.musicvolume, this.style);
+            this.textM.text=this.musicvolume;
+            Audio.musicVolume=this.musicvolume/100;
+
+
         }
     },
 
