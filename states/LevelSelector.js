@@ -1,10 +1,10 @@
-Menu.RankingMenu = function () {
+Menu.LevelSelector = function () {
 
     this.helper = new Helper.Menu(this);
 
 };
 
-Menu.RankingMenu.prototype = {
+Menu.LevelSelector.prototype = {
 
     create: function () {
 
@@ -16,28 +16,32 @@ Menu.RankingMenu.prototype = {
         this.buttonSound = this.helper.placeSoundButton(this.soundToggle);
         this.helper.placeBackButton(this.back);
 
-        //Adding text and buttons
-        this.add.sprite(437, 200, 'ranking');
-        this.add.button(275, 300, 'rankingEasy', this.showEasy, this);
-        this.add.button(475, 300, 'rankingMedium', this.showMedium, this);
-        this.add.button(675, 300, 'rankingHard', this.showHard, this);
+        this.add.button(237, 350, 'buttonEasy', this.startEasy, this);
+        this.add.button(437, 350, 'buttonMedium', this.startMedium, this);
+        this.add.button(637, 350, 'buttonHard', this.startHard, this);
+        this.add.sprite(237, 200, 'difficulty');
     },
 
     update: function () {
 
+
     },
 
-    showEasy: function () {
+    // Start game in easy mode
+    startEasy: function () {
         this.helper.playSound('menuClick');
 
     },
 
-    showMedium: function () {
+    // Starg game in medium mode
+    startMedium: function () {
         this.helper.playSound('menuClick');
 
     },
 
-    showHard: function () {
+
+    // Start game in hard mode
+    startHard: function () {
         this.helper.playSound('menuClick');
 
     },

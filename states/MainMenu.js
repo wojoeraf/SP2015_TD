@@ -3,12 +3,12 @@ Menu.MainMenu = function () {
     this.helper = new Helper.Menu(this);
     this.fp = new FormProcessing();
 
-    this.buttonSettings = null;
-    this.buttonRanking = null;
+    //this.buttonSettings = null;
+    //this.buttonRanking = null;
     this.buttonBack = null;
     this.buttonMusic = null;
-    this.buttonBuy = null;
-    this.buttonAchievements = null;
+    //this.buttonBuy = null;
+    //this.buttonAchievements = null;
 
 };
 
@@ -24,9 +24,10 @@ Menu.MainMenu.prototype = {
         this.add.button(437, 300, 'buttonPlay', this.startGame, this);
         this.add.button(437, 370, 'buttonSettings', this.showSettings, this);
         this.add.button(437, 440, 'buttonRanking', this.showRanking, this);
+        this.add.button(437, 650, 'buttonAchievements', this.achieve, this);
         this.buttonMusic = this.helper.placeMusicButton(this.musicToggle);
         this.buttonSound = this.helper.placeSoundButton(this.soundToggle);
-        this.buttonAchievements = this.add.button(437, 650, 'buttonAchievements', this.achieve, this);
+
 
         if (player.loggedIn)
             this.helper.placeLogoutButton(this.back);
@@ -44,7 +45,7 @@ Menu.MainMenu.prototype = {
     // Start game
     startGame: function () {
         this.helper.playSound('menuClick');
-        this.state.start("Game");
+        this.state.start("LevelSelector");
     },
 
     // Got to settings
@@ -81,7 +82,7 @@ Menu.MainMenu.prototype = {
         this.state.start("BuyMenu");
     },
 
-    // Vew achievements
+    // View achievements
     achieve: function () {
         this.helper.playSound('menuClick');
         this.state.start("AchievementMenu");

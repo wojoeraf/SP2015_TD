@@ -26,6 +26,7 @@ Menu.RegisterMenu.prototype = {
 
     registration: function(){
         this.fp.hideRegisterForm();
+        player.loggedIn = true;
         this.state.start("MainMenu");
     },
 

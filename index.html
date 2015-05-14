@@ -27,6 +27,8 @@
     <script src="states/BuyMenu.js"></script>
     <script src="states/AchievementMenu.js"></script>
     <script src="states/RankingMenu.js"></script>
+    <script src="states/LevelSelector.js"></script>
+
 
 </head>
 <body>
@@ -98,6 +100,7 @@
         game.state.add('RankingMenu', Menu.RankingMenu);
         game.state.add('BuyMenu', Menu.BuyMenu);
         game.state.add('AchievementMenu', Menu.AchievementMenu);
+        game.state.add('LevelSelector', Menu.LevelSelector);
 
         //Start game with boot state
         game.state.start('Boot');

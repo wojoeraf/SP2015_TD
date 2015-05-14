@@ -53,7 +53,18 @@ Menu.Preloader.prototype = {
         this.load.spritesheet('line', 'assets/menu/line.png');
         this.load.spritesheet('line2', 'assets/menu/line.png');
 
+        // Level Selector
+        this.load.spritesheet('buttonEasy', 'assets/menu/menuButton_gameEasy.png');
+        this.load.spritesheet('buttonMedium', 'assets/menu/menuButton_gameMedium.png');
+        this.load.spritesheet('buttonHard', 'assets/menu/menuButton_gameHard.png');
+        this.load.image('difficulty', 'assets/menu/text_difficulty.png');
+
         // Ranking
+
+        this.load.image('ranking', 'assets/menu/text_ranking.png');
+        this.load.spritesheet('rankingEasy', 'assets/menu/menuButton_easy.png');
+        this.load.spritesheet('rankingMedium', 'assets/menu/menuButton_medium.png');
+        this.load.spritesheet('rankingHard', 'assets/menu/menuButton_hard.png');
 
 
         // Buy
