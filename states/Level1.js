@@ -16,7 +16,7 @@ var cursors;
 var sprite;
 var sprite2;
 var sprite3;
-var marker;
+var marker=null;
 var blocked = false;
 var myPoint1 = new Phaser.Point(600,190);
 var myPoint2 = new Phaser.Point(600,400);
@@ -25,6 +25,8 @@ var myPoint4 = new Phaser.Point(300,150);
 var myPoint5 = new Phaser.Point(0,150);
 var bool = false;
 var array=[0,0,0];
+var addCounter=0;
+
 
 Menu.Level1.prototype = {
 
@@ -39,6 +41,9 @@ Menu.Level1.prototype = {
          this.load.spritesheet('player2', 'assets/sprites/spaceman2.png',16,16);
          this.load.spritesheet('player3', 'assets/sprites/spaceman3.png', 16,16);
          this.load.spritesheet('tower', 'assets/sprites/block.png',32,32);
+        this.load.spritesheet('tower1', 'assets/sprites/Tower1.png');
+
+
          },
 
 
@@ -69,23 +74,25 @@ Menu.Level1.prototype = {
 
 
         //Add Enemies
-        sprite = this.add.sprite(900, 190, 'player', 1);
+        sprite = this.add.sprite(997, 210, 'player', 1);
         sprite.animations.add('left', [8,9], 10, true);
         sprite.animations.add('right', [1,2], 10, true);
         sprite.animations.add('up', [11,12,13], 10, true);
         sprite.animations.add('down', [4,5,6], 10, true);
-        sprite.speed=50;
+        sprite.speed=55;
+        sprite.visible=false;
         //sprite.body.setSize(10, 14, 2, 1);
         this.physics.enable(sprite, Phaser.Physics.ARCADE);
 
 
 
-        sprite2 = this.add.sprite(850, 190, 'player2', 1);
+        sprite2 = this.add.sprite(1008, 240, 'player2', 1);
         sprite2.animations.add('left', [8,9], 10, true);
         sprite2.animations.add('right', [1,2], 10, true);
         sprite2.animations.add('up', [11,12,13], 10, true);
         sprite2.animations.add('down', [4,5,6], 10, true);
         sprite2.speed=50;
+        sprite2.visible=false;
 
         this.physics.enable(sprite2, Phaser.Physics.ARCADE);
 
@@ -96,16 +103,18 @@ Menu.Level1.prototype = {
         sprite3.animations.add('up', [11,12,13], 10, true);
         sprite3.animations.add('down', [4,5,6], 10, true);
         sprite3.speed=80;
+        sprite3.visible=false;
 
         this.physics.enable(sprite3, Phaser.Physics.ARCADE);
 
-
-        marker = this.add.graphics();
-        marker.lineStyle(2, 0x000000, 1);
-        marker.drawRect(0, 0, 32, 32);
+        this.add.button(850,630,'buttonPlay',this.boolF,this);
+        this.add.button(150,630,'tower1',this.addTower,this);
 
 
-        bool=true;
+
+
+
+
 
     },
 
@@ -113,10 +122,7 @@ Menu.Level1.prototype = {
     update: function () {
 
 
-
         if(bool==true){
-        this.physics.arcade.collide(sprite, layer);
-        this.physics.arcade.collide(sprite2, layer);
 
             if(array[0]!=5){
             this.nextWave(sprite,0);
@@ -135,49 +141,53 @@ Menu.Level1.prototype = {
         }
 
 
-        marker.x = this.input.mousePointer.x;//layer.getTileX(this.input.activePointer.worldX) * 32;
-        marker.y = this.input.mousePointer.y;//layer.getTileY(this.input.activePointer.worldY) * 32;
-
-
-        if (this.input.mousePointer.isDown)
-        {
-
-            var col = this.physics.arcade.collide(this.input.mousePointer, layer);
-
-                this.addTower(marker.x,marker.y);
-
-
+        if(marker!=null){
+        marker.x = this.input.mousePointer.x;
+        marker.y = this.input.mousePointer.y;
         }
+
     },
 
 
-    addTower: function (x,y) {
+    addTower: function () {
 
-         this.add.sprite(x,y,'tower');
+
+
+
+        marker = this.add.graphics();
+        marker.lineStyle(2, 0x000000, 1);
+        marker.drawRect(0, 0, 32, 32);
+
+
+        marker.x = this.input.mousePointer.x;
+        marker.y = this.input.mousePointer.y;
+
+
+
+
+
+
+
+
+
+
 
     },
-
- findPathTo: function(tilex, tiley) {
-
-    pathfinder.setCallbackFunction(function(path) {
-        path = path || [];
-        for(var i = 0, ilen = path.length; i < ilen; i++) {
-            map.putTile(46, path[i].x, path[i].y);
-        }
-        blocked = false;
-    });
-
-    pathfinder.preparePathCalculation([0,0], [tilex,tiley]);
-    pathfinder.calculatePath();
-
- },
 
     nextWave : function(player,arraynumber){
+        if(marker!=null){
+            marker.destroy();
+            marker=null;
+        }
         this.physics.arcade.collide(player, layer);
 
 
         var a = array[arraynumber];
 
+
+        if(player.x<990){
+            player.visible=true;
+        }
         switch(a){
             case 0:
                 this.physics.arcade.moveToObject(player,myPoint1,player.speed,0);
@@ -240,44 +250,18 @@ Menu.Level1.prototype = {
 
 
 
-        /*
-        if(player.x==myPoint1.x){
+    },
 
-            player.body.velocity.x = 0;
-            player.body.velocity.y = 0;
-            this.physics.arcade.moveToObject(player,myPoint2,60,0);
+    boolF : function(){
+        if(bool==false){
+            bool=true;
         }
-        else if(player.y>myPoint1.y){
-            player.body.velocity.x = 0;
-            player.body.velocity.y = 0;
-            this.physics.arcade.moveToObject(player,myPoint2,60,0);
-            console.log(player.x);
-            console.log("1");
-
-            if(player.y>myPoint2.y-1){
-                player.body.velocity.x = 0;
-                player.body.velocity.y = 0;
-                this.physics.arcade.moveToObject(player,myPoint3,60,0);
-
-              if(player.x<myPoint3.x+2){
-                 player.body.velocity.x = 0;
-                 player.body.velocity.y = 0;
-                  this.physics.arcade.moveToObject(player,myPoint4,60,0);
-
-              }
-
-            }
-
+        else{
+            bool=false;
         }
-
-            //alert('test condition');
-
-         //this.physics.arcade.moveToObject(sprite,myPoint2,60,0);
-         //player.animations.play('down');
-
-*/
-
     }
+
+
 
 
 

@@ -17,6 +17,16 @@ Enemy = function () {
 };
 
 Enemy.prototype = {
+    Car: function(health, armor, speed,immunityNormal,immunityAoE,immunityChain,immunitySlow) {
+    this.health=health;
+    this.armor=armor;
+    this.speed=speed;
+    this.immunityNormal=immunityNormal;
+    this.immunityAoE=immunityAoE;
+    this.immunityChain=immunityChain;
+    this.immunitySlow=immunitySlow;
+}
+
 
 
 };
