@@ -142,8 +142,24 @@ Menu.Level1.prototype = {
 
 
         if(marker!=null){
-        marker.x = this.input.mousePointer.x;
-        marker.y = this.input.mousePointer.y;
+            marker.x = this.input.mousePointer.x;
+            marker.y = this.input.mousePointer.y;
+            var c =  this.physics.arcade.collide(marker.x,marker.y, 'tower1');
+
+            if (this.input.mousePointer.isDown==true)
+            {
+
+
+                if(c==false){
+
+                this.add.sprite(marker.x,marker.y,'tower');
+                marker.destroy();
+                marker=null;
+
+                }
+
+            }
+
         }
 
     },
@@ -151,7 +167,15 @@ Menu.Level1.prototype = {
 
     addTower: function () {
 
+        if(marker!=null){
 
+
+            marker.destroy();
+            marker=null;
+
+
+        }
+        else{
 
 
         marker = this.add.graphics();
@@ -162,7 +186,7 @@ Menu.Level1.prototype = {
         marker.x = this.input.mousePointer.x;
         marker.y = this.input.mousePointer.y;
 
-
+        }
 
 
 
