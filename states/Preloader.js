@@ -65,6 +65,10 @@ Menu.Preloader.prototype = {
         this.load.spritesheet('rankingMedium', 'assets/menu/menuButton_medium.png');
         this.load.spritesheet('rankingHard', 'assets/menu/menuButton_hard.png');
 
+        this.load.spritesheet('rankingEasyBright', 'assets/menu/menuButton_easy_bright.png');
+        this.load.spritesheet('rankingMediumBright', 'assets/menu/menuButton_medium_bright.png');
+        this.load.spritesheet('rankingHardBright', 'assets/menu/menuButton_hard_bright.png');
+
 
         // Buy
 

@@ -27,17 +27,29 @@ Menu.RankingMenu.prototype = {
 
     },
 
+    //Show the best players on the easy map
     showEasy: function () {
+        this.add.button(275, 300, 'rankingEasyBright', this.showEasy, this);
+        this.add.button(475, 300, 'rankingMedium', this.showMedium, this);
+        this.add.button(675, 300, 'rankingHard', this.showHard, this);
         this.helper.playSound('menuClick');
 
     },
 
+    //Show the best players on the medium map
     showMedium: function () {
+        this.add.button(275, 300, 'rankingEasy', this.showEasy, this);
+        this.add.button(475, 300, 'rankingMediumBright', this.showMedium, this);
+        this.add.button(675, 300, 'rankingHard', this.showHard, this);
         this.helper.playSound('menuClick');
 
     },
 
+    //Show the best players on the hard map
     showHard: function () {
+        this.add.button(275, 300, 'rankingEasy', this.showEasy, this);
+        this.add.button(475, 300, 'rankingMedium', this.showMedium, this);
+        this.add.button(675, 300, 'rankingHardBright', this.showHard, this);
         this.helper.playSound('menuClick');
 
     },
