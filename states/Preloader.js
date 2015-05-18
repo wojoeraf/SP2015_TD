@@ -61,7 +61,6 @@ Menu.Preloader.prototype = {
 
         // Ranking
 
-        this.load.image('ranking', 'assets/menu/text_ranking2.png');
         this.load.spritesheet('rankingEasy', 'assets/menu/menuButton_easy.png');
         this.load.spritesheet('rankingMedium', 'assets/menu/menuButton_medium.png');
         this.load.spritesheet('rankingHard', 'assets/menu/menuButton_hard.png');

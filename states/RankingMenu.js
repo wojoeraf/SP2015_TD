@@ -17,7 +17,7 @@ Menu.RankingMenu.prototype = {
         this.helper.placeBackButton(this.back);
 
         //Adding text and buttons
-        this.add.sprite(437, 200, 'ranking');
+        this.add.sprite(437, 200, 'buttonRanking');
         this.add.button(275, 300, 'rankingEasy', this.showEasy, this);
         this.add.button(475, 300, 'rankingMedium', this.showMedium, this);
         this.add.button(675, 300, 'rankingHard', this.showHard, this);
