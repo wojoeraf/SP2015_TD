@@ -53,6 +53,22 @@ FormProcessing.prototype = {
      */
     showForgotPasswordForm: function () {
         this.helper.showElement("#forgotPasswordArea");
+    },
+
+
+    /**
+     * Shows the ranking table
+     */
+    showRankingTable: function () {
+        this.helper.showElement("#rankingTable");
+    },
+
+    /**
+     * Hides the ranking table
+     */
+    hideRankingTable: function () {
+        this.helper.hideElement("#rankingTable");
     }
+
 
 };

@@ -1,6 +1,7 @@
 Menu.RankingMenu = function () {
 
     this.helper = new Helper.Menu(this);
+    this.fp = new FormProcessing();
 
 };
 
@@ -18,9 +19,12 @@ Menu.RankingMenu.prototype = {
 
         //Adding text and buttons
         this.add.sprite(437, 200, 'buttonRanking');
-        this.add.button(275, 300, 'rankingEasy', this.showEasy, this);
+        this.add.button(275, 300, 'rankingEasyBright', this.showEasy, this);
         this.add.button(475, 300, 'rankingMedium', this.showMedium, this);
         this.add.button(675, 300, 'rankingHard', this.showHard, this);
+
+        //Show the table
+        this.fp.showRankingTable();
     },
 
     update: function () {
@@ -58,6 +62,7 @@ Menu.RankingMenu.prototype = {
     back: function () {
         this.helper.playSound('menuClick');
         this.state.start("MainMenu");
+        this.fp.hideRankingTable();
     },
 
     // Toggle music
