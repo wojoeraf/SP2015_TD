@@ -34,6 +34,14 @@ var diamondText;
 var coin;
 var coins = 100;
 var coinText;
+var bullets = [0,0,0];
+
+var towers=[0,0,0,0,0,0];
+var towerC=0;
+
+var counterA=0;
+var counterB=0;
+var counterC=0;
 
 Menu.Level1.prototype = {
 
@@ -53,6 +61,7 @@ Menu.Level1.prototype = {
          this.load.spritesheet('heart', 'assets/sprites/heart.png');
         this.load.spritesheet('diamond','assets/sprites/diamond.png');
         this.load.spritesheet('coin', 'assets/sprites/coin1.png');
+        this.load.spritesheet('bullet', 'assets/sprites/bullet.png');
 
          },
 
@@ -138,8 +147,26 @@ Menu.Level1.prototype = {
 
 
         if(marker!=null){
+
+
             marker.x = this.input.mousePointer.x;
             marker.y = this.input.mousePointer.y;
+            if(((map.getTile(Math.round(marker.x/64),Math.round(marker.y/64)).index)==3)||
+                ((map.getTile(Math.round((marker.x-32)/64),Math.round(marker.y/64)).index)==3)||
+                ((map.getTile(Math.round((marker.x+32)/64),Math.round(marker.y/64)).index)==3)||
+                ((map.getTile(Math.round(marker.x/64),Math.round((marker.y-32)/64)).index)==3)||
+                ((map.getTile(Math.round(marker.x/64),Math.round((marker.y+32)/64)).index)==3))
+                {
+                    console.log("ROFL");
+                marker.lineStyle(2, 0xff0000, 1);
+
+               marker.drawRect(0, 0, 32, 32);
+
+            }
+            else{
+
+           marker.lineStyle(2, 0x000000, 1);
+           marker.drawRect(0, 0, 32, 32);
             var c =  this.physics.arcade.collide(marker.x,marker.y, 'tower1');
 
             if (this.input.mousePointer.isDown==true)
@@ -148,15 +175,134 @@ Menu.Level1.prototype = {
 
                 if(c==false){
 
-                this.add.sprite(marker.x,marker.y,'tower');
+                towers[towerC]=this.add.sprite(marker.x,marker.y,'tower');
+                bullets[towerC] = this.add.sprite(marker.x,marker.y,'bullet');
+                bullets[towerC].visible=false;
+                this.physics.enable(towers[towerC], Phaser.Physics.ARCADE);
+                this.physics.enable(bullets[towerC], Phaser.Physics.ARCADE);
+                towerC++;
                 marker.destroy();
                 marker=null;
 
                 }
-
+            }
             }
 
         }
+
+if(bool==true){
+      for(var i=0;i<towerC;i++){
+          if(sprite3!=null){
+          if(this.physics.arcade.distanceBetween(towers[i], sprite3) < 100){
+              this.physics.enable(bullets[i], Phaser.Physics.ARCADE);
+              this.physics.enable(bullets[i], sprite3);
+
+
+              bullets[i].visible=true;
+              var bullet = bullets[i];
+
+              if(counterA==0){
+              bullet.reset(towers[i].x, towers[i].y);
+                  counterA++;
+              }
+
+
+           this.physics.arcade.moveToObject(bullet, sprite3, 200);
+              var col = this.physics.arcade.collide(bullet,sprite3);
+              if(col==true){
+                  counterA=0;
+                  sprite3.life=sprite3.life-1;
+                  if(sprite3.life<=0){
+                      console.log("DWAD");
+                      sprite3.destroy();
+                      sprite3=null;
+                      score = score + 100;
+                      scoreText.destroy();
+                      scoreText = this.add.text(880,20,"Score: " +score);
+                      xpBar.scale.x=xpBar.scale.x+0.01;
+                      array[2]=5;
+
+                  }
+              }
+          }
+
+          }
+          if(sprite2!=null){
+          if(this.physics.arcade.distanceBetween(towers[i], sprite2) < 100){
+              this.physics.enable(bullets[i], Phaser.Physics.ARCADE);
+              this.physics.enable(bullets[i], sprite2);
+
+
+              bullets[i].visible=true;
+              var bullet = bullets[i];
+
+              if(counterB==0){
+                  bullet.reset(towers[i].x, towers[i].y);
+                  counterB++;
+              }
+
+
+              this.physics.arcade.moveToObject(bullet, sprite2, 200);
+              var col = this.physics.arcade.collide(bullet,sprite2);
+              if(col==true){
+                  counterB=0;
+                  sprite2.life=sprite2.life-1;
+                  if(sprite2.life<=0){
+                      console.log("DWAD");
+                      sprite2.destroy();
+                      sprite2=null;
+                      score = score + 100;
+                      scoreText.destroy();
+                      scoreText = this.add.text(880,20,"Score: " +score);
+                      xpBar.scale.x=xpBar.scale.x+0.01;
+                      array[1]=5;
+
+                  }
+              }
+
+
+          }
+          }
+          if(sprite!=null){
+          if(this.physics.arcade.distanceBetween(towers[i], sprite) < 100){
+              this.physics.enable(bullets[i], Phaser.Physics.ARCADE);
+              this.physics.enable(bullets[i], sprite);
+
+
+              bullets[i].visible=true;
+              var bullet = bullets[i];
+
+              if(counterC==0){
+                  bullet.reset(towers[i].x, towers[i].y);
+                  counterC++;
+              }
+
+
+              this.physics.arcade.moveToObject(bullet, sprite, 200);
+              var col = this.physics.arcade.collide(bullet,sprite);
+              if(col==true){
+                  counterC=0;
+                  sprite.life=sprite.life-1;
+                  if(sprite.life<=0){
+                      console.log("DEAD");
+                      sprite.destroy();
+                      sprite=null;
+                      score = score + 100;
+                      scoreText.destroy();
+                      scoreText = this.add.text(880,20,"Score: " +score);
+                      xpBar.scale.x=xpBar.scale.x+0.01;
+                      array[0]=5;
+
+                  }
+              }
+          }
+
+          }
+
+      }
+
+}
+
 
     },
 
@@ -262,7 +408,7 @@ Menu.Level1.prototype = {
                    // score = score + 100;
                    // scoreText.destroy();
                    // scoreText = this.add.text(880,20,"Score: " +score);
-                   xpBar.scale.x=xpBar.scale.x+0.01;
+                 //  xpBar.scale.x=xpBar.scale.x+0.01;
 
                     if((life-1)>=0){
                     life = life-1;
@@ -297,6 +443,7 @@ Menu.Level1.prototype = {
             sprite.animations.add('down', [4,5,6], 10, true);
             sprite.speed=55;
             sprite.visible=false;
+            sprite.life=5;
             //sprite.body.setSize(10, 14, 2, 1);
             this.physics.enable(sprite, Phaser.Physics.ARCADE);
 
@@ -309,6 +456,7 @@ Menu.Level1.prototype = {
             sprite2.animations.add('down', [4,5,6], 10, true);
             sprite2.speed=50;
             sprite2.visible=false;
+            sprite2.life=5;
 
             this.physics.enable(sprite2, Phaser.Physics.ARCADE);
 
@@ -320,6 +468,7 @@ Menu.Level1.prototype = {
             sprite3.animations.add('down', [4,5,6], 10, true);
             sprite3.speed=80;
             sprite3.visible=false;
+            sprite3.life=5;
 
             this.physics.enable(sprite3, Phaser.Physics.ARCADE);
             array=[0,0,0];
