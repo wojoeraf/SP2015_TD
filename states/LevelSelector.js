@@ -16,10 +16,10 @@ Menu.LevelSelector.prototype = {
         this.buttonSound = this.helper.placeSoundButton(this.soundToggle);
         this.helper.placeBackButton(this.back);
 
-        this.add.button(237, 350, 'buttonEasy', this.startEasy, this);
-        this.add.button(437, 350, 'buttonMedium', this.startMedium, this);
-        this.add.button(637, 350, 'buttonHard', this.startHard, this);
-        this.add.sprite(237, 200, 'difficulty');
+        this.add.button(237, 320, 'buttonEasy', this.startEasy, this);
+        this.add.button(437, 320, 'buttonMedium', this.startMedium, this);
+        this.add.button(637, 320, 'buttonHard', this.startHard, this);
+        this.add.sprite(412, 200, 'difficulty');
     },
 
     update: function () {
