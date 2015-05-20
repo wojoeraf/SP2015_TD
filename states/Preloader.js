@@ -75,6 +75,29 @@ Menu.Preloader.prototype = {
 
         // Achievements
 
+        this.load.image('text_achieve', 'assets/menu/text_achievements.png');
+        this.load.spritesheet('achieve1', 'assets/menu/achievements/1.png');
+        this.load.spritesheet('achieve2', 'assets/menu/achievements/2.png');
+        this.load.spritesheet('achieve3', 'assets/menu/achievements/3.png');
+        this.load.spritesheet('achieve4', 'assets/menu/achievements/4.png');
+        this.load.spritesheet('achieve5', 'assets/menu/achievements/5.png');
+        this.load.spritesheet('achieve6', 'assets/menu/achievements/6.png');
+        this.load.spritesheet('achieve7', 'assets/menu/achievements/7.png');
+        this.load.spritesheet('achieve8', 'assets/menu/achievements/8.png');
+        this.load.spritesheet('achieve9', 'assets/menu/achievements/9.png');
+        //Texts
+        this.load.image('achieveText1', 'assets/menu/achievements/1text.png');
+        this.load.image('achieveText2', 'assets/menu/achievements/2text.png');
+        this.load.image('achieveText3', 'assets/menu/achievements/3text.png');
+        this.load.image('achieveText4', 'assets/menu/achievements/placeholder.png');
+        this.load.image('achieveText5', 'assets/menu/achievements/placeholder.png');
+        this.load.image('achieveText6', 'assets/menu/achievements/placeholder.png');
+        this.load.image('achieveText7', 'assets/menu/achievements/placeholder.png');
+        this.load.image('achieveText8', 'assets/menu/achievements/placeholder.png');
+        this.load.image('achieveText9', 'assets/menu/achievements/placeholder.png');
+
+
+
     },
 
     create: function () {
