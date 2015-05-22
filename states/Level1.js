@@ -151,16 +151,15 @@ Menu.Level1.prototype = {
 
             marker.x = this.input.mousePointer.x;
             marker.y = this.input.mousePointer.y;
+            try{
             if(((map.getTile(Math.round(marker.x/64),Math.round(marker.y/64)).index)==3)||
                 ((map.getTile(Math.round((marker.x-32)/64),Math.round(marker.y/64)).index)==3)||
                 ((map.getTile(Math.round((marker.x+32)/64),Math.round(marker.y/64)).index)==3)||
                 ((map.getTile(Math.round(marker.x/64),Math.round((marker.y-32)/64)).index)==3)||
                 ((map.getTile(Math.round(marker.x/64),Math.round((marker.y+32)/64)).index)==3))
                 {
-                    console.log("ROFL");
                 marker.lineStyle(2, 0xff0000, 1);
-
-               marker.drawRect(0, 0, 32, 32);
+                marker.drawRect(0, 0, 32, 32);
 
             }
             else{
@@ -189,8 +188,12 @@ Menu.Level1.prototype = {
             }
 
         }
+            catch(e){
 
-if(bool==true){
+            }
+        }
+
+    if(bool==true){
       for(var i=0;i<towerC;i++){
           if(sprite3!=null){
           if(this.physics.arcade.distanceBetween(towers[i], sprite3) < 100){
