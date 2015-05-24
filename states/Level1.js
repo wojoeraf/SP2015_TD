@@ -5,8 +5,6 @@
 
 Menu.Level1 = function(game){
 
-
-
 }
 //Map und Ebene
 var map;
@@ -51,7 +49,7 @@ var bullets = [0,0,0,0,0,0,0,0,0];
 var towers=[0,0,0,0,0,0,0,0,0,0];
 var towerC=0;
 
-//Welcher TowerButton wurde gedrückt -> unterschiedliche Tower!!!!!!!!
+//Welcher TowerButton wurde gedrückt -> unterschiedliche Tower
 var towerButton=-1;
 
 //Counter Welle 1
@@ -76,45 +74,38 @@ Menu.Level1.prototype = {
     //Alle Dateien des 1. Levels laden
     preload: function(){
 
-
-
          this.load.tilemap('map', 'assets/tilemaps/csv/newMap.csv', null, Phaser.Tilemap.CSV);
          this.load.image('tiles', 'assets/tilemaps/tiles/grass-tiles-2-small.png');
         //Wave 1
          this.load.spritesheet('player', 'assets/sprites/spaceman.png', 16, 16);
-         this.load.spritesheet('player2', 'assets/sprites/spaceman2.png',16,16);
-         this.load.spritesheet('player3', 'assets/sprites/spaceman3.png', 16,16);
+         this.load.spritesheet('player2', 'assets/sprites/spaceman.png',16,16);
+         this.load.spritesheet('player3', 'assets/sprites/spaceman.png', 16,16);
         //Wave 2
         this.load.spritesheet('player', 'assets/sprites/spaceman.png', 16, 16);
-        this.load.spritesheet('player2', 'assets/sprites/spaceman2.png',16,16);
-        this.load.spritesheet('player3', 'assets/sprites/spaceman3.png', 16,16);
-        this.load.spritesheet('player', 'assets/sprites/spaceman.png', 16, 16);
-        this.load.spritesheet('player2', 'assets/sprites/spaceman2.png',16,16);
-        this.load.spritesheet('player3', 'assets/sprites/spaceman3.png', 16,16);
+        this.load.spritesheet('player2', 'assets/sprites/spaceman.png',16,16);
+        this.load.spritesheet('player3', 'assets/sprites/spaceman.png', 16,16);
+        this.load.spritesheet('player4', 'assets/sprites/spaceman.png', 16, 16);
+        this.load.spritesheet('player5', 'assets/sprites/spaceman.png',16,16);
+        this.load.spritesheet('player6', 'assets/sprites/spaceman.png', 16,16);
 
-         this.load.spritesheet('tower', 'assets/sprites/block.png',32,32);
-         this.load.spritesheet('tower1', 'assets/sprites/Tower1.png');
+        this.load.spritesheet('tower', 'assets/sprites/block.png',32,32);
+        this.load.spritesheet('tower1', 'assets/sprites/Tower1.png');
         this.load.spritesheet('tower2Text', 'assets/sprites/Tower22.png');
         this.load.spritesheet('tower2', 'assets/sprites/tower2.png',32,32);
-         this.load.spritesheet('xpBar2', 'assets/sprites/xpBar2.png');
-         this.load.spritesheet('heart', 'assets/sprites/heart.png');
+        this.load.spritesheet('xpBar2', 'assets/sprites/xpBar2.png');
+        this.load.spritesheet('heart', 'assets/sprites/heart.png');
         this.load.spritesheet('diamond','assets/sprites/diamond.png');
         this.load.spritesheet('coin', 'assets/sprites/coin1.png');
-        this.load.spritesheet('bullet', 'assets/sprites/bullet.png');
-        this.load.spritesheet('bullet2','assets/sprites/slime.png',20,20);
-
+        this.load.spritesheet('bullet', 'assets/sprites/bullet.png',8,8);
+        this.load.spritesheet('bullet2','assets/sprites/slime.png',14,14);
 
          },
 
 
 
     create: function (game) {
-
-
-
         //Physics-Engine laden
         this.physics.startSystem(Phaser.Physics.ARCADE);
-
         //Spielfeld laden
          map = this.add.tilemap('map', 64, 64);
          map.addTilesetImage('tiles');
@@ -125,46 +116,27 @@ Menu.Level1.prototype = {
          //  Resize the world
          layer.resizeWorld();
 
-
-
-
         // Obere Leiste laden mit Daten wie Leben, Score und XP
 
         scoreText = this.add.text(800,20,"Score: " +score);
-
-
-
         this.add.text(400,20, "XP: ");
         xpBar =  this.add.image(470, 30, 'xpBar2');
         xpBar.scale.set(0.2);
         xpBar.scale.x=0.1;
-
-
         coin = this.add.image(60,22,'coin',1);
         coin.scale.set(0.9);
         coinText=this.add.text(100,20,coins);
-
-
         diamond = this.add.sprite(160,22,'diamond');
         diamond.scale.set(0.9);
         diamondText = this.add.text(200,20,diamonds);
-
-
-
-
         heart= this.add.sprite(250,22,'heart');
         heart.scale.set(0.5);
         heartText = this.add.text(290,20,life);
-
-
-
 
         //Next-Wave-Button und Tower-Buttons hinzufügen
         this.add.button(850,630,'buttonPlay',this.boolF,this);
         this.add.button(50,630,'tower1',this.addTower,this);
         this.add.button(200,630,'tower2Text',this.addTower2,this);
-
-
 
     },
 
@@ -173,52 +145,53 @@ Menu.Level1.prototype = {
 
 
         //Wenn Next-Wave gedrückt wurde -> Enemies laufen den Weg entlang
-
-
         if(bool==true){
-
             if((array[0]==5)&&(array[1]==5)&&(array[2]==5)){
                 bool=false;
                 enemyWaveNr=2;
             }
-
             //1.Welle
             if(enemyWaveNr==1){
-
             if(array[0]!=5){
             this.nextWave(sprite,0);
-
             }
             if(array[1]!=5){
                 this.nextWave(sprite2,1);
-
             }
-
             if(array[2]!=5){
                 this.nextWave(sprite3,2);
             }
-
                 var spriteArray = [sprite,sprite2,sprite3];
                 this.checkColl(spriteArray,counterArray);
             }
 
+            if(bool==true){
             //2.Welle
-           if(enemyWaveNr==2){
-
-
-
-
+             if(enemyWaveNr==2){
+               if(array[0]!=5){
+                   this.nextWave(sprite,0);
+               }
+               if(array[1]!=5){
+                   this.nextWave(sprite2,1);
+               }
+               if(array[2]!=5){
+                   this.nextWave(sprite3,2);
+               }
+               if(array[3]!=5){
+                   this.nextWave(sprite4,3);
+               }
+               if(array[4]!=5){
+                   this.nextWave(sprite5,4);
+               }
+               if(array[5]!=5){
+                   this.nextWave(sprite6,5);
+               }
+               var spriteArray = [sprite,sprite2,sprite3,sprite4,sprite5,sprite6];
+               this.checkColl(spriteArray,counterArray1);
+             }
            }
-
-
-
-
         }
-
-
-        if(marker!=null){
-
-
+         if(marker!=null){
             marker.x = this.input.mousePointer.x;
             marker.y = this.input.mousePointer.y;
             try{
@@ -230,38 +203,51 @@ Menu.Level1.prototype = {
                 {
                 marker.lineStyle(2, 0xff0000, 1);
                 marker.drawRect(0, 0, 32, 32);
-
             }
             else{
-
-           marker.lineStyle(2, 0x000000, 1);
-           marker.drawRect(0, 0, 32, 32);
-            var c =  this.physics.arcade.collide(marker.x,marker.y, 'tower1');
-
+               marker.lineStyle(2, 0x000000, 1);
+               marker.drawRect(0, 0, 32, 32);
+               var c =  this.physics.arcade.collide(marker.x,marker.y, 'tower1');
             if (this.input.mousePointer.isDown==true)
             {
+          if(c==false){
 
 
-                if(c==false){
 
-                    if(towerButton==0){
+              if(towerButton==0){
+                  if((coins-30)>=0){
                 towers[towerC]=this.add.sprite(marker.x,marker.y,'tower');
                 towers[towerC].typ=0;
+                towers[towerC].cost=30;
+                coins=coins-30;
+                coinText.destroy();
+                coinText=this.add.text(100,20,coins);
                 bullets[towerC] = this.add.sprite(marker.x,marker.y,'bullet');
                 bullets[towerC].visible=false;
-                    }
-                    else if(towerButton==1){
-                        towers[towerC]=this.add.sprite(marker.x,marker.y,'tower2');
-                        towers[towerC].typ=1;
-                        bullets[towerC] = this.add.sprite(marker.x,marker.y,'bullet2');
-                        bullets[towerC].visible=false;
-                    }
                 this.physics.enable(towers[towerC], Phaser.Physics.ARCADE);
                 this.physics.enable(bullets[towerC], Phaser.Physics.ARCADE);
                 towerC++;
                 marker.destroy();
                 marker=null;
-
+                  }
+                    }
+               else if(towerButton==1){
+                   if((coins-70)>=0){
+                        towers[towerC]=this.add.sprite(marker.x,marker.y,'tower2');
+                        towers[towerC].typ=1;
+                        towers[towerC].cost=70;
+                        coins=coins-70;
+                        coinText.destroy();
+                        coinText=this.add.text(100,20,coins);
+                        bullets[towerC] = this.add.sprite(marker.x,marker.y,'bullet2');
+                        bullets[towerC].visible=false;
+                        this.physics.enable(towers[towerC], Phaser.Physics.ARCADE);
+                        this.physics.enable(bullets[towerC], Phaser.Physics.ARCADE);
+                        towerC++;
+                        marker.destroy();
+                        marker=null;
+                   }
+                 }
                 }
             }
             }
@@ -272,78 +258,49 @@ Menu.Level1.prototype = {
             }
         }
 
-
-
-
 },
-
-
-
-
 
     addTower: function () {
 
 
         if(marker!=null){
-
-
             marker.destroy();
             marker=null;
-
-
         }
         else{
-            towerButton=0;
-
+        towerButton=0;
         marker = this.add.graphics();
         marker.lineStyle(2, 0x000000, 1);
         marker.drawRect(0, 0, 32, 32);
-
-
         marker.x = this.input.mousePointer.x;
         marker.y = this.input.mousePointer.y;
-
         }
-
-
     },
-
 
     addTower2: function () {
 
         if(marker!=null){
-
-
             marker.destroy();
             marker=null;
-
-
         }
         else{
             towerButton=1;
-
             marker = this.add.graphics();
             marker.lineStyle(2, 0x000000, 1);
             marker.drawRect(0, 0, 32, 32);
-
-
             marker.x = this.input.mousePointer.x;
             marker.y = this.input.mousePointer.y;
-
         }
 
     },
+
     nextWave : function(player,arraynumber){
         if(marker!=null){
             marker.destroy();
             marker=null;
         }
         this.physics.arcade.collide(player, layer);
-
-
         var a = array[arraynumber];
-
-
         if(player.x<990){
             player.visible=true;
         }
@@ -412,20 +369,12 @@ Menu.Level1.prototype = {
                     break;
                 }
                 break;
-
-
         }
-
-
-
-
-
     },
 
     boolF : function(){
 
         if(enemyWaveNr==0){
-
             sprite = this.add.sprite(997, 210, 'player', 1);
             sprite.animations.add('left', [8,9], 10, true);
             sprite.animations.add('right', [1,2], 10, true);
@@ -462,47 +411,77 @@ Menu.Level1.prototype = {
         }
         //2.Welle
         else if(enemyWaveNr==2){
-
-            sprite=null;
-            sprite2=null;
-            sprite3=null;
-
-            sprite = this.add.sprite(970, 200, 'dragon1', 10);
-            sprite.animations.add('left', 10 ,true);
-            sprite.animations.add('right',10, true);
-            sprite.animations.add('up', 10, true);
-            sprite.animations.add('down', 10, true);
-            sprite.speed=55;
-            sprite.visible=true;
-            sprite.life=5;
+            sprite = this.add.sprite(997, 210, 'player', 1);
+            sprite.animations.add('left', [8,9], 10, true);
+            sprite.animations.add('right', [1,2], 10, true);
+            sprite.animations.add('up', [11,12,13], 10, true);
+            sprite.animations.add('down', [4,5,6], 10, true);
+            sprite.speed=80;
+            sprite.visible=false;
+            sprite.life=10;
             this.physics.enable(sprite, Phaser.Physics.ARCADE);
 
+            sprite2 = this.add.sprite(1008, 240, 'player2', 1);
+            sprite2.animations.add('left', [8,9], 10, true);
+            sprite2.animations.add('right', [1,2], 10, true);
+            sprite2.animations.add('up', [11,12,13], 10, true);
+            sprite2.animations.add('down', [4,5,6], 10, true);
+            sprite2.speed=85;
+            sprite2.visible=false;
+            sprite2.life=10;
+            this.physics.enable(sprite2, Phaser.Physics.ARCADE);
 
+            sprite3= this.add.sprite(1000, 190, 'player3', 1);
+            sprite3.animations.add('left', [8,9], 10, true);
+            sprite3.animations.add('right', [1,2], 10, true);
+            sprite3.animations.add('up', [11,12,13], 10, true);
+            sprite3.animations.add('down', [4,5,6], 10, true);
+            sprite3.speed=90;
+            sprite3.visible=false;
+            sprite3.life=10;
+            this.physics.enable(sprite3, Phaser.Physics.ARCADE);
 
+            sprite4= this.add.sprite(1003, 200, 'player4', 1);
+            sprite4.animations.add('left', [8,9], 10, true);
+            sprite4.animations.add('right', [1,2], 10, true);
+            sprite4.animations.add('up', [11,12,13], 10, true);
+            sprite4.animations.add('down', [4,5,6], 10, true);
+            sprite4.speed=85;
+            sprite4.visible=false;
+            sprite4.life=10;
+            this.physics.enable(sprite4, Phaser.Physics.ARCADE);
 
+            sprite5= this.add.sprite(995, 207, 'player5', 1);
+            sprite5.animations.add('left', [8,9], 10, true);
+            sprite5.animations.add('right', [1,2], 10, true);
+            sprite5.animations.add('up', [11,12,13], 10, true);
+            sprite5.animations.add('down', [4,5,6], 10, true);
+            sprite5.speed=85;
+            sprite5.visible=false;
+            sprite5.life=10;
+            this.physics.enable(sprite5, Phaser.Physics.ARCADE);
+
+            sprite6= this.add.sprite(996, 190, 'player6', 1);
+            sprite6.animations.add('left', [8,9], 10, true);
+            sprite6.animations.add('right', [1,2], 10, true);
+            sprite6.animations.add('up', [11,12,13], 10, true);
+            sprite6.animations.add('down', [4,5,6], 10, true);
+            sprite6.speed=82;
+            sprite6.visible=false;
+            sprite6.life=10;
+            this.physics.enable(sprite6, Phaser.Physics.ARCADE);
 
             array=[0,0,0,0,0,0];
+            enemyWaveNr=2;
             bool=true;
         }
-
-
-
-
-        },
+    },
 
     checkColl : function(spriteArray,counterArray){
-
-
-
         if(bool==true){
-
-            if(enemyWaveNr==1){
             for(var i=0;i<towerC;i++){
-
                 for(var j=0;j<spriteArray.length;j++){
-
                 if(array[j]!=5){
-
                     var speeed;
                     var reach;
                     if(towers[i].typ==0){
@@ -516,26 +495,19 @@ Menu.Level1.prototype = {
                     if(this.physics.arcade.distanceBetween(towers[i], spriteArray[j]) < reach){
                         this.physics.enable(bullets[i], Phaser.Physics.ARCADE);
                         this.physics.enable(bullets[i],spriteArray[j] );
-
-
                         bullets[i].visible=true;
                         var bullet = bullets[i];
-
                         if(counterArray[j]==0){
                             bullet.reset(towers[i].x, towers[i].y);
                             counterArray[j] =1;
                         }
-
-
-
-
                         this.physics.arcade.moveToObject(bullet, spriteArray[j], speeed);
                         var col = this.physics.arcade.collide(bullet,spriteArray[j]);
                         if(col==true){
                             counterArray[j]=0;
                             spriteArray[j].life=spriteArray[j].life-1;
                             if(spriteArray[j].life<=0){
-                                console.log("DWAD");
+                               // console.log("DWAD");
                                 spriteArray[j].destroy();
                                 spriteArray[j]=null;
                                 score = score + 100;
@@ -543,14 +515,15 @@ Menu.Level1.prototype = {
                                 scoreText = this.add.text(880,20,"Score: " +score);
                                 xpBar.scale.x=xpBar.scale.x+0.01;
                                 array[j]=5;
+                                bullet.reset(towers[i].x, towers[i].y);
+                                bullet.visible=false;
 
                             }
                         }
+
                     }
 
                 }
-                }
-
 
             }
             }
