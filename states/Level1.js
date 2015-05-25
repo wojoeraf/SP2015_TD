@@ -67,6 +67,14 @@ var counterArray=[counterA,counterB,counterC];
 var counterArray1=[counterD,counterE,counterF,counterG,counterH,counterI];
 var enemyWaveNr=0;
 
+
+//PopUp
+
+var popup;
+var backButton;
+var quitButton;
+
+
 Menu.Level1.prototype = {
 
 
@@ -98,6 +106,8 @@ Menu.Level1.prototype = {
         this.load.spritesheet('coin', 'assets/sprites/coin1.png');
         this.load.spritesheet('bullet', 'assets/sprites/bullet.png',8,8);
         this.load.spritesheet('bullet2','assets/sprites/slime.png',14,14);
+
+        this.load.image('background','assets/sprites/background3.png');
 
          },
 
@@ -137,6 +147,10 @@ Menu.Level1.prototype = {
         this.add.button(850,630,'buttonPlay',this.boolF,this);
         this.add.button(50,630,'tower1',this.addTower,this);
         this.add.button(200,630,'tower2Text',this.addTower2,this);
+
+        //Popup-Button
+        this.add.button(850,100,'buttonPlay',this.popUp,this);
+
 
     },
 
@@ -534,7 +548,28 @@ Menu.Level1.prototype = {
 
 
 
-}
+},
+    popUp : function(){
+
+        popup = this.add.sprite(this.world.centerX, this.world.centerY, 'background');
+        popup.alpha = 0.8;
+        popup.anchor.set(0.5);
+        popup.inputEnabled = true;
+       backButton= this.add.button(this.world.centerX-40 ,this.world.centerY+150,'buttonBack',this.closeWindow,this);
+      quitButton = this.add.button(this.world.centerX-80, this.world.centerY+20, 'buttonPlay', this.quit,this);
+
+    },
+
+    closeWindow: function(){
+
+        backButton.destroy();
+        popup.destroy();
+
+    },
+
+    quit : function(){
+        this.state.start("MainMenu");
+    }
 
 
 
