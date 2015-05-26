@@ -21,18 +21,6 @@ Menu.AchievementMenu.prototype = {
         this.add.sprite(438, 200, 'text_achieve');
         //this.achievement = this.add.text(550, 300, "See your Achievements here");
 
-        //Array which contains the achievements ATM not in use!
-        //TODO decide which method for displaying the achievements is better!
-        this.achieveText = [
-            "text1",
-            "text2",
-            "text3",
-            "text4",
-            "text5",
-            "text6",
-            "text7",
-            "text8",
-            "text9"];
 
         //Looks like the numpad of a cellphone at the moment
         this.add.button(200, 300, 'achieve1', function () {
@@ -73,13 +61,6 @@ Menu.AchievementMenu.prototype = {
     // Changing the displayed achievement text
     displayAchievement: function (achieveID) {
         this.helper.playSound('menuClick');
-
-        //TODO Decide whether it is better to store the achievement texts in an array or import
-        // them individually as sprites do draw them over the old achievement
-
-
-        //this.achievement.destroy();
-        //this.achievement = this.add.text(550, 300, this.achieveText[achieveID]);
 
         var key = "achieveText" + achieveID;
         this.add.sprite(549, 300, key);
