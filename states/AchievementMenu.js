@@ -19,7 +19,6 @@ Menu.AchievementMenu.prototype = {
 
         //Add text and achievement buttons
         this.add.sprite(438, 200, 'text_achieve');
-        //this.achievement = this.add.text(550, 300, "See your Achievements here");
 
 
         //Looks like the numpad of a cellphone at the moment
@@ -50,7 +49,6 @@ Menu.AchievementMenu.prototype = {
         this.add.button(400, 500, 'achieve9', function () {
             this.displayAchievement(9)
         }, this);
-        //this.add.button(400, 500, 'achieve9', function(){this.hideAchievement(this.achievement)}, this);
 
     },
 
