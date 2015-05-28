@@ -128,11 +128,11 @@ Menu.Level1.prototype = {
 
         // Obere Leiste laden mit Daten wie Leben, Score und XP
 
-        scoreText = this.add.text(800,20,"Score: " +score);
+        scoreText = this.add.text(730,20,"Score: " +score);
         this.add.text(400,20, "XP: ");
         xpBar =  this.add.image(470, 30, 'xpBar2');
         xpBar.scale.set(0.2);
-        xpBar.scale.x=0.1;
+        xpBar.scale.x=0.0;
         coin = this.add.image(60,22,'coin',1);
         coin.scale.set(0.9);
         coinText=this.add.text(100,20,coins);
@@ -526,8 +526,12 @@ Menu.Level1.prototype = {
                                 spriteArray[j]=null;
                                 score = score + 100;
                                 scoreText.destroy();
-                                scoreText = this.add.text(880,20,"Score: " +score);
+                                scoreText = this.add.text(730,20,"Score: " +score);
                                 xpBar.scale.x=xpBar.scale.x+0.01;
+                                if(xpBar.scale.x>0.34){
+                                    xpBar.scale.set(0.2);
+                                    xpBar.scale.x=0.0;
+                                }
                                 array[j]=5;
                                 bullet.reset(towers[i].x, towers[i].y);
                                 bullet.visible=false;
@@ -551,24 +555,27 @@ Menu.Level1.prototype = {
 },
     popUp : function(){
 
+        this.state.pause();
         popup = this.add.sprite(this.world.centerX, this.world.centerY, 'background');
         popup.alpha = 0.8;
         popup.anchor.set(0.5);
         popup.inputEnabled = true;
-       backButton= this.add.button(this.world.centerX-40 ,this.world.centerY+150,'buttonBack',this.closeWindow,this);
-      quitButton = this.add.button(this.world.centerX-80, this.world.centerY+20, 'buttonPlay', this.quit,this);
+        backButton= this.add.button(this.world.centerX-40 ,this.world.centerY+150,'buttonBack',this.closeWindow,this);
+        quitButton = this.add.button(this.world.centerX-80, this.world.centerY+20, 'buttonPlay', this.quit,this);
 
     },
 
     closeWindow: function(){
-
+        quitButton.destroy();
         backButton.destroy();
         popup.destroy();
 
     },
 
     quit : function(){
+        this.state.clearCurrentState();
         this.state.start("MainMenu");
+
     }
 
 
