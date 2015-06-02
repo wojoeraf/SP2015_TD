@@ -9,14 +9,9 @@ Menu.Level1 = function(game){
 //Map und Ebene
 var map;
 var layer;
-//1.Welle + 2.Welle
-var sprite;
-var sprite2;
-var sprite3;
-//2.Welle zusätzlich
-var sprite4;
-var sprite5;
-var sprite6;
+
+
+
 
 //Weg-Punkte
 var marker=null;
@@ -28,7 +23,8 @@ var myPoint5 = new Phaser.Point(0,150);
 //NextWave-Button gedrückt?
 var bool = false;
 
-var array;
+
+
 //Obere Leiste (Score,XP etc..)
 var score = 1;
 var scoreText;
@@ -44,6 +40,7 @@ var coins = 70;
 var coinText;
 
 
+
 //Tower und zugehörige Waffen speichern
 var bullets = [0,0,0,0,0,0,0,0,0];
 var towers=[0,0,0,0,0,0,0,0,0,0];
@@ -52,24 +49,13 @@ var towerC=0;
 //Welcher TowerButton wurde gedrückt -> unterschiedliche Tower
 var towerButton=-1;
 
-//Counter Welle 1
-var counterA=0;
-var counterB=0;
-var counterC=0;
-//Counter Welle 2
-var counterD=0;
-var counterE=0;
-var counterF=0;
-var counterG=0;
-var counterH=0;
-var counterI=0;
-var counterArray=[counterA,counterB,counterC];
-var counterArray1=[counterD,counterE,counterF,counterG,counterH,counterI];
+var array = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+var counterArray= [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 var enemyWaveNr=0;
-
+var sprites = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+var enemyNumber;
 
 //PopUp
-
 var popup;
 var backButton;
 var quitButton;
@@ -86,16 +72,6 @@ Menu.Level1.prototype = {
          this.load.image('tiles', 'assets/tilemaps/tiles/grass-tiles-2-small.png');
         //Wave 1
          this.load.spritesheet('player', 'assets/sprites/spaceman.png', 16, 16);
-         this.load.spritesheet('player2', 'assets/sprites/spaceman.png',16,16);
-         this.load.spritesheet('player3', 'assets/sprites/spaceman.png', 16,16);
-        //Wave 2
-        this.load.spritesheet('player', 'assets/sprites/spaceman.png', 16, 16);
-        this.load.spritesheet('player2', 'assets/sprites/spaceman.png',16,16);
-        this.load.spritesheet('player3', 'assets/sprites/spaceman.png', 16,16);
-        this.load.spritesheet('player4', 'assets/sprites/spaceman.png', 16, 16);
-        this.load.spritesheet('player5', 'assets/sprites/spaceman.png',16,16);
-        this.load.spritesheet('player6', 'assets/sprites/spaceman.png', 16,16);
-
         this.load.spritesheet('tower', 'assets/sprites/block.png',32,32);
         this.load.spritesheet('tower1', 'assets/sprites/Tower1.png');
         this.load.spritesheet('tower2Text', 'assets/sprites/Tower22.png');
@@ -106,12 +82,8 @@ Menu.Level1.prototype = {
         this.load.spritesheet('coin', 'assets/sprites/coin1.png');
         this.load.spritesheet('bullet', 'assets/sprites/bullet.png',8,8);
         this.load.spritesheet('bullet2','assets/sprites/slime.png',14,14);
-
         this.load.image('background','assets/sprites/background3.png');
-
          },
-
-
 
     create: function (game) {
         //Physics-Engine laden
@@ -125,8 +97,6 @@ Menu.Level1.prototype = {
          layer = map.createLayer(0);
          //  Resize the world
          layer.resizeWorld();
-
-
 
         // Obere Leiste laden mit Daten wie Leben, Score und XP
         scoreText = this.add.text(730,20,"Score: " +score);
@@ -152,59 +122,30 @@ Menu.Level1.prototype = {
         //Popup-Button
         this.add.button(850,100,'buttonPlay',this.popUp,this);
 
+        bool = false;
 
     },
 
 
     update: function () {
 
-
         //Wenn Next-Wave gedrückt wurde -> Enemies laufen den Weg entlang
         if(bool==true){
-            if((array[0]==5)&&(array[1]==5)&&(array[2]==5)){
-                bool=false;
-                enemyWaveNr=2;
-            }
-            //1.Welle
-            if(enemyWaveNr==1){
-            if(array[0]!=5){
-            this.nextWave(sprite,0);
-            }
-            if(array[1]!=5){
-                this.nextWave(sprite2,1);
-            }
-            if(array[2]!=5){
-                this.nextWave(sprite3,2);
-            }
-                var spriteArray = [sprite,sprite2,sprite3];
-                this.checkColl(spriteArray,counterArray);
-            }
-
-            if(bool==true){
-            //2.Welle
-             if(enemyWaveNr==2){
-               if(array[0]!=5){
-                   this.nextWave(sprite,0);
-               }
-               if(array[1]!=5){
-                   this.nextWave(sprite2,1);
-               }
-               if(array[2]!=5){
-                   this.nextWave(sprite3,2);
-               }
-               if(array[3]!=5){
-                   this.nextWave(sprite4,3);
-               }
-               if(array[4]!=5){
-                   this.nextWave(sprite5,4);
-               }
-               if(array[5]!=5){
-                   this.nextWave(sprite6,5);
-               }
-               var spriteArray = [sprite,sprite2,sprite3,sprite4,sprite5,sprite6];
-               this.checkColl(spriteArray,counterArray1);
-             }
-           }
+                var x=false;
+                for(var i=0;i<enemyNumber;i++){
+                    if(array[i]!=5){
+                        this.nextWave(sprites[i],i);
+                        x = true;
+                    }
+                }
+                this.checkColl(sprites,counterArray);
+                if(x==false){
+                    bool= false;
+                    enemyWaveNr=enemyWaveNr+1;
+                    coins = coins +60;
+                    coinText.destroy();
+                    coinText= this.add.text(100,20,coins);
+                }
         }
         //Marker -> Rechteck -> Turm platzieren
          if(marker!=null){
@@ -278,8 +219,6 @@ Menu.Level1.prototype = {
 
     //TowerTyp 1 hinzufügen
     addTower: function () {
-
-
         if(marker!=null){
             marker.destroy();
             marker=null;
@@ -293,10 +232,8 @@ Menu.Level1.prototype = {
         marker.y = this.input.mousePointer.y;
         }
     },
-
     //TowerTyp 2 hinzufügen
     addTower2: function () {
-
         if(marker!=null){
             marker.destroy();
             marker=null;
@@ -309,7 +246,6 @@ Menu.Level1.prototype = {
             marker.x = this.input.mousePointer.x;
             marker.y = this.input.mousePointer.y;
         }
-
     },
 
     //Nächste Enemy-Welle starten
@@ -322,7 +258,7 @@ Menu.Level1.prototype = {
         var a = array[arraynumber];
         if(player.x<990){
             player.visible=true;
-        }
+       }
         switch(a){
             case 0:
                 this.physics.arcade.moveToObject(player,myPoint1,player.speed,0);
@@ -383,6 +319,8 @@ Menu.Level1.prototype = {
 
                     if(life==0){
                         this.add.text(350,300,"GAME OVER");
+                        bool=false;
+                        enemyWaveNr=0;
                         this.state.start("MainMenu");
                     }
                     break;
@@ -395,105 +333,14 @@ Menu.Level1.prototype = {
     boolF : function(){
 
         if(enemyWaveNr==0){
-            sprite = this.add.sprite(1000, 190, 'player', 1);
-            sprite.animations.add('left', [8,9], 10, true);
-            sprite.animations.add('right', [1,2], 10, true);
-            sprite.animations.add('up', [11,12,13], 10, true);
-            sprite.animations.add('down', [4,5,6], 10, true);
-            sprite.speed=60;
-            sprite.visible=false;
-            sprite.life=5;
-            this.physics.enable(sprite, Phaser.Physics.ARCADE);
-
-            sprite2 = this.add.sprite(1040, 190, 'player2', 1);
-            sprite2.animations.add('left', [8,9], 10, true);
-            sprite2.animations.add('right', [1,2], 10, true);
-            sprite2.animations.add('up', [11,12,13], 10, true);
-            sprite2.animations.add('down', [4,5,6], 10, true);
-            sprite2.speed=60;
-            sprite2.visible=false;
-            sprite2.life=5;
-            this.physics.enable(sprite2, Phaser.Physics.ARCADE);
-
-            sprite3= this.add.sprite(1080, 190, 'player3', 1);
-            sprite3.animations.add('left', [8,9], 10, true);
-            sprite3.animations.add('right', [1,2], 10, true);
-            sprite3.animations.add('up', [11,12,13], 10, true);
-            sprite3.animations.add('down', [4,5,6], 10, true);
-            sprite3.speed=60;
-            sprite3.visible=false;
-            sprite3.life=5;
-            this.physics.enable(sprite3, Phaser.Physics.ARCADE);
-
-            array=[0,0,0];
-            enemyWaveNr=1;
-            bool = true;
+            this.buildWave(1,3,60,5);
         }
         //2.Welle
-        else if(enemyWaveNr==2){
-            sprite = this.add.sprite(1000, 190, 'player', 1);
-            sprite.animations.add('left', [8,9], 10, true);
-            sprite.animations.add('right', [1,2], 10, true);
-            sprite.animations.add('up', [11,12,13], 10, true);
-            sprite.animations.add('down', [4,5,6], 10, true);
-            sprite.speed=70;
-            sprite.visible=false;
-            sprite.life=10;
-            this.physics.enable(sprite, Phaser.Physics.ARCADE);
-
-            sprite2 = this.add.sprite(1040, 190, 'player2', 1);
-            sprite2.animations.add('left', [8,9], 10, true);
-            sprite2.animations.add('right', [1,2], 10, true);
-            sprite2.animations.add('up', [11,12,13], 10, true);
-            sprite2.animations.add('down', [4,5,6], 10, true);
-            sprite2.speed=70;
-            sprite2.visible=false;
-            sprite2.life=10;
-            this.physics.enable(sprite2, Phaser.Physics.ARCADE);
-
-            sprite3= this.add.sprite(1080, 190, 'player3', 1);
-            sprite3.animations.add('left', [8,9], 10, true);
-            sprite3.animations.add('right', [1,2], 10, true);
-            sprite3.animations.add('up', [11,12,13], 10, true);
-            sprite3.animations.add('down', [4,5,6], 10, true);
-            sprite3.speed=70;
-            sprite3.visible=false;
-            sprite3.life=10;
-            this.physics.enable(sprite3, Phaser.Physics.ARCADE);
-
-            sprite4= this.add.sprite(1120, 190, 'player4', 1);
-            sprite4.animations.add('left', [8,9], 10, true);
-            sprite4.animations.add('right', [1,2], 10, true);
-            sprite4.animations.add('up', [11,12,13], 10, true);
-            sprite4.animations.add('down', [4,5,6], 10, true);
-            sprite4.speed=70;
-            sprite4.visible=false;
-            sprite4.life=10;
-            this.physics.enable(sprite4, Phaser.Physics.ARCADE);
-
-            sprite5= this.add.sprite(1160, 190, 'player5', 1);
-            sprite5.animations.add('left', [8,9], 10, true);
-            sprite5.animations.add('right', [1,2], 10, true);
-            sprite5.animations.add('up', [11,12,13], 10, true);
-            sprite5.animations.add('down', [4,5,6], 10, true);
-            sprite5.speed=70;
-            sprite5.visible=false;
-            sprite5.life=10;
-            this.physics.enable(sprite5, Phaser.Physics.ARCADE);
-
-            sprite6= this.add.sprite(1200, 190, 'player6', 1);
-            sprite6.animations.add('left', [8,9], 10, true);
-            sprite6.animations.add('right', [1,2], 10, true);
-            sprite6.animations.add('up', [11,12,13], 10, true);
-            sprite6.animations.add('down', [4,5,6], 10, true);
-            sprite6.speed=70;
-            sprite6.visible=false;
-            sprite6.life=10;
-            this.physics.enable(sprite6, Phaser.Physics.ARCADE);
-
-            array=[0,0,0,0,0,0];
-            enemyWaveNr=2;
-            bool=true;
+        else if(enemyWaveNr==1){
+            this.buildWave(1,5,70,7);
+        }
+        else if (enemyWaveNr==2){
+           this.buildWave(1,8,80,10);
         }
     },
 
@@ -528,7 +375,6 @@ Menu.Level1.prototype = {
                             counterArray[j]=0;
                             spriteArray[j].life=spriteArray[j].life-1;
                             if(spriteArray[j].life<=0){
-
                                 spriteArray[j].visible=false;
                                 spriteArray[j].destroy();
                                 spriteArray[j]=null;
@@ -546,23 +392,13 @@ Menu.Level1.prototype = {
                                 array[j]=5;
                                 bullet.reset(towers[i].x, towers[i].y);
                                 bullet.visible=false;
-
                             }
                         }
-
                     }
-
                 }
-
             }
             }
-
     }
-
-
-
-
-
 },
     //Popup-Menü öffen und je nach Button verlinken
     popUp : function(){
@@ -585,8 +421,51 @@ Menu.Level1.prototype = {
     },
 
     quit : function(){
+        bool=false;
+        enemyWaveNr=0;
         this.state.clearCurrentState();
         this.state.start("MainMenu");
+
+    },
+
+    buildWave: function(spriteType,number,speed,lfs){
+
+
+        enemyNumber=number;
+        for(var i=0;i<number;i++){
+
+            if(spriteType==1) {
+                if(i==0) sprites[i] = this.add.sprite(1000 ,190, 'player', 1);
+                else if(i==1) sprites[i] = this.add.sprite(1025, 190, 'player', 1);
+                else if(i==2) sprites[i] = this.add.sprite(1050, 190, 'player', 1);
+                else if(i==3) sprites[i] = this.add.sprite(1075, 190, 'player', 1);
+                else if(i==4) sprites[i] = this.add.sprite(1100, 190, 'player', 1);
+                else if(i==5) sprites[i] = this.add.sprite(1125, 190, 'player', 1);
+                else if(i==6) sprites[i] = this.add.sprite(1150, 190, 'player', 1);
+                else if(i==7) sprites[i] = this.add.sprite(1175, 190, 'player', 1);
+                else if(i==8) sprites[i] = this.add.sprite(1200, 190, 'player', 1);
+                else if(i==9) sprites[i] = this.add.sprite(1225, 190, 'player', 1);
+                else if(i==10) sprites[i] = this.add.sprite(1250, 190, 'player', 1);
+                else if(i==11) sprites[i] = this.add.sprite(1275, 190, 'player', 1);
+                else if(i==12) sprites[i] = this.add.sprite(1300, 190, 'player', 1);
+                sprites[i].animations.add('left', [8, 9], 10, true);
+                sprites[i].animations.add('right', [1, 2], 10, true);
+                sprites[i].animations.add('up', [11, 12, 13], 10, true);
+                sprites[i].animations.add('down', [4, 5, 6], 10, true);
+                sprites[i].speed = speed;
+                sprites[i].visible = false;
+                sprites[i].life = lfs;
+                this.physics.enable(sprites[i], Phaser.Physics.ARCADE);
+                array[i]=0;
+            }
+            else if (spriteType==2){
+
+
+            }
+
+        }
+
+        bool = true;
 
     }
 
