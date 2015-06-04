@@ -13,17 +13,17 @@ var layer;
 
 
 
-//Weg-Punkte
+//marker=Turmauswahlrechteck
 var marker=null;
+//Weg-Punkte
 var myPoint1 = new Phaser.Point(600,190);
 var myPoint2 = new Phaser.Point(600,400);
 var myPoint3 = new Phaser.Point(300,400);
 var myPoint4 = new Phaser.Point(300,150);
 var myPoint5 = new Phaser.Point(0,150);
+
 //NextWave-Button gedrückt?
 var bool = false;
-
-
 
 //Obere Leiste (Score,XP etc..)
 var score = 1;
@@ -44,18 +44,20 @@ var coinText;
 //Tower und zugehörige Waffen speichern
 var bullets = [0,0,0,0,0,0,0,0,0];
 var towers=[0,0,0,0,0,0,0,0,0,0];
+//Tower-Counter
 var towerC=0;
 
 //Welcher TowerButton wurde gedrückt -> unterschiedliche Tower
 var towerButton=-1;
 
+//Hilfsarrays für nextWave und checkCol
 var array = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-var counterArray= [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-var enemyWaveNr=0;
+var counterArray= [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 var sprites = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+var enemyWaveNr=0;
 var enemyNumber;
 
-//PopUp
+//PopUp-Menü
 var popup;
 var backButton;
 var quitButton;
@@ -63,36 +65,45 @@ var quitButton;
 
 Menu.Level1.prototype = {
 
-
-
     //Alle Dateien des 1. Levels laden
     preload: function(){
 
-         this.load.tilemap('map', 'assets/tilemaps/csv/newMap.csv', null, Phaser.Tilemap.CSV);
-         this.load.image('tiles', 'assets/tilemaps/tiles/grass-tiles-2-small.png');
-        //Wave 1
-         this.load.spritesheet('player', 'assets/sprites/spaceman.png', 16, 16);
+        //Map
+        this.load.tilemap('map', 'assets/tilemaps/csv/newMap.csv', null, Phaser.Tilemap.CSV);
+        this.load.image('tiles', 'assets/tilemaps/tiles/grass-tiles-2-small.png');
+
+
+        //Enemies
+        this.load.spritesheet('player', 'assets/sprites/spaceman.png', 16, 16);
+
+        //Towers
         this.load.spritesheet('tower', 'assets/sprites/block.png',32,32);
         this.load.spritesheet('tower1', 'assets/sprites/Tower1.png');
         this.load.spritesheet('tower2Text', 'assets/sprites/Tower22.png');
         this.load.spritesheet('tower2', 'assets/sprites/tower2.png',32,32);
+
+        //Bullets
+        this.load.spritesheet('bullet', 'assets/sprites/bullet.png',8,8);
+        this.load.spritesheet('bullet2','assets/sprites/slime.png',14,14);
+
+
+
+        //Elemente obere Leiste
         this.load.spritesheet('xpBar2', 'assets/sprites/xpBar2.png');
         this.load.spritesheet('heart', 'assets/sprites/heart.png');
         this.load.spritesheet('diamond','assets/sprites/diamond.png');
         this.load.spritesheet('coin', 'assets/sprites/coin1.png');
-        this.load.spritesheet('bullet', 'assets/sprites/bullet.png',8,8);
-        this.load.spritesheet('bullet2','assets/sprites/slime.png',14,14);
+        //Hintergrund Popup-Menü
         this.load.image('background','assets/sprites/background3.png');
          },
 
     create: function (game) {
+
         //Physics-Engine laden
         this.physics.startSystem(Phaser.Physics.ARCADE);
         //Spielfeld laden
          map = this.add.tilemap('map', 64, 64);
          map.addTilesetImage('tiles');
-        // SetCollision-Tiles
-         map.setCollision(0);
          //  Create our layer
          layer = map.createLayer(0);
          //  Resize the world
@@ -122,6 +133,7 @@ Menu.Level1.prototype = {
         //Popup-Button
         this.add.button(850,100,'buttonPlay',this.popUp,this);
 
+        //NextWave-Sperre, nur wenn auf true geändert-> nächste Enemy-Welle
         bool = false;
 
     },
@@ -139,10 +151,11 @@ Menu.Level1.prototype = {
                     }
                 }
                 this.checkColl(sprites,counterArray);
+                //Wenn x==false -> Alle Sprites sind entweder durchgelaufen oder tot -> enemyWaveNr++
                 if(x==false){
                     bool= false;
                     enemyWaveNr=enemyWaveNr+1;
-                    coins = coins +60;
+                    coins = coins +15;
                     coinText.destroy();
                     coinText= this.add.text(100,20,coins);
                 }
@@ -155,39 +168,40 @@ Menu.Level1.prototype = {
                 //Nur auf grünen Flächen dürfen Türme gebaut werden!
             if(((map.getTile(Math.round(marker.x/64),Math.round(marker.y/64)).index)==3)||
                 ((map.getTile(Math.round((marker.x-32)/64),Math.round(marker.y/64)).index)==3)||
-                ((map.getTile(Math.round((marker.x+32)/64),Math.round(marker.y/64)).index)==3)||
-                ((map.getTile(Math.round(marker.x/64),Math.round((marker.y-32)/64)).index)==3)||
-                ((map.getTile(Math.round(marker.x/64),Math.round((marker.y+32)/64)).index)==3))
+                ((map.getTile(Math.round(marker.x/64),Math.round((marker.y-32)/64)).index)==3))
                 {
-                marker.lineStyle(2, 0xff0000, 1);
-                marker.drawRect(0, 0, 32, 32);
+                    marker.lineStyle(2, 0xff0000, 1);
+                    marker.drawRect(0, 0, 32, 32);
             }
             else{
-               marker.lineStyle(2, 0x000000, 1);
-               marker.drawRect(0, 0, 32, 32);
-               var c =  this.physics.arcade.collide(marker.x,marker.y, 'tower1');
-            if (this.input.mousePointer.isDown==true)
-            {
-          if(c==false){
+                marker.lineStyle(2, 0x000000, 1);
+                marker.drawRect(0, 0, 32, 32);
+                var c =  this.physics.arcade.collide(marker.x,marker.y, 'tower1');
+                if (this.input.mousePointer.isDown==true)
+                {
 
+            if(c==false){
               //Je nach Tower -> unterschiedliche Eigenschaften (Reichweite etc..)
+
+              //Tower 1
               if(towerButton==0){
                   if((coins-30)>=0){
-                towers[towerC]=this.add.sprite(marker.x,marker.y,'tower');
-                towers[towerC].typ=0;
-                towers[towerC].cost=30;
-                coins=coins-30;
-                coinText.destroy();
-                coinText=this.add.text(100,20,coins);
-                bullets[towerC] = this.add.sprite(marker.x,marker.y,'bullet');
-                bullets[towerC].visible=false;
-                this.physics.enable(towers[towerC], Phaser.Physics.ARCADE);
-                this.physics.enable(bullets[towerC], Phaser.Physics.ARCADE);
-                towerC++;
-                marker.destroy();
-                marker=null;
+                     towers[towerC]=this.add.sprite(marker.x,marker.y,'tower');
+                     towers[towerC].typ=0;
+                     towers[towerC].cost=30;
+                     coins=coins-30;
+                     coinText.destroy();
+                     coinText=this.add.text(100,20,coins);
+                     bullets[towerC] = this.add.sprite(marker.x,marker.y,'bullet');
+                     bullets[towerC].visible=false;
+                     this.physics.enable(towers[towerC], Phaser.Physics.ARCADE);
+                     this.physics.enable(bullets[towerC], Phaser.Physics.ARCADE);
+                     towerC++;
+                     marker.destroy();
+                     marker=null;
                   }
                     }
+              //Tower 2
                else if(towerButton==1){
                    if((coins-70)>=0){
                         towers[towerC]=this.add.sprite(marker.x,marker.y,'tower2');
@@ -279,8 +293,6 @@ Menu.Level1.prototype = {
                     break;
                 }
                 break;
-
-
             case 2:
                 player.body.velocity.x = 0;
                 player.body.velocity.y = 0;
@@ -301,7 +313,6 @@ Menu.Level1.prototype = {
                     break;
                 }
                 break;
-
             case 4:
                 player.body.velocity.x = 0;
                 player.body.velocity.y = 0;
@@ -329,7 +340,7 @@ Menu.Level1.prototype = {
         }
     },
 
-    //Je nach Welle -> Sprites hinzufügen
+    //Je nach Welle -> Sprites hinzufügen (Aufruf von buildWave(EnemyTyp,Anzahl,Speed,Lifes)
     boolF : function(){
 
         if(enemyWaveNr==0){
@@ -337,27 +348,36 @@ Menu.Level1.prototype = {
         }
         //2.Welle
         else if(enemyWaveNr==1){
-            this.buildWave(1,5,70,7);
+            this.buildWave(1,5,70,5);
         }
+        //3.Welle
         else if (enemyWaveNr==2){
-           this.buildWave(1,8,80,10);
+           this.buildWave(1,8,80,7);
+        }
+        else if(enemyWaveNr==3){
+            this.buildWave(1,11,80,8);
+        }
+        else if(enemyWaveNr==4){
+            this.buildWave(1,11,110,10);
         }
     },
 
     //Collision zwischen Sprite und Bullets der Tower überprüfen
     checkColl : function(spriteArray,counterArray){
         if(bool==true){
-            for(var i=0;i<towerC;i++){
-                for(var j=0;j<spriteArray.length;j++){
+            for(var l=0;l<towerC;l++){
+                for(var k=0;k<spriteArray.length;k++){
+                    var i = towerC-l-1;
+                    var j = spriteArray.length-k-1;
                 if(array[j]!=5){
                     var speeed;
                     var reach;
                     if(towers[i].typ==0){
-                        speeed=250;
+                        speeed=200;
                         reach=100;
                     }
                     else if(towers[i].typ=1){
-                        speeed=600;
+                        speeed=350;
                         reach=300;
                     }
                     if(this.physics.arcade.distanceBetween(towers[i], spriteArray[j]) < reach){
@@ -374,6 +394,8 @@ Menu.Level1.prototype = {
                         if(col==true){
                             counterArray[j]=0;
                             spriteArray[j].life=spriteArray[j].life-1;
+                            bullet.reset(towers[i].x, towers[i].y);
+                            bullet.visible=false;
                             if(spriteArray[j].life<=0){
                                 spriteArray[j].visible=false;
                                 spriteArray[j].destroy();
@@ -428,12 +450,12 @@ Menu.Level1.prototype = {
 
     },
 
+    //Enemy-Welle erzeugen
     buildWave: function(spriteType,number,speed,lfs){
-
 
         enemyNumber=number;
         for(var i=0;i<number;i++){
-
+            //Enemy-Typ 1
             if(spriteType==1) {
                 if(i==0) sprites[i] = this.add.sprite(1000 ,190, 'player', 1);
                 else if(i==1) sprites[i] = this.add.sprite(1025, 190, 'player', 1);
@@ -458,19 +480,12 @@ Menu.Level1.prototype = {
                 this.physics.enable(sprites[i], Phaser.Physics.ARCADE);
                 array[i]=0;
             }
+            //Enemy-Typ 2
             else if (spriteType==2){
 
-
             }
-
         }
-
         bool = true;
-
     }
-
-
-
-
 
 }
