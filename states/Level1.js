@@ -273,6 +273,7 @@ Menu.Level1.prototype = {
         if(player.x<990){
             player.visible=true;
        }
+
         switch(a){
             case 0:
                 this.physics.arcade.moveToObject(player,myPoint1,player.speed,0);
@@ -377,8 +378,8 @@ Menu.Level1.prototype = {
                         reach=100;
                     }
                     else if(towers[i].typ=1){
-                        speeed=350;
-                        reach=300;
+                        speeed=650;
+                        reach=250;
                     }
                     if(this.physics.arcade.distanceBetween(towers[i], spriteArray[j]) < reach){
                         this.physics.enable(bullets[i], Phaser.Physics.ARCADE);
@@ -391,11 +392,16 @@ Menu.Level1.prototype = {
                         }
                         this.physics.arcade.moveToObject(bullet, spriteArray[j], speeed);
                         var col = this.physics.arcade.collide(bullet,spriteArray[j]);
+
+
                         if(col==true){
+                            //Enemies werden nicht mehr so weit abgedrängt bei einer Collision
+                            spriteArray[j].body.bounce.set(-1.25);
                             counterArray[j]=0;
                             spriteArray[j].life=spriteArray[j].life-1;
                             bullet.reset(towers[i].x, towers[i].y);
                             bullet.visible=false;
+
                             if(spriteArray[j].life<=0){
                                 spriteArray[j].visible=false;
                                 spriteArray[j].destroy();
@@ -420,7 +426,9 @@ Menu.Level1.prototype = {
                 }
             }
             }
+
     }
+
 },
     //Popup-Menü öffen und je nach Button verlinken
     popUp : function(){
