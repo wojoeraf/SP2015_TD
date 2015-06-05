@@ -401,7 +401,6 @@ Menu.Level1.prototype = {
                             spriteArray[j].life=spriteArray[j].life-1;
                             bullet.reset(towers[i].x, towers[i].y);
                             bullet.visible=false;
-
                             if(spriteArray[j].life<=0){
                                 spriteArray[j].visible=false;
                                 spriteArray[j].destroy();
@@ -430,6 +429,7 @@ Menu.Level1.prototype = {
     }
 
 },
+
     //Popup-Menü öffen und je nach Button verlinken
     popUp : function(){
 
