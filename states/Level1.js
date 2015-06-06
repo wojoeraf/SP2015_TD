@@ -15,6 +15,7 @@ var layer;
 
 //marker=Turmauswahlrechteck
 var marker=null;
+
 //Weg-Punkte
 var myPoint1 = new Phaser.Point(600,190);
 var myPoint2 = new Phaser.Point(600,400);
@@ -62,6 +63,11 @@ var popup;
 var backButton;
 var quitButton;
 
+var button1;
+var popupinfoTower1;
+var button2;
+var popupinfoTower2;
+
 
 Menu.Level1.prototype = {
 
@@ -95,6 +101,10 @@ Menu.Level1.prototype = {
         this.load.spritesheet('coin', 'assets/sprites/coin1.png');
         //Hintergrund Popup-Menü
         this.load.image('background','assets/sprites/background3.png');
+
+
+        this.load.image('towerInfo1','assets/sprites/towerInfos1.png');
+        this.load.image('towerInfo2','assets/sprites/towerInfos2.png');
          },
 
     create: function (game) {
@@ -127,8 +137,13 @@ Menu.Level1.prototype = {
 
         //Next-Wave-Button und Tower-Buttons hinzufügen
         this.add.button(850,630,'buttonPlay',this.boolF,this);
-        this.add.button(50,630,'tower1',this.addTower,this);
-        this.add.button(200,630,'tower2Text',this.addTower2,this);
+        button1 = this.add.button(50,630,'tower1',this.addTower,this);
+        button1.events.onInputOver.add(this.infoTower1,this);
+        button1.events.onInputOut.add(this.infoTower1Delete,this);
+
+        button2 = this.add.button(200,630,'tower2Text',this.addTower2,this);
+        button2.events.onInputOver.add(this.infoTower2,this);
+        button2.events.onInputOut.add(this.infoTower2Delete,this);
 
         //Popup-Button
         this.add.button(850,100,'buttonPlay',this.popUp,this);
@@ -140,7 +155,6 @@ Menu.Level1.prototype = {
 
 
     update: function () {
-
         //Wenn Next-Wave gedrückt wurde -> Enemies laufen den Weg entlang
         if(bool==true){
                 var x=false;
@@ -155,9 +169,9 @@ Menu.Level1.prototype = {
                 if(x==false){
                     bool= false;
                     enemyWaveNr=enemyWaveNr+1;
-                    coins = coins +15;
-                    coinText.destroy();
-                    coinText= this.add.text(100,20,coins);
+                    //coins = coins +15;
+                    //coinText.destroy();
+                    //coinText= this.add.text(100,20,coins);
                 }
         }
         //Marker -> Rechteck -> Turm platzieren
@@ -172,55 +186,86 @@ Menu.Level1.prototype = {
                 {
                     marker.lineStyle(2, 0xff0000, 1);
                     marker.drawRect(0, 0, 32, 32);
+
+                    //Mitte -> Towerauswahl rückgängig
+                    if(this.input.mouse.button==1){
+                        marker.destroy();
+                        marker = null;
+                    }
+            }
+            //Keine Towers in der oberen Leiste und in der Towerauswahlleiste!
+            else if((marker.y<50)||(marker.y>600)){
+
+
+                    marker.lineStyle(2, 0xff0000, 1);
+                    marker.drawRect(0, 0, 32, 32);
+
+                    //Mitte -> Towerauswahl rückgängig
+                    if (this.input.mouse.button == 1) {
+                        marker.destroy();
+                        marker = null;
+                    }
+
+
+
             }
             else{
                 marker.lineStyle(2, 0x000000, 1);
                 marker.drawRect(0, 0, 32, 32);
                 var c =  this.physics.arcade.collide(marker.x,marker.y, 'tower1');
-                if (this.input.mousePointer.isDown==true)
-                {
+                if (this.input.mousePointer.isDown==true) {
 
-            if(c==false){
-              //Je nach Tower -> unterschiedliche Eigenschaften (Reichweite etc..)
+                    //Welcher Button 0=Links,1=Mitte
+                    //Links -> Tower platzieren
+                    if (this.input.mouse.button == 0) {
 
-              //Tower 1
-              if(towerButton==0){
-                  if((coins-30)>=0){
-                     towers[towerC]=this.add.sprite(marker.x,marker.y,'tower');
-                     towers[towerC].typ=0;
-                     towers[towerC].cost=30;
-                     coins=coins-30;
-                     coinText.destroy();
-                     coinText=this.add.text(100,20,coins);
-                     bullets[towerC] = this.add.sprite(marker.x,marker.y,'bullet');
-                     bullets[towerC].visible=false;
-                     this.physics.enable(towers[towerC], Phaser.Physics.ARCADE);
-                     this.physics.enable(bullets[towerC], Phaser.Physics.ARCADE);
-                     towerC++;
-                     marker.destroy();
-                     marker=null;
-                  }
+                        if (c == false) {
+
+                            //Je nach Tower -> unterschiedliche Eigenschaften (Reichweite etc..)
+                            //Tower 1
+                            if (towerButton == 0) {
+                                if ((coins - 30) >= 0) {
+                                    towers[towerC] = this.add.sprite(marker.x, marker.y, 'tower');
+                                    towers[towerC].typ = 0;
+                                    towers[towerC].cost = 30;
+                                    coins = coins - 30;
+                                    coinText.destroy();
+                                    coinText = this.add.text(100, 20, coins);
+                                    bullets[towerC] = this.add.sprite(marker.x, marker.y, 'bullet');
+                                    bullets[towerC].visible = false;
+                                    this.physics.enable(towers[towerC], Phaser.Physics.ARCADE);
+                                    this.physics.enable(bullets[towerC], Phaser.Physics.ARCADE);
+                                    towerC++;
+                                    marker.destroy();
+                                    marker = null;
+                                }
+                            }
+                            //Tower 2
+                            else if (towerButton == 1) {
+                                if ((coins - 70) >= 0) {
+                                    towers[towerC] = this.add.sprite(marker.x, marker.y, 'tower2');
+                                    towers[towerC].typ = 1;
+                                    towers[towerC].cost = 70;
+                                    coins = coins - 70;
+                                    coinText.destroy();
+                                    coinText = this.add.text(100, 20, coins);
+                                    bullets[towerC] = this.add.sprite(marker.x, marker.y, 'bullet2');
+                                    bullets[towerC].visible = false;
+                                    this.physics.enable(towers[towerC], Phaser.Physics.ARCADE);
+                                    this.physics.enable(bullets[towerC], Phaser.Physics.ARCADE);
+                                    towerC++;
+                                    marker.destroy();
+                                    marker = null;
+                                }
+                            }
+                        }
                     }
-              //Tower 2
-               else if(towerButton==1){
-                   if((coins-70)>=0){
-                        towers[towerC]=this.add.sprite(marker.x,marker.y,'tower2');
-                        towers[towerC].typ=1;
-                        towers[towerC].cost=70;
-                        coins=coins-70;
-                        coinText.destroy();
-                        coinText=this.add.text(100,20,coins);
-                        bullets[towerC] = this.add.sprite(marker.x,marker.y,'bullet2');
-                        bullets[towerC].visible=false;
-                        this.physics.enable(towers[towerC], Phaser.Physics.ARCADE);
-                        this.physics.enable(bullets[towerC], Phaser.Physics.ARCADE);
-                        towerC++;
+                    //Mitte -> Towerauswahl rückgängig
+                    else if(this.input.mouse.button==1){
                         marker.destroy();
-                        marker=null;
-                   }
-                 }
+                        marker = null;
+                    }
                 }
-            }
             }
 
         }
@@ -378,7 +423,7 @@ Menu.Level1.prototype = {
                         reach=100;
                     }
                     else if(towers[i].typ=1){
-                        speeed=650;
+                        speeed=600;
                         reach=250;
                     }
                     if(this.physics.arcade.distanceBetween(towers[i], spriteArray[j]) < reach){
@@ -393,7 +438,6 @@ Menu.Level1.prototype = {
                         this.physics.arcade.moveToObject(bullet, spriteArray[j], speeed);
                         var col = this.physics.arcade.collide(bullet,spriteArray[j]);
 
-
                         if(col==true){
                             //Enemies werden nicht mehr so weit abgedrängt bei einer Collision
                             spriteArray[j].body.bounce.set(-1.25);
@@ -405,7 +449,7 @@ Menu.Level1.prototype = {
                                 spriteArray[j].visible=false;
                                 spriteArray[j].destroy();
                                 spriteArray[j]=null;
-                                coins = coins + 5;
+                                coins = coins + 10;
                                 coinText.destroy();
                                 coinText = this.add.text(100,20,coins);
                                 score = score + 100;
@@ -425,11 +469,8 @@ Menu.Level1.prototype = {
                 }
             }
             }
-
     }
-
 },
-
     //Popup-Menü öffen und je nach Button verlinken
     popUp : function(){
 
@@ -456,6 +497,30 @@ Menu.Level1.prototype = {
         this.state.clearCurrentState();
         this.state.start("MainMenu");
 
+    },
+
+    infoTower1: function(){
+        if(popupinfoTower1!=null) {
+            popupinfoTower1.destroy();
+        }
+        popupinfoTower1 = this.add.sprite(button1.x+40, button1.y-30, 'towerInfo1');
+        popupinfoTower1.alpha = 0.8;
+        popupinfoTower1.anchor.set(0.5);
+    },
+    infoTower1Delete: function(){
+        popupinfoTower1.destroy();
+    },
+
+    infoTower2: function(){
+        if(popupinfoTower2!=null) {
+            popupinfoTower2.destroy();
+        }
+        popupinfoTower2 = this.add.sprite(button2.x+40, button2.y-30, 'towerInfo2');
+        popupinfoTower2.alpha = 0.8;
+        popupinfoTower2.anchor.set(0.5);
+    },
+    infoTower2Delete: function(){
+        popupinfoTower2.destroy();
     },
 
     //Enemy-Welle erzeugen
