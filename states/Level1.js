@@ -55,6 +55,7 @@ var towerButton=-1;
 var array = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 var counterArray= [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 var sprites = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+var healthBars = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 var enemyWaveNr=0;
 var enemyNumber;
 
@@ -68,6 +69,7 @@ var popupinfoTower1;
 var button2;
 var popupinfoTower2;
 
+var lifeVar=0;
 
 Menu.Level1.prototype = {
 
@@ -157,6 +159,18 @@ Menu.Level1.prototype = {
     update: function () {
 
 
+        if(bool==true){
+        for(var j=0;j<enemyNumber;j++) {
+            var healthbar = healthBars[j];
+            var sprite = sprites[j];
+            //console.log(sprite.x);
+            //console.log(sprite.y);
+            if(sprite!=null) {
+                healthbar.x = sprite.x;
+                healthbar.y = sprite.y - 10;
+            }
+        }
+        }
 
         //Wenn Next-Wave gedrückt wurde -> Enemies laufen den Weg entlang
         if(bool==true){
@@ -425,6 +439,9 @@ Menu.Level1.prototype = {
         else if(enemyWaveNr==4){
             this.buildWave(1,11,110,10);
         }
+        else if(enemyWaveNr==5){
+            this.buildWave(1,8,100,20);
+        }
     },
 
     //Collision zwischen Sprite und Bullets der Tower überprüfen
@@ -482,6 +499,7 @@ Menu.Level1.prototype = {
                                 array[j]=5;
                                 bullet.reset(towers[i].x, towers[i].y);
                                 bullet.visible=false;
+                                healthBars[j].destroy();
                             }
                         }
                     }
@@ -513,6 +531,9 @@ Menu.Level1.prototype = {
     quit : function(){
         bool=false;
         enemyWaveNr=0;
+        for(var k=0;k<towerC;k++){
+            towers[k] = 0;
+        }
         this.state.clearCurrentState();
         this.state.start("MainMenu");
 
@@ -544,24 +565,64 @@ Menu.Level1.prototype = {
 
     //Enemy-Welle erzeugen
     buildWave: function(spriteType,number,speed,lfs){
-
+        lifeVar=lfs;
         enemyNumber=number;
         for(var i=0;i<number;i++){
             //Enemy-Typ 1
             if(spriteType==1) {
-                if(i==0) sprites[i] = this.add.sprite(1000 ,190, 'player', 1);
-                else if(i==1) sprites[i] = this.add.sprite(1025, 190, 'player', 1);
-                else if(i==2) sprites[i] = this.add.sprite(1050, 190, 'player', 1);
-                else if(i==3) sprites[i] = this.add.sprite(1075, 190, 'player', 1);
-                else if(i==4) sprites[i] = this.add.sprite(1100, 190, 'player', 1);
-                else if(i==5) sprites[i] = this.add.sprite(1125, 190, 'player', 1);
-                else if(i==6) sprites[i] = this.add.sprite(1150, 190, 'player', 1);
-                else if(i==7) sprites[i] = this.add.sprite(1175, 190, 'player', 1);
-                else if(i==8) sprites[i] = this.add.sprite(1200, 190, 'player', 1);
-                else if(i==9) sprites[i] = this.add.sprite(1225, 190, 'player', 1);
-                else if(i==10) sprites[i] = this.add.sprite(1250, 190, 'player', 1);
-                else if(i==11) sprites[i] = this.add.sprite(1275, 190, 'player', 1);
-                else if(i==12) sprites[i] = this.add.sprite(1300, 190, 'player', 1);
+
+                if(i==0) {
+                    sprites[i] = this.add.sprite(1000, 190, 'player', 1);
+                    healthBars[i] =this.add.sprite(1000,180,'xpBar2',1);
+                }
+                else if(i==1) {
+                    sprites[i] = this.add.sprite(1025, 190, 'player', 1);
+                    healthBars[i] =this.add.sprite(1025,180,'xpBar2',1);
+                }
+                else if(i==2){
+                    sprites[i] = this.add.sprite(1050, 190, 'player', 1);
+                    healthBars[i] =this.add.sprite(1050,180,'xpBar2',1);
+                }
+                else if(i==3){
+                    sprites[i] = this.add.sprite(1075, 190, 'player', 1);
+                    healthBars[i] =this.add.sprite(1075,180,'xpBar2',1);
+                }
+                else if(i==4){
+                    sprites[i] = this.add.sprite(1100, 190, 'player', 1);
+                    healthBars[i] =this.add.sprite(1100,180,'xpBar2',1);
+                }
+                else if(i==5){
+                    sprites[i] = this.add.sprite(1125, 190, 'player', 1);
+                    healthBars[i] =this.add.sprite(1125,180,'xpBar2',1);
+                }
+                else if(i==6){
+                    sprites[i] = this.add.sprite(1150, 190, 'player', 1);
+                    healthBars[i] =this.add.sprite(1150,180,'xpBar2',1);
+                }
+                else if(i==7){
+                    sprites[i] = this.add.sprite(1175, 190, 'player', 1);
+                    healthBars[i] =this.add.sprite(1175,180,'xpBar2',1);
+                }
+                else if(i==8){
+                    sprites[i] = this.add.sprite(1200, 190, 'player', 1);
+                    healthBars[i] =this.add.sprite(1200,180,'xpBar2',1);
+                }
+                else if(i==9){
+                    sprites[i] = this.add.sprite(1225, 190, 'player', 1);
+                    healthBars[i] =this.add.sprite(1225,180,'xpBar2',1);
+                }
+                else if(i==10){
+                    sprites[i] = this.add.sprite(1250, 190, 'player', 1);
+                    healthBars[i] =this.add.sprite(1250,180,'xpBar2',1);
+                }
+                else if(i==11){
+                    sprites[i] = this.add.sprite(1275, 190, 'player', 1);
+                    healthBars[i] =this.add.sprite(1275,180,'xpBar2',1);
+                }
+                else if(i==12){
+                    sprites[i] = this.add.sprite(1300, 190, 'player', 1);
+                    healthBars[i] =this.add.sprite(1300,180,'xpBar2',1);
+                }
                 sprites[i].animations.add('left', [8, 9], 10, true);
                 sprites[i].animations.add('right', [1, 2], 10, true);
                 sprites[i].animations.add('up', [11, 12, 13], 10, true);
@@ -569,6 +630,8 @@ Menu.Level1.prototype = {
                 sprites[i].speed = speed;
                 sprites[i].visible = false;
                 sprites[i].life = lfs;
+                healthBars[i].scale.set(0.05);
+                healthBars[i].scale.x=0.02;
                 this.physics.enable(sprites[i], Phaser.Physics.ARCADE);
                 array[i]=0;
             }
