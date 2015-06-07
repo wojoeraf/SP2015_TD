@@ -155,6 +155,9 @@ Menu.Level1.prototype = {
 
 
     update: function () {
+
+
+
         //Wenn Next-Wave gedrückt wurde -> Enemies laufen den Weg entlang
         if(bool==true){
                 var x=false;
@@ -219,13 +222,27 @@ Menu.Level1.prototype = {
                     //Links -> Tower platzieren
                     if (this.input.mouse.button == 0) {
 
-                        if (c == false) {
 
+
+                        for(var k=0;k<towerC;k++){
+
+                            if((marker.x+32>towers[k].x)&&(marker.x<towers[k].x+32)&&((marker.y+32>towers[k].y)&&(marker.y<towers[k].y+32))){
+                                marker.lineStyle(2, 0xff0000, 1);
+                                marker.drawRect(0, 0, 32, 32);
+                                c=true;
+                            }
+                        }
+
+
+
+                        if (c == false) {
                             //Je nach Tower -> unterschiedliche Eigenschaften (Reichweite etc..)
                             //Tower 1
                             if (towerButton == 0) {
                                 if ((coins - 30) >= 0) {
                                     towers[towerC] = this.add.sprite(marker.x, marker.y, 'tower');
+                                    towers[towerC].x=marker.x;
+                                    towers[towerC].y=marker.y;
                                     towers[towerC].typ = 0;
                                     towers[towerC].cost = 30;
                                     coins = coins - 30;
@@ -244,6 +261,8 @@ Menu.Level1.prototype = {
                             else if (towerButton == 1) {
                                 if ((coins - 70) >= 0) {
                                     towers[towerC] = this.add.sprite(marker.x, marker.y, 'tower2');
+                                    towers[towerC].x=marker.x;
+                                    towers[towerC].y=marker.y;
                                     towers[towerC].typ = 1;
                                     towers[towerC].cost = 70;
                                     coins = coins - 70;
