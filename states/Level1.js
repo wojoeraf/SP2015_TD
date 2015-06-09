@@ -4,7 +4,7 @@
 
 
 Menu.Level1 = function(game){
-
+    //this.helpers = new Helpers.Menu();
 }
 //Map und Ebene
 var map;
@@ -63,8 +63,12 @@ var button1;
 var popupinfoTower1;
 var button2;
 var popupinfoTower2;
-
+var popupinfoTower1U;
+var popupinfoTower2U;
 var lifeVar=0;
+var towerButtons=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+
+
 
 Menu.Level1.prototype = {
 
@@ -102,6 +106,13 @@ Menu.Level1.prototype = {
 
         this.load.image('towerInfo1','assets/sprites/towerInfos1.png');
         this.load.image('towerInfo2','assets/sprites/towerInfos2.png');
+
+
+        this.load.image('tower1Upgrade1','assets/sprites/Upgrade1.png');
+        this.load.image('tower1Upgrade2','assets/sprites/Upgrade2.png');
+
+        this.load.image('tower2Upgrade1','assets/sprites/Upgrade1-2.png');
+        this.load.image('tower2Upgrade2','assets/sprites/Upgrade2-2.png');
          },
 
     create: function (game) {
@@ -153,13 +164,10 @@ Menu.Level1.prototype = {
 
     update: function () {
 
-
         if(bool==true){
         for(var j=0;j<enemyNumber;j++) {
             var healthbar = healthBars[j];
             var sprite = sprites[j];
-            //console.log(sprite.x);
-            //console.log(sprite.y);
             if(sprite!=null) {
                 healthbar.x = sprite.x;
                 healthbar.y = sprite.y - 10;
@@ -225,7 +233,6 @@ Menu.Level1.prototype = {
 
                         //Tower auf Tower platzieren nicht möglich machen
                         for(var k=0;k<towerC;k++){
-
                             if((marker.x+32>towers[k].x)&&(marker.x<towers[k].x+32)&&((marker.y+32>towers[k].y)&&(marker.y<towers[k].y+32))){
                                 marker.lineStyle(2, 0xff0000, 1);
                                 marker.drawRect(0, 0, 32, 32);
@@ -238,11 +245,20 @@ Menu.Level1.prototype = {
                             //Tower 1
                             if (towerButton == 0) {
                                 if ((coins - 30) >= 0) {
+                                    var c = towerC;
                                     towers[towerC] = this.add.sprite(marker.x, marker.y, 'tower');
+                                    towers[towerC].inputEnabled = true;
+                                    towers[towerC].input.useHandCursor = true;
+                                    towers[towerC].events.onInputDown.add(this.upgradeTower1, this);
+                                    towers[towerC].events.onInputOver.add(this.upgradeTower1Info,this);
+                                    towers[towerC].events.onInputOut.add(this.upgradeTower1InfoDelete,this);
                                     towers[towerC].x=marker.x;
                                     towers[towerC].y=marker.y;
                                     towers[towerC].typ = 0;
                                     towers[towerC].cost = 30;
+                                    towers[towerC].speeed=200;
+                                    towers[towerC].reach=100;
+                                    towers[towerC].isUpgraded=false;
                                     coins = coins - 30;
                                     coinText.destroy();
                                     coinText = this.add.text(100, 20, coins);
@@ -259,10 +275,18 @@ Menu.Level1.prototype = {
                             else if (towerButton == 1) {
                                 if ((coins - 70) >= 0) {
                                     towers[towerC] = this.add.sprite(marker.x, marker.y, 'tower2');
+                                    towers[towerC].inputEnabled = true;
+                                    towers[towerC].input.useHandCursor = true;
+                                    towers[towerC].events.onInputDown.add(this.upgradeTower2, this);
+                                    towers[towerC].events.onInputOver.add(this.upgradeTower2Info,this);
+                                    towers[towerC].events.onInputOut.add(this.upgradeTower2InfoDelete,this);
                                     towers[towerC].x=marker.x;
                                     towers[towerC].y=marker.y;
                                     towers[towerC].typ = 1;
                                     towers[towerC].cost = 70;
+                                    towers[towerC].speeed=600;
+                                    towers[towerC].reach=250;
+                                    towers[towerC].isUpgraded=false;
                                     coins = coins - 70;
                                     coinText.destroy();
                                     coinText = this.add.text(100, 20, coins);
@@ -438,16 +462,8 @@ Menu.Level1.prototype = {
                     var i = towerC-l-1;
                     var j = spriteArray.length-k-1;
                 if(array[j]!=5){
-                    var speeed;
-                    var reach;
-                    if(towers[i].typ==0){
-                        speeed=200;
-                        reach=100;
-                    }
-                    else if(towers[i].typ=1){
-                        speeed=600;
-                        reach=250;
-                    }
+                    var speeed = towers[i].speeed;
+                    var reach = towers[i].reach;
                     if(this.physics.arcade.distanceBetween(towers[i], spriteArray[j]) < reach){
                         this.physics.enable(bullets[i], Phaser.Physics.ARCADE);
                         this.physics.enable(bullets[i],spriteArray[j] );
@@ -578,6 +594,113 @@ Menu.Level1.prototype = {
             }
         }
         bool = true;
-    }
+    },
+
+    upgradeTower1: function(c){
+        if(marker==null) {
+            //Schon 2 Upgrades?
+            if(c.speeed!=400) {
+                //1.Update
+                if (c.isUpgraded == false) {
+                    if ((score > 1000) && (coins >= 100)) {
+                        c.speeed = 300;
+                        c.reach = 200;
+                        c.isUpgraded = true;
+                        coins = coins - 100;
+                        coinText.destroy();
+                        coinText = this.add.text(100, 20, coins);
+                    }
+                }
+                else if (c.isUpgraded == true) {
+                    if ((score > 2000) && (coins >= 200)) {
+                        c.speeed = 450;
+                        c.reach = 350;
+                        coins = coins - 200;
+                        coinText.destroy();
+                        coinText = this.add.text(100, 20, coins);
+                    }
+                }
+            }
+        }
+    },
+    upgradeTower1Info : function(c){
+        if(c.speeed!=450) {
+            if (popupinfoTower1U != null) {
+                popupinfoTower1U.destroy();
+            }
+
+            if (c.isUpgraded == false) {
+                popupinfoTower1U = this.add.sprite(c.x + 40, c.y - 40, 'tower1Upgrade1');
+            }
+            else {
+                popupinfoTower1U = this.add.sprite(c.x + 40, c.y - 40, 'tower1Upgrade2');
+            }
+            popupinfoTower1U.scale.x = 0.7;
+            popupinfoTower1U.scale.y = 0.7;
+            popupinfoTower1U.alpha = 0.8;
+            popupinfoTower1U.anchor.set(0.2);
+        }
+        else{
+            if (popupinfoTower1U != null) {
+                popupinfoTower1U.destroy();
+            }
+        }
+    },
+    upgradeTower1InfoDelete: function(){
+        popupinfoTower1U.destroy();
+    },
+    upgradeTower2: function(c){
+        if(marker==null) {
+            //Schon 2 Upgrades?
+            if(c.speeed!=800) {
+                //1.Update
+                if (c.isUpgraded == false) {
+                    if ((score > 3000) && (coins >= 300)) {
+                        c.speeed = 650;
+                        c.reach = 300;
+                        c.isUpgraded = true;
+                        coins = coins - 100;
+                        coinText.destroy();
+                        coinText = this.add.text(100, 20, coins);
+                    }
+                }
+                else if (c.isUpgraded == true) {
+                    if ((score > 4000) && (coins >= 400)) {
+                        c.speeed = 800;
+                        c.reach = 450;
+                        coins = coins - 200;
+                        coinText.destroy();
+                        coinText = this.add.text(100, 20, coins);
+                    }
+                }
+            }
+        }
+    },
+    upgradeTower2Info : function(c){
+        if(c.speeed!=800) {
+            if (popupinfoTower2U != null) {
+                popupinfoTower2U.destroy();
+            }
+
+            if (c.isUpgraded == false) {
+                popupinfoTower2U = this.add.sprite(c.x + 40, c.y - 40, 'tower2Upgrade1');
+            }
+            else {
+                popupinfoTower2U = this.add.sprite(c.x + 40, c.y - 40, 'tower2Upgrade2');
+            }
+            popupinfoTower2U.scale.x = 0.7;
+            popupinfoTower2U.scale.y = 0.7;
+            popupinfoTower2U.alpha = 0.8;
+            popupinfoTower2U.anchor.set(0.2);
+        }
+        else{
+            if (popupinfoTower2U != null) {
+                popupinfoTower2U.destroy();
+            }
+        }
+    },
+    upgradeTower2InfoDelete: function(){
+        popupinfoTower2U.destroy();
+    },
 
 }
