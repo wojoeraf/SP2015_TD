@@ -2,6 +2,87 @@
 var canvasWidth = 1024;
 var canvasHeight = 768;
 
+
+
+
+
+
+var map;
+var layer;
+
+//marker=Turmauswahlrechteck
+var marker=null;
+
+
+
+
+
+
+//NextWave-Button gedrückt?
+var bool = false;
+
+//Obere Leiste (Score,XP etc..)
+var score = 1;
+var scoreText;
+var xpBar;
+var life = 5;
+var heart;
+var heartText;
+var diamond;
+var diamonds=10;
+var diamondText;
+var coin;
+var coins = 70;
+var coinText;
+
+//Tower und zugehörige Waffen speichern
+var bullets = [0,0,0,0,0,0,0,0,0];
+var towers=[0,0,0,0,0,0,0,0,0,0];
+//Tower-Counter
+var towerC=0;
+
+//Welcher TowerButton wurde gedrückt -> unterschiedliche Tower
+var towerButton=-1;
+
+//Hilfsarrays für nextWave und checkCol
+var array = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+var counterArray= [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+var sprites = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+var healthBars = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+var enemyWaveNr=0;
+var enemyNumber;
+
+//PopUp-Menü
+var popup;
+var backButton;
+var quitButton;
+
+var button1;
+var popupinfoTower1;
+var button2;
+var popupinfoTower2;
+var popupinfoTower1U;
+var popupinfoTower2U;
+var lifeVar=0;
+var towerButtons=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+
+
+
+
+
+var myPoint1 = new Phaser.Point(600,190);
+var myPoint2 = new Phaser.Point(600,400);
+var myPoint3 = new Phaser.Point(300,400);
+var myPoint4 = new Phaser.Point(300,150);
+var myPoint5 = new Phaser.Point(0,150);
+
+
+
+
+
+
+
+
 // Namespace for audio
 var Audio = {};
 

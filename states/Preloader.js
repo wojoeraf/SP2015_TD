@@ -53,6 +53,7 @@ Menu.Preloader.prototype = {
         this.load.spritesheet('line', 'assets/menu/line.png');
         this.load.spritesheet('line2', 'assets/menu/line.png');
 
+
         // Ranking
 
 
