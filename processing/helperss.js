@@ -11,15 +11,15 @@ Helpers.Menu.prototype = {
 
 
     //EnemyWellen erzeugen
-    buildWave: function(spriteType,number,speed,lfs,callback){
+    buildWave: function(spriteType,number,speed,lfs,xPoint,yPoint,callback){
         lifeVar=lfs;
         enemyNumber=number;
         for(var i=0;i<number;i++){
             //Enemy-Typ 1
             if(spriteType==1) {
-                var positionX=(1000+25*i);
-                sprites[i] = callback.add.sprite(positionX, 190, 'player', 1);
-                healthBars[i] =callback.add.sprite(positionX,180,'xpBar2',1);
+                var positionX=(xPoint+25*i);
+                sprites[i] = callback.add.sprite(positionX, yPoint, 'player', 1);
+                healthBars[i] =callback.add.sprite(positionX,yPoint-10,'xpBar2',1);
                 sprites[i].animations.add('left', [8, 9], 10, true);
                 sprites[i].animations.add('right', [1, 2], 10, true);
                 sprites[i].animations.add('up', [11, 12, 13], 10, true);
@@ -61,7 +61,7 @@ Helpers.Menu.prototype = {
             var x=false;
             for(var i=0;i<enemyNumber;i++){
                 if(array[i]!=5){
-                    this.nextWave(sprites[i],i,callback);
+                    callback.nextWave(sprites[i],i,callback);
                     x = true;
                 }
             }
@@ -197,85 +197,6 @@ Helpers.Menu.prototype = {
             }
         }
 
-    },
-
-    //Nächste Gegnerwelle
-    nextWave : function(player,arraynumber,callback){
-        if(marker!=null){
-            marker.destroy();
-            marker=null;
-        }
-        callback.physics.arcade.collide(player, layer);
-        var a = array[arraynumber];
-        if(player.x<callback.visiblePoint){
-            player.visible=true;
-        }
-
-        switch(a){
-            case 0:
-                callback.physics.arcade.moveToObject(player,callback.myPoint1,player.speed,0);
-                player.animations.play('left');
-                if(player.x<callback.myPoint1.x+2){
-                    array[arraynumber] = 1;
-                    break;
-                }
-                break;
-
-            case 1:
-                player.body.velocity.x = 0;
-                player.body.velocity.y = 0;
-                callback.physics.arcade.moveToObject(player,callback.myPoint2,player.speed,0);
-                player.animations.play('down');
-                if(player.y>callback.myPoint2.y-2){
-                    array[arraynumber] = 2;
-                    break;
-                }
-                break;
-            case 2:
-                player.body.velocity.x = 0;
-                player.body.velocity.y = 0;
-                callback.physics.arcade.moveToObject(player,callback.myPoint3,player.speed,0);
-                player.animations.play('left');
-                if(player.x<callback.myPoint3.x+2){
-                    array[arraynumber]=3;
-                    break;
-                }
-                break;
-            case 3:
-                player.body.velocity.x = 0;
-                player.body.velocity.y = 0;
-                callback.physics.arcade.moveToObject(player,callback.myPoint4,player.speed,0);
-                player.animations.play('up');
-                if(player.y<callback.myPoint4.y+2){
-                    array[arraynumber]=4;
-                    break;
-                }
-                break;
-            case 4:
-                player.body.velocity.x = 0;
-                player.body.velocity.y = 0;
-                callback.physics.arcade.moveToObject(player,callback.myPoint5,player.speed,0);
-                player.animations.play('left');
-                if(player.x<callback.myPoint5.x+0.5){
-                    player.destroy();
-                    array[arraynumber]=5;
-
-                    if((life-1)>=-1){
-                        life = life-1;
-                        heartText.destroy();
-                        heartText = callback.add.text(290,20,life);
-                    }
-
-                    if(life==0){
-                        callback.add.text(350,300,"GAME OVER");
-                        bool=false;
-                        enemyWaveNr=0;
-                        callback.state.start("MainMenu");
-                    }
-                    break;
-                }
-                break;
-        }
     },
 
     //1.Tower hinzufügen
