@@ -9,8 +9,11 @@
     <link href="style/main.css" rel="stylesheet">
 
     <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-    <script src="libs/phaser.js"></script>
+    <!--CDN for the Google reCaptcha js source file -->
+    <script src="https://www.google.com/recaptcha/api.js?onload=loadCaptcha&render=explicit" async defer></script>
 
+
+    <script src="libs/phaser.js"></script>
     <script src="game/Player.js"></script>
 
     <script src="processing/forms.js"></script>
@@ -109,6 +112,23 @@
         </table>
     </div>
 </div>
+
+<script type='text/javascript'>
+    var captchaContainer = null;
+    var loadCaptcha = function () {
+        captchaContainer = grecaptcha.render('captcha_container', {
+            'sitekey': '6LeBSwgTAAAAAMOYTY-lEdVzRMnmvPIVLNSj75b8',
+            'callback': function (response) {
+                console.log(response);
+            }
+        });
+    };
+</script>
+
+<form id="captchaForm" action="http://www.codedodle.comxa.com/demos/recaptcha/submit.php" method="POST">
+    <div id="captcha_container" class="invisible"></div>
+</form>
+
 
 <script type="text/javascript">
 

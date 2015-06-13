@@ -1,13 +1,13 @@
 html {
-    height:100%;
+    height: 100%;
 }
 
 body {
     text-align: justify;
-    min-height:100%;
-    margin:0;
-    font-family: "Open Sans",Arial,sans-serif;
-    color:#333;
+    min-height: 100%;
+    margin: 0;
+    font-family: "Open Sans", Arial, sans-serif;
+    color: #333;
     /* background:-moz-linear-gradient(top, #fff, #F4ECD1);
     background-repeat:no-repeat;
     background-attachment: fixed; */
@@ -19,16 +19,18 @@ body {
 }
 
 .wrapper {
-    margin-left:auto;
-    margin-right:auto;
-    width:1024px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 1024px;
 }
 
 .invisible {
-    display:none;
+    display: none;
 }
 
-.center {text-align: center;}
+.center {
+    text-align: center;
+}
 
 h1 {
     text-align: center;
@@ -40,17 +42,16 @@ h1 {
 }
 
 .hspace {
-    min-height:25px;
+    min-height: 25px;
 }
 
 .error {
-    color:red;
+    color: red;
 }
 
 .success {
-    color:green;
+    color: green;
 }
-
 
 th {
     border-bottom: 1px solid #333;
@@ -62,12 +63,14 @@ th, td {
 }
 
 form {
-    width:100%;
+    width: 100%;
 }
 
 #footer {
-    font-size:8pt;
+    font-size: 8pt;
 }
+
+
 
 
 

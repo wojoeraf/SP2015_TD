@@ -68,6 +68,20 @@ FormProcessing.prototype = {
      */
     hideRankingTable: function () {
         this.helper.hideElement("#rankingTable");
+    },
+
+    /**
+     * Shows the googleCaptcha for getting Diamonds
+     */
+    showCaptcha: function () {
+        this.helper.showElement("#captcha_container");
+    },
+
+    /**
+     * Shows the googleCaptcha for getting Diamonds
+     */
+    hideCaptcha: function () {
+        this.helper.hideElement("#captcha_container");
     }
 
 

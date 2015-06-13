@@ -70,7 +70,12 @@ Menu.Preloader.prototype = {
         this.load.spritesheet('rankingHardBright', 'assets/menu/menuButton_hard_bright.png');
 
 
-        // Buy
+        // buy
+        this.load.spritesheet('buyText', 'assets/menu/buy/buy_diamonds.png');
+        this.load.spritesheet('buy1', 'assets/menu/buy/buy1.png');
+        this.load.spritesheet('buy2', 'assets/menu/buy/buy2.png');
+        this.load.spritesheet('buy3', 'assets/menu/buy/buy3.png');
+        this.load.spritesheet('freeDiamonds', 'assets/menu/buy/free_diamonds.png');
 
 
         // Achievements
@@ -85,6 +90,9 @@ Menu.Preloader.prototype = {
         this.load.spritesheet('achieve7', 'assets/menu/achievements/7.png');
         this.load.spritesheet('achieve8', 'assets/menu/achievements/8.png');
         this.load.spritesheet('achieve9', 'assets/menu/achievements/9.png');
+
+        //Empty achievement
+        this.load.image('achieveEmpty', 'assets/menu/achievements/empty.png');
         //Texts
         this.load.image('achieveText1', 'assets/menu/achievements/1text.png');
         this.load.image('achieveText2', 'assets/menu/achievements/2text.png');
@@ -95,7 +103,6 @@ Menu.Preloader.prototype = {
         this.load.image('achieveText7', 'assets/menu/achievements/placeholder.png');
         this.load.image('achieveText8', 'assets/menu/achievements/placeholder.png');
         this.load.image('achieveText9', 'assets/menu/achievements/placeholder.png');
-
 
 
     },

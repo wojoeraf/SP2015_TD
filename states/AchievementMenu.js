@@ -19,6 +19,7 @@ Menu.AchievementMenu.prototype = {
 
         //Add text and achievement buttons
         this.add.sprite(438, 200, 'text_achieve');
+        this.add.sprite(549, 300, 'achieveEmpty');
 
 
         //Looks like the numpad of a cellphone at the moment
