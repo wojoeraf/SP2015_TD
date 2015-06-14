@@ -28,13 +28,14 @@ Menu.Level2.prototype = {
         this.load.spritesheet('tower2Text', 'assets/sprites/Tower22.png');
         this.load.spritesheet('tower2', 'assets/sprites/tower2.png',32,32);
         this.load.spritesheet('tower3', 'assets/sprites/tower3.png',32,32);
-
+        this.load.spritesheet('tower4', 'assets/sprites/Tower4.png',32,32);
+        this.load.spritesheet('tower4Text', 'assets/sprites/Tower4Text.png');
         this.load.spritesheet('tower3Text', 'assets/sprites/tower3Text.png');
         //Bullets
         this.load.spritesheet('bullet', 'assets/sprites/bullet.png',8,8);
         this.load.spritesheet('bullet2','assets/sprites/slime.png',14,14);
         this.load.spritesheet('bullet3', 'assets/sprites/bullet3.png');
-
+        this.load.spritesheet('bullet4', 'assets/sprites/bullet4.png');
         //Elemente obere Leiste
         this.load.spritesheet('xpBar2', 'assets/sprites/xpBar2.png');
         this.load.spritesheet('heart', 'assets/sprites/heart.png');
@@ -45,6 +46,7 @@ Menu.Level2.prototype = {
         this.load.image('towerInfo1','assets/sprites/towerInfos1.png');
         this.load.image('towerInfo2','assets/sprites/towerInfos2.png');
         this.load.image('towerInfo3','assets/sprites/towerInfo3.png');
+        this.load.image('towerInfo4','assets/sprites/towerInfo4.png');
         this.load.image('tower1Upgrade1','assets/sprites/Upgrade1.png');
         this.load.image('tower1Upgrade2','assets/sprites/Upgrade2.png');
         this.load.image('tower2Upgrade1','assets/sprites/Upgrade1-2.png');
@@ -95,9 +97,16 @@ Menu.Level2.prototype = {
         button3 = this.add.button(350,630,'tower3Text',this.addTower3,this);
         button3.events.onInputOver.add(this.helpers.infoTower3,this);
         button3.events.onInputOut.add(this.helpers.infoTower3Delete,this);
+
+        //NEW-Button4
+        button4 = this.add.button(500,630,'tower4Text',this.addTower4,this);
+        button4.events.onInputOver.add(this.helpers.infoTower4,this);
+        button4.events.onInputOut.add(this.helpers.infoTower4Delete,this);
+
+
+
         //Popup-Button
         this.add.button(850,100,'buttonPlay',this.popUp,this);
-
         //NextWave-Sperre, nur wenn auf true geändert-> nächste Enemy-Welle
         bool = false;
 
@@ -121,6 +130,9 @@ Menu.Level2.prototype = {
     },
     addTower3 : function(){
         this.helpers.addTower3(this);
+    },
+    addTower4: function(){
+      this.helpers.addTower4(this);
     },
     //Je nach Welle -> Sprites hinzufügen (Aufruf von buildWave(EnemyTyp,Anzahl,Speed,Lifes)
     boolF : function(){

@@ -64,9 +64,14 @@ var button1;
 var popupinfoTower1;
 var button2;
 var button3;
+var button4;
 var popupinfoTower2;
+var popupinfoTower3;
+var popupinfoTower4;
 var popupinfoTower1U;
 var popupinfoTower2U;
+var popupinfoTower3U;
+var popupinfoTower4U;
 var lifeVar=0;
 var towerButtons=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 
