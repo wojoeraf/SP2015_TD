@@ -70,6 +70,8 @@ Menu.Level1.prototype = {
         coinText=this.add.text(100,20,coins);
         diamond = this.add.sprite(160,22,'diamond');
         diamond.scale.set(0.9);
+        diamondButton=this.add.button(160,22,'diamond',this.diamondClicked,this);
+        diamondButton.scale.set(0.9);
         diamondText = this.add.text(200,20,diamonds);
         heart= this.add.sprite(250,22,'heart');
         heart.scale.set(0.5);
@@ -140,6 +142,11 @@ Menu.Level1.prototype = {
     popUp : function(){
         this.helpers.popUp(this);
     },
+
+    diamondClicked:function(){
+        this.helpers.diamondClicked(this);
+    },
+
 
     //Nächste Gegnerwelle
     nextWave : function(player,arraynumber){

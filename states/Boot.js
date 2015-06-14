@@ -29,11 +29,14 @@ var life = 5;
 var heart;
 var heartText;
 var diamond;
-var diamonds=10;
+var diamonds=1;
 var diamondText;
 var coin;
 var coins = 70;
 var coinText;
+var diamondButton;
+
+var diamondAction=false;
 
 //Tower und zugehörige Waffen speichern
 var bullets = [0,0,0,0,0,0,0,0,0];
@@ -60,6 +63,7 @@ var quitButton;
 var button1;
 var popupinfoTower1;
 var button2;
+var button3;
 var popupinfoTower2;
 var popupinfoTower1U;
 var popupinfoTower2U;

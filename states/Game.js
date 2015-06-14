@@ -33,8 +33,8 @@ Menu.Game.prototype = {
 
     preload: function(){
 
-        this.state.start("Level1");
-        //this.state.start('Level2');
+        //this.state.start("Level1");
+        this.state.start('Level2');
 
 
 
@@ -44,8 +44,8 @@ Menu.Game.prototype = {
     update: function () {
 
         //TODO
-        this.state.start("Level1");
-        //this.state.start('Level2');
+        //this.state.start("Level1");
+        this.state.start('Level2');
         //  Honestly, just about anything could go here. It's YOUR game after all. Eat your heart out!
 
     },

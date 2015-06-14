@@ -27,9 +27,14 @@ Menu.Level2.prototype = {
         this.load.spritesheet('tower1', 'assets/sprites/Tower1.png');
         this.load.spritesheet('tower2Text', 'assets/sprites/Tower22.png');
         this.load.spritesheet('tower2', 'assets/sprites/tower2.png',32,32);
+        this.load.spritesheet('tower3', 'assets/sprites/tower3.png',32,32);
+
+        this.load.spritesheet('tower3Text', 'assets/sprites/tower3Text.png');
         //Bullets
         this.load.spritesheet('bullet', 'assets/sprites/bullet.png',8,8);
         this.load.spritesheet('bullet2','assets/sprites/slime.png',14,14);
+        this.load.spritesheet('bullet3', 'assets/sprites/bullet3.png');
+
         //Elemente obere Leiste
         this.load.spritesheet('xpBar2', 'assets/sprites/xpBar2.png');
         this.load.spritesheet('heart', 'assets/sprites/heart.png');
@@ -39,6 +44,7 @@ Menu.Level2.prototype = {
         this.load.image('background','assets/sprites/background3.png');
         this.load.image('towerInfo1','assets/sprites/towerInfos1.png');
         this.load.image('towerInfo2','assets/sprites/towerInfos2.png');
+        this.load.image('towerInfo3','assets/sprites/towerInfo3.png');
         this.load.image('tower1Upgrade1','assets/sprites/Upgrade1.png');
         this.load.image('tower1Upgrade2','assets/sprites/Upgrade2.png');
         this.load.image('tower2Upgrade1','assets/sprites/Upgrade1-2.png');
@@ -69,6 +75,8 @@ Menu.Level2.prototype = {
         diamond = this.add.sprite(160,22,'diamond');
         diamond.scale.set(0.9);
         diamondText = this.add.text(200,20,diamonds);
+        diamondButton=this.add.button(160,22,'diamond',this.diamondClicked,this);
+        diamondButton.scale.set(0.9);
         heart= this.add.sprite(250,22,'heart');
         heart.scale.set(0.5);
         heartText = this.add.text(290,20,life);
@@ -83,6 +91,10 @@ Menu.Level2.prototype = {
         button2.events.onInputOver.add(this.helpers.infoTower2,this);
         button2.events.onInputOut.add(this.helpers.infoTower2Delete,this);
 
+        //NEW-Button3
+        button3 = this.add.button(350,630,'tower3Text',this.addTower3,this);
+        button3.events.onInputOver.add(this.helpers.infoTower3,this);
+        button3.events.onInputOut.add(this.helpers.infoTower3Delete,this);
         //Popup-Button
         this.add.button(850,100,'buttonPlay',this.popUp,this);
 
@@ -107,31 +119,34 @@ Menu.Level2.prototype = {
     addTower2: function () {
         this.helpers.addTower2(this);
     },
+    addTower3 : function(){
+        this.helpers.addTower3(this);
+    },
     //Je nach Welle -> Sprites hinzufügen (Aufruf von buildWave(EnemyTyp,Anzahl,Speed,Lifes)
     boolF : function(){
 
         if(enemyWaveNr==0){
-            this.helpers.buildWave(1,3,60,5,1000,400,this);
+            this.helpers.buildWave(1,5,70,5,1000,400,this);
         }
         //2.Welle
         else if(enemyWaveNr==1){
-            this.helpers.buildWave(1,5,70,5,1000,400,this);
+            this.helpers.buildWave(1,7,77,5,1000,400,this);
         }
         //3.Welle
         else if (enemyWaveNr==2){
             this.helpers.buildWave(1,8,80,7,1000,400,this);
         }
         else if(enemyWaveNr==3){
-            this.helpers.buildWave(1,11,80,8,1000,400,this);
+            this.helpers.buildWave(1,10,86,8,1000,400,this);
         }
         else if(enemyWaveNr==4){
-            this.helpers.buildWave(1,11,110,10,1000,400,this);
+            this.helpers.buildWave(1,10,120,10,1000,400,this);
         }
         else if(enemyWaveNr==5){
             this.helpers.buildWave(1,8,100,20,1000,400,this);
         }
         else if(enemyWaveNr==6){
-            this.helpers.buildWave(1,100,80,10,1000,400,this);
+            this.helpers.buildWave(1,20,87,12,1000,400,this);
         }
     },
     //Popup-Menü öffen und je nach Button verlinken
@@ -139,6 +154,9 @@ Menu.Level2.prototype = {
         this.helpers.popUp(this);
     },
 
+    diamondClicked:function(){
+        this.helpers.diamondClicked(this);
+    },
 
     //Nächste Gegnerwelle
     nextWave : function(player,arraynumber){
@@ -217,6 +235,7 @@ Menu.Level2.prototype = {
                 }
                 break;
         }
-    }
+    },
+
 
 }
