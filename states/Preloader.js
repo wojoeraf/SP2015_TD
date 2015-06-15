@@ -1,6 +1,6 @@
 // Preloading state
 Menu.Preloader = function () {
-
+    this.fp = new FormProcessing(); // for handling the forms and input
 };
 
 Menu.Preloader.prototype = {
