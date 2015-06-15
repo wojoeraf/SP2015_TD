@@ -14,10 +14,6 @@ var layer;
 var marker=null;
 
 
-
-
-
-
 //NextWave-Button gedrückt?
 var bool = false;
 

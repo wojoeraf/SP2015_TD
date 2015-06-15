@@ -41,6 +41,27 @@ Menu.LoginMenu.prototype = {
         this.fp.hideLoginForm();
         player.loggedIn = true;
         this.state.start("MainMenu");
+
+        //TODO check auf erfolg/misserfolg des logins
+
+        $(function () {
+            var data = {
+                username: $("input[name=username]").val(),
+                password: $("input[name=password]").val()
+            };
+            $.ajax({
+                method: 'post',
+                url: '/login',
+                type: 'json',
+                data: data
+            }).always(function (data, status, err) {
+                console.log(JSON.stringify(data, null, 4));
+                console.log(status);
+                console.log(err);
+                $(".inhalt").html("Welcome " + data.local.username);
+            });
+            return false;
+        });
     },
 
 

@@ -478,7 +478,7 @@ Helpers.Menu.prototype = {
                                 }
                                 //TOWER 1 und 2 = NORMAL
                                 else{
-                                     //Enemies werden nicht mehr so weit abgedrängt bei einer Collision
+                                    //Enemies werden nicht mehr so weit abgedrängt bei einer Collision
                                      spriteArray[j].body.bounce.set(-1.25);
                                      counterArray[j]=0;
                                     if(diamondAction==false) {

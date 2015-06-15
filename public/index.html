@@ -4,7 +4,7 @@
     <meta charset="UTF-8"/>
     <title>Medieval TD - ALPHA v0.11</title>
 
-    <link rel="stylesheet" href="external/pure-min.css"">
+    <link rel="stylesheet" href="external/pure-min.css">
     <link href="style/menu.css" rel="stylesheet">
     <link href="style/main.css" rel="stylesheet">
     
@@ -50,14 +50,16 @@
             <h1>Login</h1>
 
             <div class="pure-form pure-form-stacked innerForm">
-                <form method="POST" action="">
-                    <input type="text" name="loginName" placeholder="Username or Email">
-                    <input type="password" name="loginPassword" placeholder="Password">
+                <form method="POST" action="/login">
+                    <input type="text" name="username" placeholder="Username or Email">
+                    <input type="password" name="password" placeholder="Password">
                 </form>
                 <a id="forgotPasswordLink" href=#>Forgot password</a><br>
                 <a id="registerLink" href=#>Register</a>
             </div>
         </div>
+
+        <div class="inhalt"></div>
 
         <div id="registerArea" class="invisible formBody">
             <h1>Registration</h1>
