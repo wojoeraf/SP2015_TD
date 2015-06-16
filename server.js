@@ -71,7 +71,7 @@ app.post('/verify', function (req, res, next) {
 
 function verifyRecaptcha(key, callback) {
 
-    var filePath = path.join(__dirname, 'config');
+    var filePath = path.join(__dirname, 'config.txt');
     var SECRET = "toast";
     //Initialize the stuff to read the secret from the config
     fs.readFile(filePath, 'utf8', function (err, data) {
