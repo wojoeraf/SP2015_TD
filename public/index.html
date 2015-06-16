@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="external/pure-min.css">
     <link href="style/menu.css" rel="stylesheet">
     <link href="style/main.css" rel="stylesheet">
-    
+
     <!--CDN for the Google reCaptcha js source file -->
     <script src="https://www.google.com/recaptcha/api.js?onload=loadCaptcha&render=explicit" async defer></script>
 
@@ -35,8 +35,8 @@
     <script src="states/LevelSelector.js"></script>
 
 
-    <script src ="states/Level1.js"></script>
-    <script src ="states/Level2.js"></script>
+    <script src="states/Level1.js"></script>
+    <script src="states/Level2.js"></script>
 </head>
 <body>
 
@@ -119,6 +119,7 @@
     </div>
 </div>
 
+
 <script type='text/javascript'>
     var captchaContainer = null;
     var loadCaptcha = function () {
@@ -126,12 +127,23 @@
             'sitekey': '6LeBSwgTAAAAAMOYTY-lEdVzRMnmvPIVLNSj75b8',
             'callback': function (response) {
                 console.log(response);
+
+                $.ajax({
+                    method: 'post',
+                    url: '/verify',
+                    dataType: "text",
+                    data: response
+                }).always(function (data, status, err) {
+                    console.log(status);
+                    console.log(err);
+                });
+
             }
         });
     };
 </script>
 
-<form id="captchaForm" action="http://www.codedodle.comxa.com/demos/recaptcha/submit.php" method="POST">
+<form id="captchaForm" action="/verify" method="POST">
     <div id="captcha_container" class="invisible"></div>
 </form>
 
@@ -157,7 +169,7 @@
         game.state.add('LevelSelector', Menu.LevelSelector);
         game.state.add('Level1', Menu.Level1);
         game.state.add('Level2', Menu.Level2);
-        
+
         //Start game with boot state
         game.state.start('Boot');
 
