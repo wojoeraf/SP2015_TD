@@ -1,3 +1,4 @@
 ﻿#Ignore project specific stuff
 .idea/
-/config
+config.txt
+/config.txt
