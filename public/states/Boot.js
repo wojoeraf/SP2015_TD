@@ -14,6 +14,10 @@ var layer;
 var marker=null;
 
 
+
+
+
+
 //NextWave-Button gedrückt?
 var bool = false;
 
@@ -21,7 +25,7 @@ var bool = false;
 var score = 1;
 var scoreText;
 var xpBar;
-var life = 5;
+var life;
 var heart;
 var heartText;
 var diamond;
@@ -68,19 +72,7 @@ var popupinfoTower1U;
 var popupinfoTower2U;
 var popupinfoTower3U;
 var popupinfoTower4U;
-var lifeVar=0;
 var towerButtons=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-
-
-
-
-
-var myPoint1 = new Phaser.Point(600,190);
-var myPoint2 = new Phaser.Point(600,400);
-var myPoint3 = new Phaser.Point(300,400);
-var myPoint4 = new Phaser.Point(300,150);
-var myPoint5 = new Phaser.Point(0,150);
-
 
 
 
@@ -151,6 +143,41 @@ Menu.Boot.prototype = {
         // Load background for preloader and loading bar
         this.load.image('preloaderBackground', 'assets/menu/menuBG2.png');
         this.load.image('menuLoadingBar', 'assets/menu/menuBar_loading.png');
+
+        //SPIELDATEN FÜR HELPERKLASSE
+        //Towers
+        this.load.spritesheet('tower', 'assets/sprites/block.png',32,32);
+        this.load.spritesheet('tower1', 'assets/sprites/Tower1.png');
+        this.load.spritesheet('tower2Text', 'assets/sprites/Tower22.png');
+        this.load.spritesheet('tower2', 'assets/sprites/tower2.png',32,32);
+        this.load.spritesheet('tower3', 'assets/sprites/tower3.png',32,32);
+        this.load.spritesheet('tower4', 'assets/sprites/Tower4.png',32,32);
+        this.load.spritesheet('tower4Text', 'assets/sprites/Tower4Text.png');
+        this.load.spritesheet('tower3Text', 'assets/sprites/tower3Text.png');
+        //Bullets
+        this.load.spritesheet('bullet', 'assets/sprites/bullet.png',8,8);
+        this.load.spritesheet('bullet2','assets/sprites/slime.png',14,14);
+        this.load.spritesheet('bullet3', 'assets/sprites/bullet3.png');
+        this.load.spritesheet('bullet4', 'assets/sprites/bullet4.png');
+        //Elemente obere Leiste
+        this.load.spritesheet('xpBar2', 'assets/sprites/xpBar2.png');
+        this.load.spritesheet('heart', 'assets/sprites/heart.png');
+        this.load.spritesheet('diamond','assets/sprites/diamond.png');
+        this.load.spritesheet('coin', 'assets/sprites/coin1.png');
+        //Hintergrund Popup-Menü
+        this.load.image('background','assets/sprites/background3.png');
+        this.load.image('towerInfo1','assets/sprites/towerInfos1.png');
+        this.load.image('towerInfo2','assets/sprites/towerInfos2.png');
+        this.load.image('towerInfo3','assets/sprites/towerInfo3.png');
+        this.load.image('towerInfo4','assets/sprites/towerInfo4.png');
+        this.load.image('tower1Upgrade1','assets/sprites/Upgrade1.png');
+        this.load.image('tower1Upgrade2','assets/sprites/Upgrade2.png');
+        this.load.image('tower2Upgrade1','assets/sprites/Upgrade1-2.png');
+        this.load.image('tower2Upgrade2','assets/sprites/Upgrade2-2.png');
+
+        //Enemies
+        this.load.spritesheet('player', 'assets/sprites/spaceman.png', 16, 16);
+
 
     },
 

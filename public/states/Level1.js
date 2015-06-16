@@ -22,29 +22,6 @@ Menu.Level1.prototype = {
         //Map
         this.load.tilemap('map', 'assets/tilemaps/csv/newMap.csv', null, Phaser.Tilemap.CSV);
         this.load.image('tiles', 'assets/tilemaps/tiles/grass-tiles-2-small.png');
-        //Enemies
-        this.load.spritesheet('player', 'assets/sprites/spaceman.png', 16, 16);
-        //Towers
-        this.load.spritesheet('tower', 'assets/sprites/block.png',32,32);
-        this.load.spritesheet('tower1', 'assets/sprites/Tower1.png');
-        this.load.spritesheet('tower2Text', 'assets/sprites/Tower22.png');
-        this.load.spritesheet('tower2', 'assets/sprites/tower2.png',32,32);
-        //Bullets
-        this.load.spritesheet('bullet', 'assets/sprites/bullet.png',8,8);
-        this.load.spritesheet('bullet2','assets/sprites/slime.png',14,14);
-        //Elemente obere Leiste
-        this.load.spritesheet('xpBar2', 'assets/sprites/xpBar2.png');
-        this.load.spritesheet('heart', 'assets/sprites/heart.png');
-        this.load.spritesheet('diamond','assets/sprites/diamond.png');
-        this.load.spritesheet('coin', 'assets/sprites/coin1.png');
-        //Hintergrund Popup-Menü
-        this.load.image('background','assets/sprites/background3.png');
-        this.load.image('towerInfo1','assets/sprites/towerInfos1.png');
-        this.load.image('towerInfo2','assets/sprites/towerInfos2.png');
-        this.load.image('tower1Upgrade1','assets/sprites/Upgrade1.png');
-        this.load.image('tower1Upgrade2','assets/sprites/Upgrade2.png');
-        this.load.image('tower2Upgrade1','assets/sprites/Upgrade1-2.png');
-        this.load.image('tower2Upgrade2','assets/sprites/Upgrade2-2.png');
          },
 
     create: function (game) {
@@ -59,6 +36,9 @@ Menu.Level1.prototype = {
          //  Resize the world
          layer.resizeWorld();
 
+
+        //Verfügbare Leben
+        life = 5;
         // Obere Leiste laden mit Daten wie Leben, Score und XP
         scoreText = this.add.text(730,20,"Score: " +score);
         this.add.text(400,20, "XP: ");
@@ -219,6 +199,10 @@ Menu.Level1.prototype = {
                         this.add.text(350,300,"GAME OVER");
                         bool=false;
                         enemyWaveNr=0;
+                        life=5;
+                        coins=70;
+                        score=0;
+                        diamonds=1;
                         this.state.start("MainMenu");
                     }
                     break;

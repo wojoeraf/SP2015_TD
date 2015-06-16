@@ -17,40 +17,10 @@ Menu.Level2.prototype = {
         this.myPoint3 = new Phaser.Point(470,210);
         this.myPoint4 = new Phaser.Point(470,400);
         this.myPoint5 = new Phaser.Point(0,400);
+        this.start=new Phaser.Point(1000,400);
         //Map
         this.load.tilemap('map', 'assets/tilemaps/csv/newMap2.csv', null, Phaser.Tilemap.CSV);
         this.load.image('tiles', 'assets/tilemaps/tiles/grass-tiles-2-small.png');
-        //Enemies
-        this.load.spritesheet('player', 'assets/sprites/spaceman.png', 16, 16);
-        //Towers
-        this.load.spritesheet('tower', 'assets/sprites/block.png',32,32);
-        this.load.spritesheet('tower1', 'assets/sprites/Tower1.png');
-        this.load.spritesheet('tower2Text', 'assets/sprites/Tower22.png');
-        this.load.spritesheet('tower2', 'assets/sprites/tower2.png',32,32);
-        this.load.spritesheet('tower3', 'assets/sprites/tower3.png',32,32);
-        this.load.spritesheet('tower4', 'assets/sprites/Tower4.png',32,32);
-        this.load.spritesheet('tower4Text', 'assets/sprites/Tower4Text.png');
-        this.load.spritesheet('tower3Text', 'assets/sprites/tower3Text.png');
-        //Bullets
-        this.load.spritesheet('bullet', 'assets/sprites/bullet.png',8,8);
-        this.load.spritesheet('bullet2','assets/sprites/slime.png',14,14);
-        this.load.spritesheet('bullet3', 'assets/sprites/bullet3.png');
-        this.load.spritesheet('bullet4', 'assets/sprites/bullet4.png');
-        //Elemente obere Leiste
-        this.load.spritesheet('xpBar2', 'assets/sprites/xpBar2.png');
-        this.load.spritesheet('heart', 'assets/sprites/heart.png');
-        this.load.spritesheet('diamond','assets/sprites/diamond.png');
-        this.load.spritesheet('coin', 'assets/sprites/coin1.png');
-        //Hintergrund Popup-Menü
-        this.load.image('background','assets/sprites/background3.png');
-        this.load.image('towerInfo1','assets/sprites/towerInfos1.png');
-        this.load.image('towerInfo2','assets/sprites/towerInfos2.png');
-        this.load.image('towerInfo3','assets/sprites/towerInfo3.png');
-        this.load.image('towerInfo4','assets/sprites/towerInfo4.png');
-        this.load.image('tower1Upgrade1','assets/sprites/Upgrade1.png');
-        this.load.image('tower1Upgrade2','assets/sprites/Upgrade2.png');
-        this.load.image('tower2Upgrade1','assets/sprites/Upgrade1-2.png');
-        this.load.image('tower2Upgrade2','assets/sprites/Upgrade2-2.png');
     },
 
     create: function (game) {
@@ -64,6 +34,10 @@ Menu.Level2.prototype = {
         layer = map.createLayer(0);
         //  Resize the world
         layer.resizeWorld();
+
+
+        //Verfügbare Leben
+        life = 5;
 
         // Obere Leiste laden mit Daten wie Leben, Score und XP
         scoreText = this.add.text(730,20,"Score: " +score);
@@ -138,28 +112,13 @@ Menu.Level2.prototype = {
     boolF : function(){
 
         if(enemyWaveNr==0){
-            this.helpers.buildWave(1,5,70,5,1000,400,this);
+            this.helpers.wave1(this.start.x,this.start.y,this);
         }
         //2.Welle
         else if(enemyWaveNr==1){
-            this.helpers.buildWave(1,7,77,5,1000,400,this);
+            this.helpers.wave2(this.start.x,this.start.y,this);
         }
-        //3.Welle
-        else if (enemyWaveNr==2){
-            this.helpers.buildWave(1,8,80,7,1000,400,this);
-        }
-        else if(enemyWaveNr==3){
-            this.helpers.buildWave(1,10,86,8,1000,400,this);
-        }
-        else if(enemyWaveNr==4){
-            this.helpers.buildWave(1,10,120,10,1000,400,this);
-        }
-        else if(enemyWaveNr==5){
-            this.helpers.buildWave(1,8,100,20,1000,400,this);
-        }
-        else if(enemyWaveNr==6){
-            this.helpers.buildWave(1,20,87,12,1000,400,this);
-        }
+
     },
     //Popup-Menü öffen und je nach Button verlinken
     popUp : function(){
@@ -241,7 +200,11 @@ Menu.Level2.prototype = {
                         this.add.text(350,300,"GAME OVER");
                         bool=false;
                         enemyWaveNr=0;
-                        this.state.start("MainMenu");
+                        life=5;
+                        coins=70;
+                        score=0;
+                        diamonds=1;
+                        this.game.state.start("MainMenu");
                     }
                     break;
                 }
