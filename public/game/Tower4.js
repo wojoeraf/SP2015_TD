@@ -17,6 +17,7 @@ Tower4 = function (markerX,markerY,callback) {
     this.tower.speeed=180;
     this.tower.reach=150;
     this.tower.isUpgraded=false;
+    this.tower.isDestroyed=false;
 
 };
 
@@ -24,28 +25,38 @@ Tower4.prototype = {
     //Tower4 upgraden
     upgradeTower4: function(c){
         if(marker==null) {
-            //Schon 2 Upgrades?
-            if(c.speeed!=300) {
-                //1.Update
-                if (c.isUpgraded == false) {
-                    if ((score > 1000) && (coins >= 100)) {
-                        c.speeed = 230;
-                        c.reach = 200;
-                        c.isUpgraded = true;
-                        coins = coins - 100;
-                        coinText.destroy();
-                        coinText = this.add.text(100, 20, coins);
+            if ((this.input.mouse.button == 0)) {
+                //Schon 2 Upgrades?
+                if (c.speeed != 300) {
+                    //1.Update
+                    if (c.isUpgraded == false) {
+                        if ((score > 1000) && (coins >= 100)) {
+                            c.speeed = 230;
+                            c.reach = 200;
+                            c.isUpgraded = true;
+                            coins = coins - 100;
+                            coinText.destroy();
+                            coinText = this.add.text(100, 20, coins);
+                        }
+                    }
+                    else if (c.isUpgraded == true) {
+                        if ((score > 2000) && (coins >= 200)) {
+                            c.speeed = 300;
+                            c.reach = 230;
+                            coins = coins - 200;
+                            coinText.destroy();
+                            coinText = this.add.text(100, 20, coins);
+                        }
                     }
                 }
-                else if (c.isUpgraded == true) {
-                    if ((score > 2000) && (coins >= 200)) {
-                        c.speeed = 300;
-                        c.reach = 230;
-                        coins = coins - 200;
-                        coinText.destroy();
-                        coinText = this.add.text(100, 20, coins);
-                    }
-                }
+            }
+            else if((this.input.mouse.button == 1)){
+                popupinfoTower4U.destroy();
+                c.destroy();
+                coins = coins + c.cost;
+                coinText.destroy();
+                coinText = this.add.text(100, 20, coins);
+                c.isDestroyed=true;
             }
         }
     },
@@ -56,12 +67,8 @@ Tower4.prototype = {
                 popupinfoTower4U.destroy();
             }
 
-            if (c.isUpgraded == false) {
-                popupinfoTower4U = this.add.sprite(c.x + 40, c.y - 40, 'tower1Upgrade1');
-            }
-            else {
-                popupinfoTower4U = this.add.sprite(c.x + 40, c.y - 40, 'tower1Upgrade2');
-            }
+            popupinfoTower4U = this.add.sprite(c.x + 40, c.y - 30, 'HoverInfo');
+
             popupinfoTower4U.scale.x = 0.7;
             popupinfoTower4U.scale.y = 0.7;
             popupinfoTower4U.alpha = 0.8;

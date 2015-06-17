@@ -17,6 +17,7 @@ Tower3 = function (markerX,markerY,callback) {
     this.tower.speeed=270;
     this.tower.reach=170;
     this.tower.isUpgraded=false;
+    this.tower.isDestroyed=false;
 
 };
 
@@ -26,6 +27,7 @@ Tower3.prototype={
     //Tower3 upgraden
     upgradeTower3: function(c){
         if(marker==null) {
+            if ((this.input.mouse.button == 0)) {
             //Schon 2 Upgrades?
             if(c.speeed!=400) {
                 //1.Update
@@ -49,6 +51,15 @@ Tower3.prototype={
                     }
                 }
             }
+            }
+            else if((this.input.mouse.button == 1)){
+                popupinfoTower3U.destroy();
+                c.destroy();
+                coins = coins + c.cost;
+                coinText.destroy();
+                coinText = this.add.text(100, 20, coins);
+                c.isDestroyed=true;
+            }
         }
     },
     //Tower3 Upgrade Infos
@@ -58,12 +69,8 @@ Tower3.prototype={
                 popupinfoTower3U.destroy();
             }
 
-            if (c.isUpgraded == false) {
-                popupinfoTower3U = this.add.sprite(c.x + 40, c.y - 40, 'tower2Upgrade1');
-            }
-            else {
-                popupinfoTower3U = this.add.sprite(c.x + 40, c.y - 40, 'tower2Upgrade2');
-            }
+            popupinfoTower3U = this.add.sprite(c.x + 40, c.y - 30, 'HoverInfo');
+
             popupinfoTower3U.scale.x = 0.7;
             popupinfoTower3U.scale.y = 0.7;
             popupinfoTower3U.alpha = 0.8;
