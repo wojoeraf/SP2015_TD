@@ -14,8 +14,8 @@ Tower3 = function (markerX,markerY,callback) {
     this.tower.y=marker.y;
     this.tower.typ = 2;
     this.tower.cost = 70;
-    this.tower.speeed=150;
-    this.tower.reach=150;
+    this.tower.speeed=270;
+    this.tower.reach=170;
     this.tower.isUpgraded=false;
 
 };
@@ -27,12 +27,12 @@ Tower3.prototype={
     upgradeTower3: function(c){
         if(marker==null) {
             //Schon 2 Upgrades?
-            if(c.speeed!=220) {
+            if(c.speeed!=400) {
                 //1.Update
                 if (c.isUpgraded == false) {
                     if ((score > 3000) && (coins >= 300)) {
-                        c.speeed = 180;
-                        c.reach = 200;
+                        c.speeed = 320;
+                        c.reach = 220;
                         c.isUpgraded = true;
                         coins = coins - 300;
                         coinText.destroy();
@@ -41,8 +41,8 @@ Tower3.prototype={
                 }
                 else if (c.isUpgraded == true) {
                     if ((score > 4000) && (coins >= 400)) {
-                        c.speeed = 225;
-                        c.reach = 240;
+                        c.speeed = 400;
+                        c.reach = 270;
                         coins = coins - 400;
                         coinText.destroy();
                         coinText = this.add.text(100, 20, coins);

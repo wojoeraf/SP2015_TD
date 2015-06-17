@@ -19,6 +19,7 @@ Menu.Level1.prototype = {
         this.myPoint3 = new Phaser.Point(300,400);
         this.myPoint4 = new Phaser.Point(300,150);
         this.myPoint5 = new Phaser.Point(0,150);
+        this.start = new Phaser.Point(1000,190);
         //Map
         this.load.tilemap('map', 'assets/tilemaps/csv/newMap.csv', null, Phaser.Tilemap.CSV);
         this.load.image('tiles', 'assets/tilemaps/tiles/grass-tiles-2-small.png');
@@ -94,28 +95,19 @@ Menu.Level1.prototype = {
     //Je nach Welle -> Sprites hinzufügen (Aufruf von buildWave(EnemyTyp,Anzahl,Speed,Lifes)
     boolF : function(){
 
+
         if(enemyWaveNr==0){
-            this.helpers.buildWave(1,3,60,5,1000,190,this);
+            this.helpers.wave1(this.start.x,this.start.y,this);
         }
         //2.Welle
         else if(enemyWaveNr==1){
-            this.helpers.buildWave(1,5,70,5,1000,190,this);
+           this.helpers.wave2(this.start.x,this.start.y,this);
         }
-        //3.Welle
-        else if (enemyWaveNr==2){
-            this.helpers.buildWave(1,8,80,7,1000,190,this);
+        else if(enemyWaveNr==2){
+            this.helpers.wave3(this.start.x,this.start.y,this);
         }
         else if(enemyWaveNr==3){
-            this.helpers.buildWave(1,11,80,8,1000,190,this);
-        }
-        else if(enemyWaveNr==4){
-            this.helpers.buildWave(1,11,110,10,1000,190,this);
-        }
-        else if(enemyWaveNr==5){
-            this.helpers.buildWave(1,8,100,20,1000,190,this);
-        }
-        else if(enemyWaveNr==6){
-            this.helpers.buildWave(1,100,80,10,1000,190,this);
+            this.helpers.wave3(this.start.x,this.start.y,this);
         }
     },
     //Popup-Menü öffen und je nach Button verlinken
@@ -193,6 +185,11 @@ Menu.Level1.prototype = {
                         life = life-1;
                         heartText.destroy();
                         heartText = this.add.text(290,20,life);
+                        if(coins-10>=0) {
+                            coins = coins - 10;
+                            coinText.destroy();
+                            coinText = this.add.text(100, 20, coins);
+                        }
                     }
 
                     if(life==0){

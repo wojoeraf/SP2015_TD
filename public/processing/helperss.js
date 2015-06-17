@@ -13,16 +13,23 @@ Helpers.Menu = function () {
 Helpers.Menu.prototype = {
 
     wave1: function(xPoint,yPoint,callback){
-        //EnemiesGesamt = 10 Stück
-        enemyNumber=10;
+        //EnemiesGesamt = 6 Stück
+        enemyNumber=6;
         new Wave1(xPoint,yPoint,callback);
         bool = true;
 
     },
     wave2: function(xPoint,yPoint,callback){
-        //EnemiesGesamt = 14 Stück
-        enemyNumber=14;
+        //EnemiesGesamt = 10 Stück
+        enemyNumber=10;
         new Wave2(xPoint,yPoint,callback);
+        bool = true;
+
+    },
+    wave3: function(xPoint,yPoint,callback){
+        //EnemiesGesamt = 14 Stück
+        enemyNumber=10;
+        new Wave3(xPoint,yPoint,callback);
         bool = true;
 
     },
@@ -289,16 +296,6 @@ Helpers.Menu.prototype = {
                             }
                             callback.physics.arcade.moveToObject(bullet, spriteArray[j], speeed);
                             var col = callback.physics.arcade.collide(bullet,spriteArray[j]);
-
-                            if(this.b==true){
-                                for (var yy = 0; yy <this.xx.length; yy++) {
-                                    if(this.xx[yy]!=0) {
-                                        //  console.log("LOL");
-                                        this.xx[yy].destroy();
-                                    }
-                                    this.b=false;
-                                }
-                            }
                             if(col==true){
                                 //TOWER3 = CHAIN
                                 if(towers[i].typ==2) {
@@ -335,7 +332,7 @@ Helpers.Menu.prototype = {
                                     }
                                     for (var y = 0; y < spriteArray.length; y++) {
                                         if (spriteArray[y] != null) {
-                                            this.xx[y] = callback.add.sprite(spriteArray[y].x, spriteArray[y].y - 20, 'bullet3');
+                                            //this.xx[y] = callback.add.sprite(spriteArray[y].x, spriteArray[y].y - 20, 'bullet3');
                                             spriteArray[y].life = spriteArray[y].life - 0.33;
                                             if (healthBars[y] != 0) {
                                                 if (healthBars[y] != null) {
