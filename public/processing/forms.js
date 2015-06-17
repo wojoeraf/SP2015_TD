@@ -9,6 +9,15 @@
 
 FormProcessing = function () {
     this.helper = new Helper.Html();
+
+    // username regex
+    var regexUsername = /[A_Za-z0-9_]/g;
+
+    // extend validator
+    validator.extend('isUsername', function(str) {
+        var bool = regexUsername.test(str);
+        return str.length >= 20 ? false : bool;
+    });
 };
 
 FormProcessing.prototype = {
@@ -82,6 +91,26 @@ FormProcessing.prototype = {
      */
     hideCaptcha: function () {
         this.helper.hideElement("#captcha_container");
+    },
+
+    validate: function (username, email, password, confirm) {
+        var ret = {success: true, message: ''};
+        if (username !== undefined && !validator.isUsername(username)) {
+            ret.success = false;
+            ret.message = 'Username contains illegal characters. (Use only letters, numbers and underscores.)';
+            return ret;
+        }
+        if (email !== undefined && !validator.isEmail(email)) {
+            ret.success = false;
+            ret.message = 'Illegal email address.';
+            return ret;
+        }
+        if (password !== confirm) {
+            ret.success = false;
+            ret.message = 'Your password confirmation fails. Check again.';
+            return ret;
+        }
+        return ret
     }
 
 

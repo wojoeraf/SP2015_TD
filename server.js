@@ -38,7 +38,29 @@ app.post('/login', function (req, res, next) {
             res.status(500).json(error);
         }
         if (!user) {
-            res.status(401).res.json(info.message);
+            res.status(401).json(info.message);
+        }
+        req.logIn(user, function (err) {
+            if (err) {
+                console.log('something wrong2!');
+            }
+            return res.json(user);
+        });
+    })(req, res, next);
+});
+
+app.post('/signup', function (req, res, next) {
+    passport.authenticate('local-signup', function (err, user, info) {
+        console.log(info);
+        console.log('user is ' + typeof user + ' and has value: ' + user);
+        if (user === false) {
+            res.status(500).json({message: 'Failed to register user.'});
+        }
+        if (err) {
+            res.status(500).json({message: err});
+        }
+        if (!user) {
+            res.status(401).json({message: 'Failed to register user...'});
         }
         req.logIn(user, function (err) {
             if (err) {

@@ -13,6 +13,7 @@
 
     <script src="libs/phaser.js"></script>
     <script src="external/jquery-1.11.3.min.js"></script>
+    <script src="libs/validator.min.js"></script>
     <script src="libs/phaser_pathfinding-0.2.0.js"></script>
     <script src="external/easystar-0.2.0.min.js"></script>
     <script src="game/Player.js"></script>
@@ -76,13 +77,14 @@
             <p>Enter your data:</p>
 
             <div class="pure-form pure-form-stacked innerForm">
-                <form method="POST" action="">
+                <form method="POST" action="/signup">
                     <input type="text" name="registerUsername" placeholder="Username">
                     <input type="text" name="registerEmail" placeholder="Email">
                     <input type="password" name="registerPassword" placeholder="Password">
                     <input type="password" name="registerConfirmPassword" placeholder="Confirm Password">
                 </form>
             </div>
+            <p class="resp"></p>
         </div>
 
         <div id="forgotPasswordArea" class="invisible formBody">
