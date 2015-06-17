@@ -170,10 +170,12 @@ Menu.Boot.prototype = {
         this.load.image('towerInfo2','assets/sprites/towerInfos2.png');
         this.load.image('towerInfo3','assets/sprites/towerInfo3.png');
         this.load.image('towerInfo4','assets/sprites/towerInfo4.png');
-        this.load.image('tower1Upgrade1','assets/sprites/Upgrade1.png');
+        this.load.image('tower1Upgrade1','assets/sprites/UpgradeInfo.png');
         this.load.image('tower1Upgrade2','assets/sprites/Upgrade2.png');
         this.load.image('tower2Upgrade1','assets/sprites/Upgrade1-2.png');
         this.load.image('tower2Upgrade2','assets/sprites/Upgrade2-2.png');
+
+        this.load.image('HoverInfo','assets/sprites/HoverTowers.png');
 
         //Enemies
         this.load.spritesheet('player', 'assets/sprites/spaceman.png', 16, 16);

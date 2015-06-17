@@ -40,6 +40,7 @@
     <script src="game/Enemy2.js"></script>
     <script src="game/Wave1.js"></script>
     <script src="game/Wave2.js"></script>
+    <script src="game/Wave3.js"></script>
     <script src="game/Tower1.js"></script>
     <script src="game/Tower2.js"></script>
     <script src="game/Tower3.js"></script>
@@ -130,6 +131,7 @@
     </div>
 </div>
 
+
 <script type='text/javascript'>
     var captchaContainer = null;
     var loadCaptcha = function () {
@@ -137,12 +139,23 @@
             'sitekey': '6LeBSwgTAAAAAMOYTY-lEdVzRMnmvPIVLNSj75b8',
             'callback': function (response) {
                 console.log(response);
+
+                $.ajax({
+                    method: 'post',
+                    url: '/verify',
+                    dataType: "text",
+                    data: response
+                }).always(function (data, status, err) {
+                    console.log(status);
+                    console.log(err);
+                });
+
             }
         });
     };
 </script>
 
-<form id="captchaForm" action="http://www.codedodle.comxa.com/demos/recaptcha/submit.php" method="POST">
+<form id="captchaForm" action="/verify" method="POST">
     <div id="captcha_container" class="invisible"></div>
 </form>
 
@@ -168,7 +181,7 @@
         game.state.add('LevelSelector', Menu.LevelSelector);
         game.state.add('Level1', Menu.Level1);
         game.state.add('Level2', Menu.Level2);
-        
+
         //Start game with boot state
         game.state.start('Boot');
 

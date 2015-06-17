@@ -5,16 +5,16 @@
 Wave2 = function (xPoint,yPoint,callback) {
 
 
-    //Enemies1 = 6 Stück
-    for(var i=0;i<6;i++){
+    //Enemies1 = 5 Stück
+    for(var i=0;i<5;i++){
         var enemy = new Enemy1(xPoint+25*i,yPoint,callback);
         sprites[i] = enemy.enemy;
         healthBars[i] = enemy.healthbar;
         array[i]=0;
     }
 
-    //Enemies2 = 8 Stück
-    for(var j=6;j<14;j++){
+    //Enemies2 = 5 Stück
+    for(var j=5;j<10;j++){
         var enemy2 = new Enemy2(xPoint+25*j,yPoint,callback);
         sprites[j] = enemy2.enemy;
         healthBars[j] = enemy2.healthbar;

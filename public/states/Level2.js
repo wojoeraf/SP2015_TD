@@ -45,6 +45,7 @@ Menu.Level2.prototype = {
         xpBar =  this.add.image(470, 30, 'xpBar2');
         xpBar.scale.set(0.2);
         xpBar.scale.x=0.0;
+        coins=70;
         coin = this.add.image(60,22,'coin',1);
         coin.scale.set(0.9);
         coinText=this.add.text(100,20,coins);
@@ -117,6 +118,9 @@ Menu.Level2.prototype = {
         //2.Welle
         else if(enemyWaveNr==1){
             this.helpers.wave2(this.start.x,this.start.y,this);
+        }
+        else if(enemyWaveNr==2){
+            this.helpers.wave3(this.start.x,this.start.y,this);
         }
 
     },
@@ -194,6 +198,11 @@ Menu.Level2.prototype = {
                         life = life-1;
                         heartText.destroy();
                         heartText = this.add.text(290,20,life);
+                        if(coins-10>=0) {
+                            coins = coins - 10;
+                            coinText.destroy();
+                            coinText = this.add.text(100, 20, coins);
+                        }
                     }
 
                     if(life==0){

@@ -13,16 +13,23 @@ Helpers.Menu = function () {
 Helpers.Menu.prototype = {
 
     wave1: function(xPoint,yPoint,callback){
-        //EnemiesGesamt = 10 Stück
-        enemyNumber=10;
+        //EnemiesGesamt = 6 Stück
+        enemyNumber=6;
         new Wave1(xPoint,yPoint,callback);
         bool = true;
 
     },
     wave2: function(xPoint,yPoint,callback){
-        //EnemiesGesamt = 14 Stück
-        enemyNumber=14;
+        //EnemiesGesamt = 10 Stück
+        enemyNumber=10;
         new Wave2(xPoint,yPoint,callback);
+        bool = true;
+
+    },
+    wave3: function(xPoint,yPoint,callback){
+        //EnemiesGesamt = 14 Stück
+        enemyNumber=10;
+        new Wave3(xPoint,yPoint,callback);
         bool = true;
 
     },
@@ -114,10 +121,12 @@ Helpers.Menu.prototype = {
 
                             //Tower auf Tower platzieren nicht möglich machen
                             for(var k=0;k<towerC;k++){
-                                if((marker.x+32>towers[k].x)&&(marker.x<towers[k].x+32)&&((marker.y+32>towers[k].y)&&(marker.y<towers[k].y+32))){
+                                if(towers[k].isDestroyed==false){
+                                if((marker.x+32>towers[k].x)&&(marker.x<towers[k].x+32)&&((marker.y+32>towers[k].y)&&(marker.y<towers[k].y+32))) {
                                     marker.lineStyle(2, 0xff0000, 1);
                                     marker.drawRect(0, 0, 32, 32);
-                                    c=true;
+                                    c = true;
+                                }
                                 }
                             }
 
@@ -271,128 +280,175 @@ Helpers.Menu.prototype = {
     checkColl : function(spriteArray,counterArray,callback){
         if(bool==true){
             for(var l=0;l<towerC;l++){
-                for(var k=0;k<spriteArray.length;k++){
-                    var i = towerC-l-1;
-                    var j = spriteArray.length-k-1;
-                    if(array[j]!=5){
-                        var speeed = towers[i].speeed;
-                        var reach = towers[i].reach;
-                        var lifeVar = spriteArray[j].beginLife;
-                        if(callback.physics.arcade.distanceBetween(towers[i], spriteArray[j]) < reach){
-                            callback.physics.enable(bullets[i], Phaser.Physics.ARCADE);
-                            callback.physics.enable(bullets[i],spriteArray[j] );
-                            bullets[i].visible=true;
-                            var bullet = bullets[i];
-                            if(counterArray[j]==0){
-                                bullet.reset(towers[i].x, towers[i].y);
-                                counterArray[j] =1;
-                            }
-                            callback.physics.arcade.moveToObject(bullet, spriteArray[j], speeed);
-                            var col = callback.physics.arcade.collide(bullet,spriteArray[j]);
+                //SpriteArray neu ordnen -> Wer ist erster?
+                for(var a=0;a<spriteArray.length;a++){
+                    var z = spriteArray.length-a-1;
+                    if((spriteArray[z]!=null)){
+                       for(var b=1;b<spriteArray.length;b++) {
+                           var zz = spriteArray.length-b-1;
+                           if(spriteArray[zz]!=null) {
+                               if (spriteArray[z].x > (spriteArray[zz].x+20)) {
+                                   var n = spriteArray[zz];
+                                   var arr= array[zz];
+                                   spriteArray[zz] = spriteArray[z];
+                                   array[zz] = array[z];
+                                   spriteArray[z] = n;
+                                   array[z] = arr;
+                               }
+                           }
+                       }
+                   }
+                }
+                for(var k=0;k<spriteArray.length;k++) {
+                    var i = towerC - l - 1;
+                    var j = spriteArray.length - k - 1;
 
-                            if(this.b==true){
-                                for (var yy = 0; yy <this.xx.length; yy++) {
-                                    if(this.xx[yy]!=0) {
-                                        //  console.log("LOL");
-                                        this.xx[yy].destroy();
-                                    }
-                                    this.b=false;
-                                }
-                            }
-                            if(col==true){
-                                //TOWER3 = CHAIN
-                                if(towers[i].typ==2) {
-                                    spriteArray[j].body.bounce.set(-1.25);
-                                    counterArray[j] = 0;
-                                    if(diamondAction==false) {
-                                        spriteArray[j].life = spriteArray[j].life - 0.33;
-                                    }
-                                    else{
-                                        spriteArray[j].life = spriteArray[j].life - 0.7;
-                                    }
+                    if (towers[i].isDestroyed == false) {
+                        if (array[j] != 5) {
+                            var speeed = towers[i].speeed;
+                            var reach = towers[i].reach;
+                            var lifeVar = spriteArray[j].beginLife;
+                            if (callback.physics.arcade.distanceBetween(towers[i], spriteArray[j]) < reach) {
+                                callback.physics.enable(bullets[i], Phaser.Physics.ARCADE);
+                                callback.physics.enable(bullets[i], spriteArray[j]);
+                                bullets[i].visible = true;
+                                var bullet = bullets[i];
+                                if (counterArray[j] == 0) {
                                     bullet.reset(towers[i].x, towers[i].y);
-                                    bullet.visible = false;
-                                    healthBars[j].scale.x = 0.033 * (spriteArray[j].life / lifeVar);
-                                    if (spriteArray[j].life <= 0) {
-                                        spriteArray[j].visible = false;
-                                        spriteArray[j].destroy();
-                                        spriteArray[j] = null;
-                                        coins = coins + 10;
-                                        coinText.destroy();
-                                        coinText = callback.add.text(100, 20, coins);
-                                        score = score + 100;
-                                        scoreText.destroy();
-                                        scoreText = callback.add.text(730, 20, "Score: " + score);
-                                        xpBar.scale.x = xpBar.scale.x + 0.01;
-                                        if (xpBar.scale.x > 0.34) {
-                                            xpBar.scale.set(0.2);
-                                            xpBar.scale.x = 0.0;
+                                    counterArray[j] = 1;
+                                }
+                                callback.physics.arcade.moveToObject(bullet, spriteArray[j], speeed);
+                                var col = callback.physics.arcade.collide(bullet, spriteArray[j]);
+                                if (col == true) {
+                                    //TOWER3 = CHAIN
+                                    if (towers[i].typ == 2) {
+                                        spriteArray[j].body.bounce.set(-1.25);
+                                        counterArray[j] = 0;
+                                        if (diamondAction == false) {
+                                            spriteArray[j].life = spriteArray[j].life - 0.33;
                                         }
-                                        array[j] = 5;
+                                        else {
+                                            spriteArray[j].life = spriteArray[j].life - 0.7;
+                                        }
                                         bullet.reset(towers[i].x, towers[i].y);
                                         bullet.visible = false;
-                                        healthBars[j].destroy();
-                                    }
-                                    for (var y = 0; y < spriteArray.length; y++) {
-                                        if (spriteArray[y] != null) {
-                                            this.xx[y] = callback.add.sprite(spriteArray[y].x, spriteArray[y].y - 20, 'bullet3');
-                                            spriteArray[y].life = spriteArray[y].life - 0.33;
-                                            if (healthBars[y] != 0) {
-                                                if (healthBars[y] != null) {
-                                                    healthBars[y].scale.x = 0.033 * (spriteArray[y].life / lifeVar);
-                                                    if(spriteArray[y].life<=0){
-                                                        spriteArray[y].destroy();
-                                                        spriteArray[y]=null;
-                                                        array[y]=5;
-                                                        coins = coins + 10;
-                                                        coinText.destroy();
-                                                        coinText = callback.add.text(100, 20, coins);
-                                                        score = score + 100;
-                                                        scoreText.destroy();
-                                                        scoreText = callback.add.text(730, 20, "Score: " + score);
+                                        healthBars[j].scale.x = 0.033 * (spriteArray[j].life / lifeVar);
+                                        if (spriteArray[j].life <= 0) {
+                                            spriteArray[j].visible = false;
+                                            spriteArray[j].destroy();
+                                            spriteArray[j] = null;
+                                            coins = coins + 10;
+                                            coinText.destroy();
+                                            coinText = callback.add.text(100, 20, coins);
+                                            score = score + 100;
+                                            scoreText.destroy();
+                                            scoreText = callback.add.text(730, 20, "Score: " + score);
+                                            xpBar.scale.x = xpBar.scale.x + 0.01;
+                                            if (xpBar.scale.x > 0.34) {
+                                                xpBar.scale.set(0.2);
+                                                xpBar.scale.x = 0.0;
+                                            }
+                                            array[j] = 5;
+                                            bullet.reset(towers[i].x, towers[i].y);
+                                            bullet.visible = false;
+                                            healthBars[j].destroy();
+                                        }
+                                        for (var y = 0; y < spriteArray.length; y++) {
+                                            if (spriteArray[y] != null) {
+                                                //this.xx[y] = callback.add.sprite(spriteArray[y].x, spriteArray[y].y - 20, 'bullet3');
+                                                spriteArray[y].life = spriteArray[y].life - 0.33;
+                                                if (healthBars[y] != 0) {
+                                                    if (healthBars[y] != null) {
+                                                        healthBars[y].scale.x = 0.033 * (spriteArray[y].life / lifeVar);
+                                                        if (spriteArray[y].life <= 0) {
+                                                            spriteArray[y].destroy();
+                                                            spriteArray[y] = null;
+                                                            array[y] = 5;
+                                                            coins = coins + 10;
+                                                            coinText.destroy();
+                                                            coinText = callback.add.text(100, 20, coins);
+                                                            score = score + 100;
+                                                            scoreText.destroy();
+                                                            scoreText = callback.add.text(730, 20, "Score: " + score);
+                                                        }
                                                     }
                                                 }
                                             }
+                                            this.b = true;
                                         }
-                                        this.b = true;
-                                    }
 
-                                }
-                                //TOWER4 = SLOW
-                                else if (towers[i].typ==3){
-                                    //Enemies werden nicht mehr so weit abgedrängt bei einer Collision
-                                    spriteArray[j].body.bounce.set(-1.25);
-                                    counterArray[j]=0;
-                                    if(diamondAction==false) {
-                                        spriteArray[j].speed = spriteArray[j].speed - 7.5;
                                     }
-                                    else{
-                                        spriteArray[j].speed = spriteArray[j].speed - 15;
-                                    }
-                                    bullet.reset(towers[i].x, towers[i].y);
-                                    bullet.visible=false;
-                                    healthBars[j].scale.x=0.033*(spriteArray[j].life/lifeVar);
-                                    if(spriteArray[j].speed<=0){
-                                        spriteArray[j].visible=false;
-                                        spriteArray[j].destroy();
-                                        spriteArray[j]=null;
-                                        coins = coins + 10;
-                                        coinText.destroy();
-                                        coinText = callback.add.text(100,20,coins);
-                                        score = score + 100;
-                                        scoreText.destroy();
-                                        scoreText = callback.add.text(730,20,"Score: " +score);
-                                        xpBar.scale.x=xpBar.scale.x+0.01;
-                                        if(xpBar.scale.x>0.34){
-                                            xpBar.scale.set(0.2);
-                                            xpBar.scale.x=0.0;
+                                    //TOWER4 = SLOW
+                                    else if (towers[i].typ == 3) {
+                                        //Enemies werden nicht mehr so weit abgedrängt bei einer Collision
+                                        spriteArray[j].body.bounce.set(-1.25);
+                                        counterArray[j] = 0;
+                                        if (diamondAction == false) {
+                                            spriteArray[j].speed = spriteArray[j].speed - 7.5;
                                         }
-                                        array[j]=5;
+                                        else {
+                                            spriteArray[j].speed = spriteArray[j].speed - 15;
+                                        }
                                         bullet.reset(towers[i].x, towers[i].y);
-                                        bullet.visible=false;
-                                        healthBars[j].destroy();
+                                        bullet.visible = false;
+                                        healthBars[j].scale.x = 0.033 * (spriteArray[j].life / lifeVar);
+                                        if (spriteArray[j].speed <= 0) {
+                                            spriteArray[j].visible = false;
+                                            spriteArray[j].destroy();
+                                            spriteArray[j] = null;
+                                            coins = coins + 10;
+                                            coinText.destroy();
+                                            coinText = callback.add.text(100, 20, coins);
+                                            score = score + 100;
+                                            scoreText.destroy();
+                                            scoreText = callback.add.text(730, 20, "Score: " + score);
+                                            xpBar.scale.x = xpBar.scale.x + 0.01;
+                                            if (xpBar.scale.x > 0.34) {
+                                                xpBar.scale.set(0.2);
+                                                xpBar.scale.x = 0.0;
+                                            }
+                                            array[j] = 5;
+                                            bullet.reset(towers[i].x, towers[i].y);
+                                            bullet.visible = false;
+                                            healthBars[j].destroy();
+                                        }
+                                        if (spriteArray[j] != null) {
+                                            if (spriteArray[j].life <= 0) {
+                                                spriteArray[j].visible = false;
+                                                spriteArray[j].destroy();
+                                                spriteArray[j] = null;
+                                                coins = coins + 10;
+                                                coinText.destroy();
+                                                coinText = callback.add.text(100, 20, coins);
+                                                score = score + 100;
+                                                scoreText.destroy();
+                                                scoreText = callback.add.text(730, 20, "Score: " + score);
+                                                xpBar.scale.x = xpBar.scale.x + 0.01;
+                                                if (xpBar.scale.x > 0.34) {
+                                                    xpBar.scale.set(0.2);
+                                                    xpBar.scale.x = 0.0;
+                                                }
+                                                array[j] = 5;
+                                                bullet.reset(towers[i].x, towers[i].y);
+                                                bullet.visible = false;
+                                                healthBars[j].destroy();
+                                            }
+                                        }
                                     }
-                                    if(spriteArray[j]!=null) {
+                                    //TOWER 1 und 2 = NORMAL
+                                    else {
+                                        //Enemies werden nicht mehr so weit abgedrängt bei einer Collision
+                                        spriteArray[j].body.bounce.set(-1.25);
+                                        counterArray[j] = 0;
+                                        if (diamondAction == false) {
+                                            spriteArray[j].life = spriteArray[j].life - 1;
+                                        }
+                                        else {
+                                            spriteArray[j].life = spriteArray[j].life - 2;
+                                        }
+                                        bullet.reset(towers[i].x, towers[i].y);
+                                        bullet.visible = false;
+                                        healthBars[j].scale.x = 0.033 * (spriteArray[j].life / lifeVar);
                                         if (spriteArray[j].life <= 0) {
                                             spriteArray[j].visible = false;
                                             spriteArray[j].destroy();
@@ -414,47 +470,13 @@ Helpers.Menu.prototype = {
                                             healthBars[j].destroy();
                                         }
                                     }
-                                }
-                                //TOWER 1 und 2 = NORMAL
-                                else{
-                                    //Enemies werden nicht mehr so weit abgedrängt bei einer Collision
-                                    spriteArray[j].body.bounce.set(-1.25);
-                                    counterArray[j]=0;
-                                    if(diamondAction==false) {
-                                        spriteArray[j].life = spriteArray[j].life - 1;
-                                    }
-                                    else{
-                                        spriteArray[j].life = spriteArray[j].life - 2;
-                                    }
-                                    bullet.reset(towers[i].x, towers[i].y);
-                                    bullet.visible=false;
-                                    healthBars[j].scale.x=0.033*(spriteArray[j].life/lifeVar);
-                                    if(spriteArray[j].life<=0){
-                                        spriteArray[j].visible=false;
-                                        spriteArray[j].destroy();
-                                        spriteArray[j]=null;
-                                        coins = coins + 10;
-                                        coinText.destroy();
-                                        coinText = callback.add.text(100,20,coins);
-                                        score = score + 100;
-                                        scoreText.destroy();
-                                        scoreText = callback.add.text(730,20,"Score: " +score);
-                                        xpBar.scale.x=xpBar.scale.x+0.01;
-                                        if(xpBar.scale.x>0.34){
-                                            xpBar.scale.set(0.2);
-                                            xpBar.scale.x=0.0;
-                                        }
-                                        array[j]=5;
-                                        bullet.reset(towers[i].x, towers[i].y);
-                                        bullet.visible=false;
-                                        healthBars[j].destroy();
-                                    }
-                                }
 
+                                }
                             }
                         }
                     }
                 }
+
             }
 
         }

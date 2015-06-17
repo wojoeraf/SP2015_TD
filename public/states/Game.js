@@ -34,7 +34,7 @@ Menu.Game.prototype = {
     preload: function(){
 
         //this.state.start("Level1");
-        this.state.start('Level2');
+         this.state.start('Level2');
 
 
 

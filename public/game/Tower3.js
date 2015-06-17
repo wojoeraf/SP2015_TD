@@ -14,9 +14,10 @@ Tower3 = function (markerX,markerY,callback) {
     this.tower.y=marker.y;
     this.tower.typ = 2;
     this.tower.cost = 70;
-    this.tower.speeed=150;
-    this.tower.reach=150;
+    this.tower.speeed=270;
+    this.tower.reach=170;
     this.tower.isUpgraded=false;
+    this.tower.isDestroyed=false;
 
 };
 
@@ -26,13 +27,14 @@ Tower3.prototype={
     //Tower3 upgraden
     upgradeTower3: function(c){
         if(marker==null) {
+            if ((this.input.mouse.button == 0)) {
             //Schon 2 Upgrades?
-            if(c.speeed!=220) {
+            if(c.speeed!=400) {
                 //1.Update
                 if (c.isUpgraded == false) {
                     if ((score > 3000) && (coins >= 300)) {
-                        c.speeed = 180;
-                        c.reach = 200;
+                        c.speeed = 320;
+                        c.reach = 220;
                         c.isUpgraded = true;
                         coins = coins - 300;
                         coinText.destroy();
@@ -41,13 +43,22 @@ Tower3.prototype={
                 }
                 else if (c.isUpgraded == true) {
                     if ((score > 4000) && (coins >= 400)) {
-                        c.speeed = 225;
-                        c.reach = 240;
+                        c.speeed = 400;
+                        c.reach = 270;
                         coins = coins - 400;
                         coinText.destroy();
                         coinText = this.add.text(100, 20, coins);
                     }
                 }
+            }
+            }
+            else if((this.input.mouse.button == 1)){
+                popupinfoTower3U.destroy();
+                c.destroy();
+                coins = coins + c.cost;
+                coinText.destroy();
+                coinText = this.add.text(100, 20, coins);
+                c.isDestroyed=true;
             }
         }
     },
@@ -58,12 +69,8 @@ Tower3.prototype={
                 popupinfoTower3U.destroy();
             }
 
-            if (c.isUpgraded == false) {
-                popupinfoTower3U = this.add.sprite(c.x + 40, c.y - 40, 'tower2Upgrade1');
-            }
-            else {
-                popupinfoTower3U = this.add.sprite(c.x + 40, c.y - 40, 'tower2Upgrade2');
-            }
+            popupinfoTower3U = this.add.sprite(c.x + 40, c.y - 30, 'HoverInfo');
+
             popupinfoTower3U.scale.x = 0.7;
             popupinfoTower3U.scale.y = 0.7;
             popupinfoTower3U.alpha = 0.8;

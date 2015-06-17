@@ -5,8 +5,8 @@
 Wave1 = function (xPoint,yPoint,callback) {
 
 
-    //Enemies1 = 10 Stück
-    var enemy1Number=10;
+    //Enemies1 = 6 Stück
+    var enemy1Number=6;
     for(var i=0;i<enemy1Number;i++){
         var enemy = new Enemy1(xPoint+25*i,yPoint,callback);
         sprites[i] = enemy.enemy;

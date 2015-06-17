@@ -7,6 +7,10 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var dbConfig = require('./db');
 var mongoose = require('mongoose');
+var https = require('https');
+
+var fs = require('fs');
+var path = require('path');
 
 var app = express();
 
@@ -31,6 +35,7 @@ var initPassport = require('./auth/userAuth');
 initPassport(passport);
 
 app.post('/login', function (req, res, next) {
+
     passport.authenticate('local-login', function (err, user, info) {
         console.log(info);
         console.log(typeof user);
@@ -69,11 +74,68 @@ app.post('/signup', function (req, res, next) {
             return res.json(user);
         });
     })(req, res, next);
+
 });
 
+app.post('/verify', function (req, res, next) {
+    //extracts the response from the google api from the recieved JSON Object
+    var out = JSON.stringify(req.body);
+    var response = "";
+    for (var i = 2; i < out.length - 5; i++) {
+        response = response + out[i];
+    }
+    //console.log("built string: " + response);
 
-/*app.get('/search', function(req, res){
- res.send({ hello : 'world' });
- });*/
+    //Method to verify the response
+    verifyRecaptcha(response, captchaCallback);
+
+});
+
+function verifyRecaptcha(key, callback) {
+
+    var filePath = path.join(__dirname, 'config.txt');
+    var SECRET = "toast";
+    //Initialize the stuff to read the secret from the config
+    fs.readFile(filePath, 'utf8', function (err, data) {
+        if (err) {
+            return console.log(err);
+        }
+        //split the config line by line to be able to extract the desired info
+        var config = data.split('#');
+
+        //secret gets parsed
+        SECRET = config[1].substring(0);
+        //console.log("secret: " + SECRET);
+
+        https.get("https://www.google.com/recaptcha/api/siteverify?secret=" + SECRET + "&response=" + key, function (res) {
+            var data = "" +
+                "";
+            res.on('data', function (chunk) {
+                data += chunk.toString();
+            });
+            res.on('end', function () {
+                try {
+                    var parsedData = JSON.parse(data);
+                    console.log(parsedData);
+                    callback(parsedData.success);
+                } catch (e) {
+                    callback(false);
+                }
+            });
+        });
+
+    });
+
+
+};
+
+function getSecret() {
+
+}
+
+function captchaCallback(value) {
+    //dostuff
+    //console.log("callback called. argument: " + value);
+}
 
 app.listen(3012);
