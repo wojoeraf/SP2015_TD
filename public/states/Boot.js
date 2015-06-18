@@ -170,11 +170,27 @@ Menu.Boot.prototype = {
         this.load.image('towerInfo2','assets/sprites/towerInfos2.png');
         this.load.image('towerInfo3','assets/sprites/towerInfo3.png');
         this.load.image('towerInfo4','assets/sprites/towerInfo4.png');
-        this.load.image('tower1Upgrade1','assets/sprites/UpgradeInfo.png');
-        this.load.image('tower1Upgrade2','assets/sprites/Upgrade2.png');
-        this.load.image('tower2Upgrade1','assets/sprites/Upgrade1-2.png');
-        this.load.image('tower2Upgrade2','assets/sprites/Upgrade2-2.png');
-
+        //Tower1UpgradeInfos
+        this.load.image('tower1Upgrade1','assets/sprites/UpgradeInfoT1.png');
+        this.load.image('tower1Upgrade2','assets/sprites/UpgradeInfoT1-2.png');
+        this.load.image('tower1Upgrade1F','assets/sprites/UpgradeInfoT1F.png');
+        this.load.image('tower1Upgrade2F','assets/sprites/UpgradeInfoT1-2-F.png');
+        //Tower2UpgradeInfos
+        this.load.image('tower2Upgrade1','assets/sprites/UpgradeInfoT2.png');
+        this.load.image('tower2Upgrade2','assets/sprites/UpgradeInfoT2-2.png');
+        this.load.image('tower2Upgrade1F','assets/sprites/UpgradeInfoT2F.png');
+        this.load.image('tower2Upgrade2F','assets/sprites/UpgradeInfoT2-2-F.png');
+        //Tower3UpgradeInfos
+        this.load.image('tower3Upgrade1','assets/sprites/UpgradeInfoT3.png');
+        this.load.image('tower3Upgrade2','assets/sprites/UpgradeInfoT3-2.png');
+        this.load.image('tower3Upgrade1F','assets/sprites/UpgradeInfoT3F.png');
+        this.load.image('tower3Upgrade2F','assets/sprites/UpgradeInfoT3-2-F.png');
+        //Tower4UpgradeInfos
+        this.load.image('tower4Upgrade1','assets/sprites/UpgradeInfoT4.png');
+        this.load.image('tower4Upgrade2','assets/sprites/UpgradeInfoT4-2.png');
+        this.load.image('tower4Upgrade1F','assets/sprites/UpgradeInfoT4F.png');
+        this.load.image('tower4Upgrade2F','assets/sprites/UpgradeInfoT4-2-F.png');
+        //Hover-Info
         this.load.image('HoverInfo','assets/sprites/HoverTowers.png');
 
         //Enemies

@@ -19,6 +19,7 @@ Tower2 = function (markerX,markerY,callback) {
     this.tower.reach=250;
     this.tower.isUpgraded=false;
     this.tower.isDestroyed=false;
+    this.tower.boll=false;
 
 };
 
@@ -28,28 +29,63 @@ Tower2.prototype = {
     upgradeTower2: function(c){
         if(marker==null) {
             if ((this.input.mouse.button == 0)) {
-                //Schon 2 Upgrades?
-                if (c.speeed != 650) {
-                    //1.Update
-                    if (c.isUpgraded == false) {
-                        if ((score > 3000) && (coins >= 300)) {
-                            c.speeed = 550;
-                            c.reach = 300;
-                            c.isUpgraded = true;
-                            coins = coins - 300;
-                            coinText.destroy();
-                            coinText = this.add.text(100, 20, coins);
+
+                //1 Klick gemacht -> Upgrade Infos
+                if(c.boll==false) {
+
+                    popupinfoTower2U.destroy();
+                        if (c.isUpgraded == false) {
+                            if ((score > 2000) && (coins >= 200)) {
+                                popupinfoTower2U = this.add.sprite(c.x + 50, c.y - 40, 'tower2Upgrade1');
+                            }
+                            else{
+                                popupinfoTower2U = this.add.sprite(c.x + 50, c.y - 40, 'tower2Upgrade1F');
+                            }
+
+                        }
+                        else if (c.isUpgraded==true) {
+                            if ((score > 3000) && (coins >= 300)) {
+
+                                popupinfoTower2U = this.add.sprite(c.x + 50, c.y - 40, 'tower2Upgrade2');
+                            }
+                            else{
+                                popupinfoTower2U = this.add.sprite(c.x + 50, c.y - 40, 'tower2Upgrade2F');
+                            }
+                        }
+                    popupinfoTower2U.scale.x = 0.7;
+                    popupinfoTower2U.scale.y = 0.7;
+                    popupinfoTower2U.alpha = 0.8;
+                    popupinfoTower2U.anchor.set(0.2);
+                    c.boll = true;
+
+
+                }
+                else {
+                    popupinfoTower2U.destroy();
+                    //Schon 2 Upgrades?
+                    if (c.speeed != 650) {
+                        //1.Update
+                        if (c.isUpgraded == false) {
+                            if ((score > 2000) && (coins >= 200)) {
+                                c.speeed = 550;
+                                c.reach = 300;
+                                c.isUpgraded = true;
+                                coins = coins - 200;
+                                coinText.destroy();
+                                coinText = this.add.text(100, 20, coins);
+                            }
+                        }
+                        else if (c.isUpgraded == true) {
+                            if ((score > 3000) && (coins >= 300)) {
+                                c.speeed = 650;
+                                c.reach = 350;
+                                coins = coins - 300;
+                                coinText.destroy();
+                                coinText = this.add.text(100, 20, coins);
+                            }
                         }
                     }
-                    else if (c.isUpgraded == true) {
-                        if ((score > 4000) && (coins >= 400)) {
-                            c.speeed = 650;
-                            c.reach = 350;
-                            coins = coins - 400;
-                            coinText.destroy();
-                            coinText = this.add.text(100, 20, coins);
-                        }
-                    }
+                    c.boll=false;
                 }
             }
             else if((this.input.mouse.button == 1)){
@@ -64,25 +100,28 @@ Tower2.prototype = {
     },
     //Tower2 Upgrade Infos
     upgradeTower2Info : function(c){
-        if(c.speeed!=800) {
-            if (popupinfoTower2U != null) {
-                popupinfoTower2U.destroy();
+        if(c.boll==false) {
+            if (c.speeed != 800) {
+                if (popupinfoTower2U != null) {
+                    popupinfoTower2U.destroy();
+                }
+
+                popupinfoTower2U = this.add.sprite(c.x + 40, c.y - 30, 'HoverInfo');
+
+                popupinfoTower2U.scale.x = 0.7;
+                popupinfoTower2U.scale.y = 0.7;
+                popupinfoTower2U.alpha = 0.8;
+                popupinfoTower2U.anchor.set(0.2);
             }
-
-            popupinfoTower2U = this.add.sprite(c.x + 40, c.y - 30, 'HoverInfo');
-
-            popupinfoTower2U.scale.x = 0.7;
-            popupinfoTower2U.scale.y = 0.7;
-            popupinfoTower2U.alpha = 0.8;
-            popupinfoTower2U.anchor.set(0.2);
-        }
-        else{
-            if (popupinfoTower2U != null) {
-                popupinfoTower2U.destroy();
+            else {
+                if (popupinfoTower2U != null) {
+                    popupinfoTower2U.destroy();
+                }
             }
         }
     },
-    upgradeTower2InfoDelete: function(){
+    upgradeTower2InfoDelete: function(c){
         popupinfoTower2U.destroy();
+        c.boll=false;
     }
 }
