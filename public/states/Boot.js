@@ -3,19 +3,11 @@ var canvasWidth = 1024;
 var canvasHeight = 768;
 
 
-
-
-
-
 var map;
 var layer;
 
 //marker=Turmauswahlrechteck
-var marker=null;
-
-
-
-
+var marker = null;
 
 
 //NextWave-Button gedrückt?
@@ -29,30 +21,30 @@ var life;
 var heart;
 var heartText;
 var diamond;
-var diamonds=1;
+var diamonds = 1;
 var diamondText;
 var coin;
 var coins = 70;
 var coinText;
 var diamondButton;
 
-var diamondAction=false;
+var diamondAction = false;
 
 //Tower und zugehörige Waffen speichern
-var bullets = [0,0,0,0,0,0,0,0,0];
-var towers=[0,0,0,0,0,0,0,0,0,0];
+var bullets = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+var towers = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 //Tower-Counter
-var towerC=0;
+var towerC = 0;
 
 //Welcher TowerButton wurde gedrückt -> unterschiedliche Tower
-var towerButton=-1;
+var towerButton = -1;
 
 //Hilfsarrays für nextWave und checkCol
-var array = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-var counterArray= [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-var sprites = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-var healthBars = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-var enemyWaveNr=0;
+var array = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+var counterArray = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+var sprites = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+var healthBars = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+var enemyWaveNr = 0;
 var enemyNumber;
 
 //PopUp-Menü
@@ -72,12 +64,7 @@ var popupinfoTower1U;
 var popupinfoTower2U;
 var popupinfoTower3U;
 var popupinfoTower4U;
-var towerButtons=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-
-
-
-
-
+var towerButtons = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
 
 // Namespace for audio
@@ -146,52 +133,52 @@ Menu.Boot.prototype = {
 
         //SPIELDATEN FÜR HELPERKLASSE
         //Towers
-        this.load.spritesheet('tower', 'assets/sprites/block.png',32,32);
+        this.load.spritesheet('tower', 'assets/sprites/block.png', 32, 32);
         this.load.spritesheet('tower1', 'assets/sprites/Tower1.png');
         this.load.spritesheet('tower2Text', 'assets/sprites/Tower22.png');
-        this.load.spritesheet('tower2', 'assets/sprites/tower2.png',32,32);
-        this.load.spritesheet('tower3', 'assets/sprites/tower3.png',32,32);
-        this.load.spritesheet('tower4', 'assets/sprites/Tower4.png',32,32);
+        this.load.spritesheet('tower2', 'assets/sprites/tower2.png', 32, 32);
+        this.load.spritesheet('tower3', 'assets/sprites/tower3.png', 32, 32);
+        this.load.spritesheet('tower4', 'assets/sprites/Tower4.png', 32, 32);
         this.load.spritesheet('tower4Text', 'assets/sprites/Tower4Text.png');
         this.load.spritesheet('tower3Text', 'assets/sprites/tower3Text.png');
         //Bullets
-        this.load.spritesheet('bullet', 'assets/sprites/bullet.png',8,8);
-        this.load.spritesheet('bullet2','assets/sprites/slime.png',14,14);
+        this.load.spritesheet('bullet', 'assets/sprites/bullet.png', 8, 8);
+        this.load.spritesheet('bullet2', 'assets/sprites/slime.png', 14, 14);
         this.load.spritesheet('bullet3', 'assets/sprites/bullet3.png');
         this.load.spritesheet('bullet4', 'assets/sprites/bullet4.png');
         //Elemente obere Leiste
         this.load.spritesheet('xpBar2', 'assets/sprites/xpBar2.png');
         this.load.spritesheet('heart', 'assets/sprites/heart.png');
-        this.load.spritesheet('diamond','assets/sprites/diamond.png');
+        this.load.spritesheet('diamond', 'assets/sprites/diamond.png');
         this.load.spritesheet('coin', 'assets/sprites/coin1.png');
         //Hintergrund Popup-Menü
-        this.load.image('background','assets/sprites/background3.png');
-        this.load.image('towerInfo1','assets/sprites/towerInfos1.png');
-        this.load.image('towerInfo2','assets/sprites/towerInfos2.png');
-        this.load.image('towerInfo3','assets/sprites/towerInfo3.png');
-        this.load.image('towerInfo4','assets/sprites/towerInfo4.png');
+        this.load.image('background', 'assets/sprites/background3.png');
+        this.load.image('towerInfo1', 'assets/sprites/towerInfos1.png');
+        this.load.image('towerInfo2', 'assets/sprites/towerInfos2.png');
+        this.load.image('towerInfo3', 'assets/sprites/towerInfo3.png');
+        this.load.image('towerInfo4', 'assets/sprites/towerInfo4.png');
         //Tower1UpgradeInfos
-        this.load.image('tower1Upgrade1','assets/sprites/UpgradeInfoT1.png');
-        this.load.image('tower1Upgrade2','assets/sprites/UpgradeInfoT1-2.png');
-        this.load.image('tower1Upgrade1F','assets/sprites/UpgradeInfoT1F.png');
-        this.load.image('tower1Upgrade2F','assets/sprites/UpgradeInfoT1-2-F.png');
+        this.load.image('tower1Upgrade1', 'assets/sprites/UpgradeInfoT1.png');
+        this.load.image('tower1Upgrade2', 'assets/sprites/UpgradeInfoT1-2.png');
+        this.load.image('tower1Upgrade1F', 'assets/sprites/UpgradeInfoT1F.png');
+        this.load.image('tower1Upgrade2F', 'assets/sprites/UpgradeInfoT1-2-F.png');
         //Tower2UpgradeInfos
-        this.load.image('tower2Upgrade1','assets/sprites/UpgradeInfoT2.png');
-        this.load.image('tower2Upgrade2','assets/sprites/UpgradeInfoT2-2.png');
-        this.load.image('tower2Upgrade1F','assets/sprites/UpgradeInfoT2F.png');
-        this.load.image('tower2Upgrade2F','assets/sprites/UpgradeInfoT2-2-F.png');
+        this.load.image('tower2Upgrade1', 'assets/sprites/UpgradeInfoT2.png');
+        this.load.image('tower2Upgrade2', 'assets/sprites/UpgradeInfoT2-2.png');
+        this.load.image('tower2Upgrade1F', 'assets/sprites/UpgradeInfoT2F.png');
+        this.load.image('tower2Upgrade2F', 'assets/sprites/UpgradeInfoT2-2-F.png');
         //Tower3UpgradeInfos
-        this.load.image('tower3Upgrade1','assets/sprites/UpgradeInfoT3.png');
-        this.load.image('tower3Upgrade2','assets/sprites/UpgradeInfoT3-2.png');
-        this.load.image('tower3Upgrade1F','assets/sprites/UpgradeInfoT3F.png');
-        this.load.image('tower3Upgrade2F','assets/sprites/UpgradeInfoT3-2-F.png');
+        this.load.image('tower3Upgrade1', 'assets/sprites/UpgradeInfoT3.png');
+        this.load.image('tower3Upgrade2', 'assets/sprites/UpgradeInfoT3-2.png');
+        this.load.image('tower3Upgrade1F', 'assets/sprites/UpgradeInfoT3F.png');
+        this.load.image('tower3Upgrade2F', 'assets/sprites/UpgradeInfoT3-2-F.png');
         //Tower4UpgradeInfos
-        this.load.image('tower4Upgrade1','assets/sprites/UpgradeInfoT4.png');
-        this.load.image('tower4Upgrade2','assets/sprites/UpgradeInfoT4-2.png');
-        this.load.image('tower4Upgrade1F','assets/sprites/UpgradeInfoT4F.png');
-        this.load.image('tower4Upgrade2F','assets/sprites/UpgradeInfoT4-2-F.png');
+        this.load.image('tower4Upgrade1', 'assets/sprites/UpgradeInfoT4.png');
+        this.load.image('tower4Upgrade2', 'assets/sprites/UpgradeInfoT4-2.png');
+        this.load.image('tower4Upgrade1F', 'assets/sprites/UpgradeInfoT4F.png');
+        this.load.image('tower4Upgrade2F', 'assets/sprites/UpgradeInfoT4-2-F.png');
         //Hover-Info
-        this.load.image('HoverInfo','assets/sprites/HoverTowers.png');
+        this.load.image('HoverInfo', 'assets/sprites/HoverTowers.png');
 
         //Enemies
         this.load.spritesheet('player', 'assets/sprites/spaceman.png', 16, 16);

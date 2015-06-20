@@ -50,3 +50,16 @@
 #forgotPasswordArea {
     margin: 100px auto 0;
 }
+
+#settingsMenu {
+    position: absolute;
+    width: inherit;
+    top: 200px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+#sliders {
+    margin: auto 50px;
+}

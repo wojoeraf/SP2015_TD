@@ -95,7 +95,7 @@ function verifyRecaptcha(key, callback) {
 
     var filePath = path.join(__dirname, 'config.txt');
     var SECRET = "toast";
-    //Initialize the stuff to read the secret from the config
+    //Initialize the stuff necessary to read the secret from the config
     fs.readFile(filePath, 'utf8', function (err, data) {
         if (err) {
             return console.log(err);

@@ -52,6 +52,8 @@ Menu.Preloader.prototype = {
         this.load.spritesheet('point2', 'assets/point.png');
         this.load.spritesheet('line', 'assets/menu/line.png');
         this.load.spritesheet('line2', 'assets/menu/line.png');
+        this.load.spritesheet('volumeSound', 'assets/menu/settings/volume_Sound.png');
+        this.load.spritesheet('volumeMusic', 'assets/menu/settings/volume_Music.png');
 
         // Level Selector
         this.load.spritesheet('buttonEasy', 'assets/menu/menuButton_gameEasy.png');
@@ -115,7 +117,7 @@ Menu.Preloader.prototype = {
         // Check whether audio files are ready
         if (this.cache.isSoundReady('titleMusic') && this.cache.isSoundReady('menuClick')) {
             // Add audios to game audio
-            this.add.audio('titleMusic', 1, true);
+            this.add.audio('titleMusic', 0.5, true);
             this.add.audio('menuClick', 0.2);
 
             // Play music when not muted
