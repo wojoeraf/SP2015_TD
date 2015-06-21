@@ -76,7 +76,7 @@ Menu.MainMenu.prototype = {
         this.helper.toggleSound(this.buttonSound);
     },
 
-    // buy diamonds
+    // Buy diamonds
     buyDiamonds: function () {
         this.helper.playSound('menuClick');
         this.state.start("BuyMenu");
