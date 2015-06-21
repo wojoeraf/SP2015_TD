@@ -117,8 +117,9 @@ Menu.Preloader.prototype = {
         // Check whether audio files are ready
         if (this.cache.isSoundReady('titleMusic') && this.cache.isSoundReady('menuClick')) {
             // Add audios to game audio
-            this.add.audio('titleMusic', 0.5, true);
+            this.add.audio('titleMusic', 1, true);
             this.add.audio('menuClick', 0.2);
+            this.game.sound.volume = 0.5;
 
             // Play music when not muted
             if (!Audio.musicIsMuted) {

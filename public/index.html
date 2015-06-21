@@ -11,10 +11,13 @@
     <!--CDN for the Google reCaptcha js source file -->
     <script src="https://www.google.com/recaptcha/api.js?onload=loadCaptcha&render=explicit" async defer></script>
 
-    <script src="libs/phaser.js"></script>
+    <!-- Adding jQuery and jQuery UI(latter via CDN) -->
     <script src="external/jquery-1.11.3.min.js"></script>
-    <script src="external/jqueryUi/jquery-ui.min.js"></script>
 
+    <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+    <link href="external/jqueryUi/jquery-ui.css" rel="stylesheet">
+
+    <script src="libs/phaser.js"></script>
     <script src="libs/validator.min.js"></script>
     <script src="libs/phaser_pathfinding-0.2.0.js"></script>
     <script src="external/easystar-0.2.0.min.js"></script>
@@ -51,6 +54,8 @@
     <script src="states/Level1.js"></script>
     <script src="states/Level2.js"></script>
     <script src="states/Level3.js"></script>
+
+
 </head>
 <body>
 
@@ -106,18 +111,18 @@
         <div id="settingsMenu" class="invisible">
             <table>
                 <tr>
-                    <p><input type="range" id="musicVolume"  min="0" max="1" step="0.01"></p>
-                    <!--<div id="sliderMusic"></div>-->
+                    <!--<p><input type="range" id="musicVolume"  min="0" max="1" step="0.01"></p>-->
+                    <div id="sliderMusic"></div>
                 </tr>
                 <tr>
-                    <div style="height: 75px">
+                    <div style="height: 124px">
 
                     </div>
                 </tr>
 
                 <tr>
-                    <p><input id="soundVolume" type="range" min="0" max="1" step="0.01"></p>
-                    <!--<div id="sliderSound"></div>-->
+                    <!--<p><input id="soundVolume" type="range" min="0" max="1" step="0.01"></p>-->
+                    <div id="sliderSound"></div>
                 </tr>
             </table>
         </div>
@@ -157,13 +162,9 @@
 
 </div>
 
-
-
-
-
 <script type='text/javascript'>
     var captchaContainer = null;
-    var loadCaptcha = function () {
+    loadCaptcha = function () {
         captchaContainer = grecaptcha.render('captcha_container', {
             'sitekey': '6LeBSwgTAAAAAMOYTY-lEdVzRMnmvPIVLNSj75b8',
             'callback': function (response) {
@@ -183,6 +184,7 @@
         });
     };
 </script>
+
 
 <form id="captchaForm" action="/verify" method="POST">
     <div id="captcha_container" class="invisible"></div>

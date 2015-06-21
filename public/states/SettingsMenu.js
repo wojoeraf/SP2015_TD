@@ -6,8 +6,8 @@ Menu.SettingsMenu = function () {
 
 };
 
-var musicVol;
-var soundVol;
+var musicVol = 0.5;
+var soundVol = 0.5;
 
 Menu.SettingsMenu.prototype = {
 
@@ -27,32 +27,49 @@ Menu.SettingsMenu.prototype = {
         this.buttonMusic = this.helper.placeMusicButton(this.musicToggle);
         this.buttonSound = this.helper.placeSoundButton(this.soundToggle);
 
-
-
-        /**
         $(function() {
-            $( "#sliderMusic" ).slider();
+            $( "#sliderMusic" ).slider({
+                animate: true,
+                min: 0,
+                max: 1,
+                step: 0.01,
+                value: musicVol
+            });
         });
 
         $(function() {
-            $( "#sliderSound" ).slider();
+            $( "#sliderSound" ).slider({
+                animate: true,
+                min: 0,
+                max: 1,
+                step: 0.01,
+                value: soundVol
+            });
         });
-         **/
 
     },
 
 
     update: function () {
 
+        musicVol = $( "#sliderMusic" ).slider( "option", "value" );
+        this.game.sound.volume = musicVol;
 
+        soundVol = $( "#sliderSound" ).slider( "option", "value" );
+        Audio.soundVolume = soundVol;
+
+
+
+        /**
          musicVol = $("#musicVolume").val();
          //console.log("Value of music Slider: " + musicVol);
 
          soundVol = $("#soundVolume").val();
 
+         //Lautstärken entsprechend der Slider anpassen
          this.game.sound.volume = musicVol;
          Audio.soundVolume = soundVol;
-
+         **/
 
 
     },

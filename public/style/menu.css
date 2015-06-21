@@ -31,7 +31,7 @@
 }
 
 /*.formBody h2 {*/
-    /*text-align: center;*/
+/*text-align: center;*/
 /*}*/
 
 #loginArea {
@@ -60,6 +60,7 @@
     text-align: center;
 }
 
-#sliders {
-    margin: auto 50px;
+#sliderMusic, #sliderSound {
+    margin-right: auto; margin-left: auto; width: 250px;
+    top: 18px;
 }
