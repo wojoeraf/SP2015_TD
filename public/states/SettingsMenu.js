@@ -27,6 +27,7 @@ Menu.SettingsMenu.prototype = {
         this.buttonMusic = this.helper.placeMusicButton(this.musicToggle);
         this.buttonSound = this.helper.placeSoundButton(this.soundToggle);
 
+        //Füge die beiden slider hinzu
         $(function() {
             $( "#sliderMusic" ).slider({
                 animate: true,
@@ -52,6 +53,7 @@ Menu.SettingsMenu.prototype = {
 
     update: function () {
 
+        //Neue Lautstärke = Wert der Slider
         musicVol = $( "#sliderMusic" ).slider( "option", "value" );
         this.game.sound.volume = musicVol;
 
