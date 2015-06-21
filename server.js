@@ -84,8 +84,6 @@ app.post('/verify', function (req, res, next) {
     for (var i = 2; i < out.length - 5; i++) {
         response = response + out[i];
     }
-    //console.log("built string: " + response);
-
     //Method to verify the response
     verifyRecaptcha(response, captchaCallback);
 
@@ -105,7 +103,6 @@ function verifyRecaptcha(key, callback) {
 
         //secret gets parsed
         SECRET = config[1].substring(0);
-        //console.log("secret: " + SECRET);
 
         https.get("https://www.google.com/recaptcha/api/siteverify?secret=" + SECRET + "&response=" + key, function (res) {
             var data = "" +
@@ -127,15 +124,11 @@ function verifyRecaptcha(key, callback) {
     });
 
 
-};
-
-function getSecret() {
-
 }
 
 function captchaCallback(value) {
-    //dostuff
-    //console.log("callback called. argument: " + value);
+    //Method that awards the tiamonds
+    console.log("callback called. argument: " + value);
 }
 
 app.listen(3012);

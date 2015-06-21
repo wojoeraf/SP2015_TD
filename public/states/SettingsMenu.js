@@ -58,20 +58,6 @@ Menu.SettingsMenu.prototype = {
         soundVol = $( "#sliderSound" ).slider( "option", "value" );
         Audio.soundVolume = soundVol;
 
-
-
-        /**
-         musicVol = $("#musicVolume").val();
-         //console.log("Value of music Slider: " + musicVol);
-
-         soundVol = $("#soundVolume").val();
-
-         //Lautstärken entsprechend der Slider anpassen
-         this.game.sound.volume = musicVol;
-         Audio.soundVolume = soundVol;
-         **/
-
-
     },
 
     // Go back

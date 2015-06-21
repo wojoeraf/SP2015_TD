@@ -13,20 +13,22 @@
 
     <!-- Adding jQuery and jQuery UI(latter via CDN) -->
     <script src="external/jquery-1.11.3.min.js"></script>
-
     <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
     <link href="external/jqueryUi/jquery-ui.css" rel="stylesheet">
 
+    <!--Loading the main framework files, also some backend stuff -->
     <script src="libs/phaser.js"></script>
-    <script src="libs/validator.min.js"></script>
     <script src="libs/phaser_pathfinding-0.2.0.js"></script>
     <script src="external/easystar-0.2.0.min.js"></script>
     <script src="game/Player.js"></script>
+    <script src="libs/validator.min.js"></script>
 
+    <!--Loading the helper files -->
     <script src="processing/forms.js"></script>
     <script src="processing/helpers.js"></script>
     <script src="processing/helperss.js"></script>
 
+    <!-- Loading the js files for the different states -->
     <script src="states/Boot.js"></script>
     <script src="states/Preloader.js"></script>
     <script src="states/LoginMenu.js"></script>
@@ -54,8 +56,6 @@
     <script src="states/Level1.js"></script>
     <script src="states/Level2.js"></script>
     <script src="states/Level3.js"></script>
-
-
 </head>
 <body>
 
@@ -111,57 +111,53 @@
         <div id="settingsMenu" class="invisible">
             <table>
                 <tr>
-                    <!--<p><input type="range" id="musicVolume"  min="0" max="1" step="0.01"></p>-->
                     <div id="sliderMusic"></div>
                 </tr>
                 <tr>
                     <div style="height: 124px">
-
                     </div>
                 </tr>
 
                 <tr>
-                    <!--<p><input id="soundVolume" type="range" min="0" max="1" step="0.01"></p>-->
                     <div id="sliderSound"></div>
                 </tr>
             </table>
         </div>
 
+        <div id="rankingTable" class="invisible">
+            <table border="0" width="500" align="center">
+                <tr>
+                    <td>
+                        <p><b>NAME</b></p>
+                    </td>
+                    <td>
+                        <p><b>SCORE</b></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td id="easyNamePlace1">
+                        Player1
+                    </td>
+                    <td id="easyScorePlace1">
+                        2674
+                    </td>
+                </tr>
+                <tr>
+                    <td id="easyNamePlace2">
+                        Player2
+                    </td>
+                    <td id="easySorePlace2">
+                        1337
+                    </td>
+                </tr>
+            </table>
+        </div>
 
     </div>
-
-    <div id="rankingTable" class="invisible">
-        <table border="0" width="500" align="center">
-            <tr>
-                <td>
-                    <p><b>NAME</b></p>
-                </td>
-                <td>
-                    <p><b>SCORE</b></p>
-                </td>
-            </tr>
-            <tr>
-                <td id="easyNamePlace1">
-                    Player1
-                </td>
-                <td id="easyScorePlace1">
-                    2674
-                </td>
-            </tr>
-            <tr>
-                <td id="easyNamePlace2">
-                    Player2
-                </td>
-                <td id="easySorePlace2">
-                    1337
-                </td>
-            </tr>
-        </table>
-    </div>
-
 
 </div>
 
+<!-- rendering the captcha -->
 <script type='text/javascript'>
     var captchaContainer = null;
     loadCaptcha = function () {
@@ -185,7 +181,7 @@
     };
 </script>
 
-
+<!-- form which contains the captcha -->
 <form id="captchaForm" action="/verify" method="POST">
     <div id="captcha_container" class="invisible"></div>
 </form>
