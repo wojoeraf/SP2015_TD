@@ -75,6 +75,10 @@ var popupinfoTower4U;
 var towerButtons=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 
 
+var popupInfo;
+var upgradeButton;
+var deleteButton;
+var towerB;
 
 
 
@@ -192,7 +196,7 @@ Menu.Boot.prototype = {
         this.load.image('tower4Upgrade2F','assets/sprites/UpgradeInfoT4-2-F.png');
         //Hover-Info
         this.load.image('HoverInfo','assets/sprites/HoverTowers.png');
-
+        this.load.image('backgroundT','assets/sprites/backgroundT.png');
         //Enemies
         this.load.spritesheet('player', 'assets/sprites/spaceman.png', 16, 16);
 

@@ -143,10 +143,6 @@ Menu.Level3.prototype = {
 
     //Nächste Gegnerwelle
     nextWave : function(player,arraynumber){
-        if(marker!=null){
-            marker.destroy();
-            marker=null;
-        }
         this.physics.arcade.collide(player, layer);
         var a = array[arraynumber];
         if(player.x<this.visiblePoint){

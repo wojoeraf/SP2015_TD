@@ -109,24 +109,24 @@ Helpers.Menu.prototype = {
                         marker = null;
                     }
                 }
-                else{
+                else {
                     marker.lineStyle(2, 0x000000, 1);
                     marker.drawRect(0, 0, 32, 32);
-                    var c =  callback.physics.arcade.collide(marker.x,marker.y, 'tower1');
-                    if (callback.input.mousePointer.isDown==true) {
+                    var c = callback.physics.arcade.collide(marker.x, marker.y, 'tower1');
+                    if (callback.input.mousePointer.isDown == true) {
 
                         //Welcher Button 0=Links,1=Mitte
                         //Links -> Tower platzieren
                         if (callback.input.mouse.button == 0) {
 
                             //Tower auf Tower platzieren nicht möglich machen
-                            for(var k=0;k<towerC;k++){
-                                if(towers[k].isDestroyed==false){
-                                if((marker.x+32>towers[k].x)&&(marker.x<towers[k].x+32)&&((marker.y+32>towers[k].y)&&(marker.y<towers[k].y+32))) {
-                                    marker.lineStyle(2, 0xff0000, 1);
-                                    marker.drawRect(0, 0, 32, 32);
-                                    c = true;
-                                }
+                            for (var k = 0; k < towerC; k++) {
+                                if (towers[k].isDestroyed == false) {
+                                    if ((marker.x + 32 > towers[k].x) && (marker.x < towers[k].x + 32) && ((marker.y + 32 > towers[k].y) && (marker.y < towers[k].y + 32))) {
+                                        marker.lineStyle(2, 0xff0000, 1);
+                                        marker.drawRect(0, 0, 32, 32);
+                                        c = true;
+                                    }
                                 }
                             }
 
@@ -135,7 +135,7 @@ Helpers.Menu.prototype = {
                                 //Tower 1
                                 if (towerButton == 0) {
                                     if ((coins - 30) >= 0) {
-                                        var tower = new Tower1(marker.x,marker.y,callback);
+                                        var tower = new Tower1(marker.x, marker.y, callback);
                                         towers[towerC] = tower.tower;
                                         coins = coins - 30;
                                         coinText.destroy();
@@ -153,7 +153,7 @@ Helpers.Menu.prototype = {
                                 //Tower 2
                                 else if (towerButton == 1) {
                                     if ((coins - 70) >= 0) {
-                                        var tower = new Tower2(marker.x,marker.y,callback);
+                                        var tower = new Tower2(marker.x, marker.y, callback);
                                         towers[towerC] = tower.tower;
                                         coins = coins - 70;
                                         coinText.destroy();
@@ -167,9 +167,9 @@ Helpers.Menu.prototype = {
                                         marker = null;
                                     }
                                 }
-                                else if(towerButton==2){
-                                    if((coins-70)>=0){
-                                        var tower = new Tower3(marker.x,marker.y,callback);
+                                else if (towerButton == 2) {
+                                    if ((coins - 70) >= 0) {
+                                        var tower = new Tower3(marker.x, marker.y, callback);
                                         towers[towerC] = tower.tower;
                                         coins = coins - 70;
                                         coinText.destroy();
@@ -184,9 +184,9 @@ Helpers.Menu.prototype = {
 
                                     }
                                 }
-                                else if (towerButton==3){
-                                    if((coins-30)>=0){
-                                        var tower = new Tower4(marker.x,marker.y,callback);
+                                else if (towerButton == 3) {
+                                    if ((coins - 30) >= 0) {
+                                        var tower = new Tower4(marker.x, marker.y, callback);
                                         towers[towerC] = tower.tower;
                                         coins = coins - 30;
                                         coinText.destroy();
@@ -200,16 +200,16 @@ Helpers.Menu.prototype = {
                                         marker = null;
                                     }
                                 }
+
                             }
-                        }
-                        //Mitte -> Towerauswahl rückgängig
-                        else if(callback.input.mouse.button==1){
-                            marker.destroy();
-                            marker = null;
+                            //Mitte -> Towerauswahl rückgängig
+                            else if (callback.input.mouse.button == 1) {
+                                marker.destroy();
+                                marker = null;
+                            }
                         }
                     }
                 }
-
             }
             catch(e){
 
@@ -577,7 +577,111 @@ Helpers.Menu.prototype = {
             diamondText.destroy();
             diamondText = callback.add.text(200,20,diamonds);
         }
+    },
+
+    popUpT : function(c,callback){
+        towerB=c;
+        popup = callback.add.sprite(c.x+60, c.y-50, 'backgroundT');
+        popup.alpha = 0.8;
+        popup.anchor.set(0.5);
+        popup.scale.x=0.6;
+  //      popup.events.onInputOut.add(this.deletePopUp,callback);
+        popup.inputEnabled = true;
+        upgradeButton= callback.add.button(c.x+30 , c.y-90,'buttonBack',this.upgradeTower,callback);
+        upgradeButton.events.onInputOver.add(this.upgradeTowerInfo,callback);
+        upgradeButton.events.onInputOut.add(this.upgradeTowerInfoDelete,callback);
+        upgradeButton.scale.x=0.8;
+        upgradeButton.scale.y=0.8;
+        deleteButton= callback.add.button(c.x+30 , c.y-40,'buttonBack',this.deleteTower,callback);
+        deleteButton.scale.x=0.8;
+        deleteButton.scale.y=0.8;
+    //    quitButton = callback.add.button(callback.world.centerX-80, callback.world.centerY+20, 'buttonPlay', this.quit,callback);
+
+    },
+    upgradeTower: function(){
+        var c=towerB;
+        console.log("UPGRADE!");
+        if (c.speeed != 450) {
+            //1.Update
+            if (c.isUpgraded == false) {
+                if ((score > 1000) && (coins >= 100)) {
+                    c.speeed = 350;
+                    c.reach = 250;
+                    c.isUpgraded = true;
+                    coins = coins - 100;
+                    coinText.destroy();
+                    coinText = this.add.text(100, 20, coins);
+                }
+
+            }
+            else if (c.isUpgraded == true) {
+                if ((score > 2000) && (coins >= 200)) {
+                    c.speeed = 450;
+                    c.reach = 300;
+                    coins = coins - 200;
+                    coinText.destroy();
+                    coinText = this.add.text(100, 20, coins);
+                }
+            }
+
+        }
+        popup.destroy();
+        popupinfoTower1U.destroy();
+        deleteButton.destroy();
+        upgradeButton.destroy();
+
+    },
+    upgradeTowerInfoDelete: function(){
+        popupinfoTower1U.destroy();
+    },
+    deletePopUp : function(){
+            popup.destroy();
+            if (popupinfoTower1U != undefined) {
+                popupinfoTower1U.destroy();
+            }
+            deleteButton.destroy();
+            upgradeButton.destroy();
+    },
+    deleteTower: function(){
+        popup.destroy();
+        deleteButton.destroy();
+        upgradeButton.destroy();
+        coins = coins + towerB.cost;
+        coinText.destroy();
+        coinText = this.add.text(100, 20, coins);
+        towerB.isDestroyed=true;
+        towerB.destroy();
+
+    },
+    upgradeTowerInfo: function() {
+        var c = towerB;
+       // popupinfoTower1U.destroy();
+        if (c.isUpgraded == false) {
+            if ((score > 1000) && (coins >= 100)) {
+                popupinfoTower1U = this.add.sprite(upgradeButton.x + 70, upgradeButton.y - 30, 'tower1Upgrade1');
+            }
+            else {
+                popupinfoTower1U = this.add.sprite(upgradeButton.x + 70, upgradeButton.y - 30, 'tower1Upgrade1F');
+            }
+
+        }
+        else if (c.isUpgraded == true) {
+            if ((score > 2000) && (coins >= 200)) {
+                popupinfoTower1U = this.add.sprite(upgradeButton.x + 70, upgradeButton.y - 30, 'tower1Upgrade2');
+            }
+            else {
+                popupinfoTower1U = this.add.sprite(upgradeButton.x + 70, upgradeButton.y - 30, 'tower1Upgrade2F');
+            }
+
+
+        }
+        popupinfoTower1U.scale.x = 0.7;
+        popupinfoTower1U.scale.y = 0.7;
+        popupinfoTower1U.alpha = 0.8;
+        popupinfoTower1U.anchor.set(0.2);
+
     }
+
 
 
 }
