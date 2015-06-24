@@ -9,8 +9,6 @@ Tower1 = function (markerX,markerY,callback) {
     this.tower.inputEnabled = true;
     this.tower.input.useHandCursor = true;
     this.tower.events.onInputDown.add(this.upgradeTower1, callback);
-   // this.tower.events.onInputOver.add(this.upgradeTower1Info,callback);
-   // this.tower.events.onInputOut.add(this.upgradeTower1InfoDelete,callback);
     this.tower.x=markerX;
     this.tower.y=markerY;
     this.tower.typ = 0;

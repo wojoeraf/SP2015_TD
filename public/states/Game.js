@@ -33,9 +33,15 @@ Menu.Game.prototype = {
 
     preload: function(){
 
-        //this.state.start("Level1");
-         this.state.start('Level3');
-
+        if(levelchooser==1){
+            this.state.start("Level1");
+        }
+        else if(levelchooser==2){
+            this.state.start("Level2");
+        }
+        else {
+            this.state.start('Level3');
+        }
 
 
 
@@ -43,10 +49,17 @@ Menu.Game.prototype = {
 
     update: function () {
 
-        //TODO
-        //this.state.start("Level1");
-        this.state.start('Level3');
-        //  Honestly, just about anything could go here. It's YOUR game after all. Eat your heart out!
+        if(levelchooser==1){
+            this.state.start("Level1");
+        }
+        else if(levelchooser==2){
+            this.state.start("Level2");
+        }
+        else {
+            this.state.start('Level3');
+        }
+
+
 
     },
 

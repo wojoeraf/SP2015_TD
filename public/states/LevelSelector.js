@@ -29,6 +29,7 @@ Menu.LevelSelector.prototype = {
 
     // Start game in easy mode
     startEasy: function () {
+        levelchooser=1;
         this.helper.playSound('menuClick');
         this.state.start("Game");
 
@@ -36,6 +37,7 @@ Menu.LevelSelector.prototype = {
 
     // Starg game in medium mode
     startMedium: function () {
+        levelchooser=2;
         this.helper.playSound('menuClick');
         this.state.start("Game");
 
@@ -44,6 +46,7 @@ Menu.LevelSelector.prototype = {
 
     // Start game in hard mode
     startHard: function () {
+        levelchooser=3;
         this.helper.playSound('menuClick');
         this.state.start("Game");
 

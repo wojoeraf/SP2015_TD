@@ -51,15 +51,13 @@ Menu.Level1.prototype = {
         coinText=this.add.text(100,20,coins);
         diamond = this.add.sprite(160,22,'diamond');
         diamond.scale.set(0.9);
-        diamondButton=this.add.button(160,22,'diamond',this.diamondClicked,this);
-        diamondButton.scale.set(0.9);
         diamondText = this.add.text(200,20,diamonds);
         heart= this.add.sprite(250,22,'heart');
         heart.scale.set(0.5);
         heartText = this.add.text(290,20,life);
 
         //Next-Wave-Button und Tower-Buttons hinzufügen
-        this.add.button(850,630,'buttonPlay',this.boolF,this);
+        this.add.button(850,630,'nextWave',this.boolF,this);
         button1 = this.add.button(50,630,'tower1',this.addTower,this);
         button1.events.onInputOver.add(this.helpers.infoTower1,this);
         button1.events.onInputOut.add(this.helpers.infoTower1Delete,this);
@@ -68,8 +66,12 @@ Menu.Level1.prototype = {
         button2.events.onInputOver.add(this.helpers.infoTower2,this);
         button2.events.onInputOut.add(this.helpers.infoTower2Delete,this);
 
+
+        button5 = this.add.button(650,630,'Premium',this.diamondClicked,this);
+        button5.events.onInputOver.add(this.helpers.diamondInfo,this);
+        button5.events.onInputOut.add(this.helpers.diamondInfoDelete,this);
         //Popup-Button
-        this.add.button(850,100,'buttonPlay',this.popUp,this);
+        this.add.button(850,100,'menuB',this.popUp,this);
 
         //NextWave-Sperre, nur wenn auf true geändert-> nächste Enemy-Welle
         bool = false;
