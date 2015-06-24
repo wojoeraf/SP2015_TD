@@ -93,12 +93,22 @@ FormProcessing.prototype = {
         this.helper.hideElement("#captcha_container");
     },
 
+
+
     showSettings: function () {
         this.helper.showElement("#settingsMenu");
     },
 
     hideSettings: function () {
         this.helper.hideElement("#settingsMenu");
+    },
+
+    showPopup: function () {
+        this.helper.showElement("#popupSlider");
+    },
+
+    hidePopup: function () {
+        this.helper.hideElement("#popupSlider");
     },
 
     validate: function (username, email, password, confirm) {

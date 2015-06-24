@@ -3,6 +3,9 @@ Menu.Preloader = function () {
     this.fp = new FormProcessing(); // for handling the forms and input
 };
 
+var musicVolume = 0.5;
+var soundVolume = 0.5;
+
 Menu.Preloader.prototype = {
 
     preload: function () {
@@ -105,6 +108,50 @@ Menu.Preloader.prototype = {
         this.load.image('achieveText7', 'assets/menu/achievements/placeholder.png');
         this.load.image('achieveText8', 'assets/menu/achievements/placeholder.png');
         this.load.image('achieveText9', 'assets/menu/achievements/placeholder.png');
+
+        //Initialize the slider for the popup menu
+
+        $(function () {
+            $("#popupMusic").slider({
+                animate: true,
+                min: 0,
+                max: 1,
+                step: 0.01,
+                value: musicVolume
+            });
+        });
+
+        $(function () {
+            $("#popupSound").slider({
+                animate: true,
+                min: 0,
+                max: 1,
+                step: 0.01,
+                value: soundVolume
+            });
+        });
+
+        //Füge die Slider für das Settins menü hinzu
+        $(function() {
+            $( "#sliderMusic" ).slider({
+                animate: true,
+                min: 0,
+                max: 1,
+                step: 0.01,
+                value: musicVolume
+            });
+        });
+
+        $(function() {
+            $( "#sliderSound" ).slider({
+                animate: true,
+                min: 0,
+                max: 1,
+                step: 0.01,
+                value: soundVolume
+            });
+        });
+
 
 
     },

@@ -85,6 +85,19 @@ Menu.Level1.prototype = {
         this.helpers.enemiesRun(this);
         //Marker -> Rechteck -> Turm platzieren
         this.helpers.towerBuilding(this);
+
+        //Ab hier lautstärkeregler stuff
+
+        //Lautstärke auslesen und entsprechend anpassen
+        musicVolume = $( "#popupMusic" ).slider( "option", "value" );
+        this.game.sound.volume = musicVolume;
+
+        soundVolume = $( "#popupSound" ).slider( "option", "value" );
+        Audio.soundVolume = soundVolume;
+
+        //Setting slider auf den neuen Wert setzen
+        $("#sliderMusic").slider('value',musicVolume);
+        $("#sliderSound").slider('value',soundVolume);
 },
     //TowerTyp 1 hinzufügen
     addTower: function () {

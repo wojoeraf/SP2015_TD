@@ -5,42 +5,46 @@ var Helpers = {};
 
 Helpers.Menu = function () {
 //CHAIN-TOWER Hilfsvariablen
-    this.b=false;
-    this.xx=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+    this.b = false;
+    this.xx = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    this.fp = new FormProcessing();
+    this.helper = new Helper.Menu(this);
 
-}
+    console.log(musicVolume);
+
+};
 
 Helpers.Menu.prototype = {
 
-    wave1: function(xPoint,yPoint,callback){
+    wave1: function (xPoint, yPoint, callback) {
         //EnemiesGesamt = 6 Stück
-        enemyNumber=6;
-        new Wave1(xPoint,yPoint,callback);
+        enemyNumber = 6;
+        new Wave1(xPoint, yPoint, callback);
         bool = true;
 
     },
-    wave2: function(xPoint,yPoint,callback){
+    wave2: function (xPoint, yPoint, callback) {
         //EnemiesGesamt = 10 Stück
-        enemyNumber=10;
-        new Wave2(xPoint,yPoint,callback);
+        enemyNumber = 10;
+        new Wave2(xPoint, yPoint, callback);
         bool = true;
 
     },
-    wave3: function(xPoint,yPoint,callback){
+    wave3: function (xPoint, yPoint, callback) {
         //EnemiesGesamt = 14 Stück
-        enemyNumber=10;
-        new Wave3(xPoint,yPoint,callback);
+        enemyNumber = 10;
+        new Wave3(xPoint, yPoint, callback);
         bool = true;
 
     },
 
     //Healthbars hinzufügen für jeden sprite
-    createHealthbars: function(){
-        if(bool==true){
-            for(var j=0;j<enemyNumber;j++) {
+    createHealthbars: function () {
+        if (bool == true) {
+            for (var j = 0; j < enemyNumber; j++) {
                 var healthbar = healthBars[j];
                 var sprite = sprites[j];
-                if(sprite!=null) {
+                if (sprite != null) {
                     healthbar.x = sprite.x;
                     healthbar.y = sprite.y - 10;
                 }
@@ -49,58 +53,57 @@ Helpers.Menu.prototype = {
     },
 
     //EnemyWellen starten
-    enemiesRun: function(callback){
-        if(bool==true){
-            var x=false;
-            for(var i=0;i<enemyNumber;i++){
-                if(array[i]!=5){
-                    callback.nextWave(sprites[i],i,callback);
+    enemiesRun: function (callback) {
+        if (bool == true) {
+            var x = false;
+            for (var i = 0; i < enemyNumber; i++) {
+                if (array[i] != 5) {
+                    callback.nextWave(sprites[i], i, callback);
                     x = true;
                 }
             }
-            this.checkColl(sprites,counterArray,callback);
+            this.checkColl(sprites, counterArray, callback);
             //Wenn x==false -> Alle Sprites sind entweder durchgelaufen oder tot -> enemyWaveNr++
-            if(x==false){
-                if(diamondAction==true){
-                    diamondAction=false;
+            if (x == false) {
+                if (diamondAction == true) {
+                    diamondAction = false;
                 }
-                bool= false;
-                enemyWaveNr=enemyWaveNr+1;
+                bool = false;
+                enemyWaveNr = enemyWaveNr + 1;
             }
         }
-        else{
-            if(this.b==true){
-                for (var yy = 0; yy <this.xx.length; yy++) {
-                    if(this.xx[yy]!=0) {
+        else {
+            if (this.b == true) {
+                for (var yy = 0; yy < this.xx.length; yy++) {
+                    if (this.xx[yy] != 0) {
                         this.xx[yy].destroy();
                     }
-                    this.b=false;
+                    this.b = false;
                 }
             }
         }
     },
 
     //TowerBuildingfunktion
-    towerBuilding: function(callback){
-        if(marker!=null){
+    towerBuilding: function (callback) {
+        if (marker != null) {
             marker.x = callback.input.mousePointer.x;
             marker.y = callback.input.mousePointer.y;
-            try{
+            try {
                 //Nur auf grünen Flächen dürfen Türme gebaut werden!
-                if(((map.getTile(Math.round(marker.x/64),Math.round(marker.y/64)).index)==3)||
-                    ((map.getTile(Math.round((marker.x-32)/64),Math.round(marker.y/64)).index)==3)||
-                    ((map.getTile(Math.round(marker.x/64),Math.round((marker.y-32)/64)).index)==3))
-                {
+                if (((map.getTile(Math.round(marker.x / 64), Math.round(marker.y / 64)).index) == 3) ||
+                    ((map.getTile(Math.round((marker.x - 32) / 64), Math.round(marker.y / 64)).index) == 3) ||
+                    ((map.getTile(Math.round(marker.x / 64), Math.round((marker.y - 32) / 64)).index) == 3)) {
                     marker.lineStyle(2, 0xff0000, 1);
                     marker.drawRect(0, 0, 32, 32);
                     //Mitte -> Towerauswahl rückgängig
-                    if(callback.input.mouse.button==1){
+                    if (callback.input.mouse.button == 1) {
                         marker.destroy();
                         marker = null;
                     }
                 }
                 //Keine Towers in der oberen Leiste und in der Towerauswahlleiste!
-                else if((marker.y<50)||(marker.y>600)){
+                else if ((marker.y < 50) || (marker.y > 600)) {
                     marker.lineStyle(2, 0xff0000, 1);
                     marker.drawRect(0, 0, 32, 32);
                     //Mitte -> Towerauswahl rückgängig
@@ -216,7 +219,7 @@ Helpers.Menu.prototype = {
                     }
                 }
             }
-            catch(e){
+            catch (e) {
 
             }
         }
@@ -225,12 +228,12 @@ Helpers.Menu.prototype = {
 
     //1.Tower hinzufügen
     addTower: function (callback) {
-        if(marker!=null){
+        if (marker != null) {
             marker.destroy();
-            marker=null;
+            marker = null;
         }
-        else{
-            towerButton=0;
+        else {
+            towerButton = 0;
             marker = callback.add.graphics();
             marker.lineStyle(2, 0x000000, 1);
             marker.drawRect(0, 0, 32, 32);
@@ -240,12 +243,12 @@ Helpers.Menu.prototype = {
     },
     //2.Tower hinzufügen
     addTower2: function (callback) {
-        if(marker!=null){
+        if (marker != null) {
             marker.destroy();
-            marker=null;
+            marker = null;
         }
-        else{
-            towerButton=1;
+        else {
+            towerButton = 1;
             marker = callback.add.graphics();
             marker.lineStyle(2, 0x000000, 1);
             marker.drawRect(0, 0, 32, 32);
@@ -254,12 +257,12 @@ Helpers.Menu.prototype = {
         }
     },
     addTower3: function (callback) {
-        if(marker!=null){
+        if (marker != null) {
             marker.destroy();
-            marker=null;
+            marker = null;
         }
-        else{
-            towerButton=2;
+        else {
+            towerButton = 2;
             marker = callback.add.graphics();
             marker.lineStyle(2, 0x000000, 1);
             marker.drawRect(0, 0, 32, 32);
@@ -268,12 +271,12 @@ Helpers.Menu.prototype = {
         }
     },
     addTower4: function (callback) {
-        if(marker!=null){
+        if (marker != null) {
             marker.destroy();
-            marker=null;
+            marker = null;
         }
-        else{
-            towerButton=3;
+        else {
+            towerButton = 3;
             marker = callback.add.graphics();
             marker.lineStyle(2, 0x000000, 1);
             marker.drawRect(0, 0, 32, 32);
@@ -282,29 +285,29 @@ Helpers.Menu.prototype = {
         }
     },
     //Collisionüberprüfung
-    checkColl : function(spriteArray,counterArray,callback){
-        if(bool==true){
-            for(var l=0;l<towerC;l++){
+    checkColl: function (spriteArray, counterArray, callback) {
+        if (bool == true) {
+            for (var l = 0; l < towerC; l++) {
                 //SpriteArray neu ordnen -> Wer ist erster?
-                for(var a=0;a<spriteArray.length;a++){
-                    var z = spriteArray.length-a-1;
-                    if((spriteArray[z]!=null)){
-                       for(var b=1;b<spriteArray.length;b++) {
-                           var zz = spriteArray.length-b-1;
-                           if(spriteArray[zz]!=null) {
-                               if (spriteArray[z].x > (spriteArray[zz].x+20)) {
-                                   var n = spriteArray[zz];
-                                   var arr= array[zz];
-                                   spriteArray[zz] = spriteArray[z];
-                                   array[zz] = array[z];
-                                   spriteArray[z] = n;
-                                   array[z] = arr;
-                               }
-                           }
-                       }
-                   }
+                for (var a = 0; a < spriteArray.length; a++) {
+                    var z = spriteArray.length - a - 1;
+                    if ((spriteArray[z] != null)) {
+                        for (var b = 1; b < spriteArray.length; b++) {
+                            var zz = spriteArray.length - b - 1;
+                            if (spriteArray[zz] != null) {
+                                if (spriteArray[z].x > (spriteArray[zz].x + 20)) {
+                                    var n = spriteArray[zz];
+                                    var arr = array[zz];
+                                    spriteArray[zz] = spriteArray[z];
+                                    array[zz] = array[z];
+                                    spriteArray[z] = n;
+                                    array[z] = arr;
+                                }
+                            }
+                        }
+                    }
                 }
-                for(var k=0;k<spriteArray.length;k++) {
+                for (var k = 0; k < spriteArray.length; k++) {
                     var i = towerC - l - 1;
                     var j = spriteArray.length - k - 1;
 
@@ -488,28 +491,39 @@ Helpers.Menu.prototype = {
     },
 
     //PopUp-Fenster
-    popUp : function(callback){
+    popUp: function (callback) {
         callback.state.pause();
+
+        this.fp.showPopup();
+
         popup = callback.add.sprite(callback.world.centerX, callback.world.centerY, 'background');
         popup.alpha = 0.8;
         popup.anchor.set(0.5);
         popup.inputEnabled = true;
-        backButton= callback.add.button(callback.world.centerX-97 ,callback.world.centerY+150,'Return',this.closeWindow,this);
-        quitButton = callback.add.button(callback.world.centerX-107, callback.world.centerY+60, 'Quit', this.quit,callback);
+        backButton = callback.add.button(callback.world.centerX - 97, callback.world.centerY + 150, 'Return', this.closeWindow, this);
+        quitButton = callback.add.button(callback.world.centerX - 107, callback.world.centerY + 60, 'Quit', this.quit, callback);
 
     },
 
-    closeWindow: function(){
+    closeWindow: function () {
+
+        this.fp.hidePopup();
+
         quitButton.destroy();
         backButton.destroy();
         popup.destroy();
 
     },
 
-    quit : function(){
-        bool=false;
-        enemyWaveNr=0;
-        for(var k=0;k<towerC;k++){
+    quit: function () {
+
+        this.fp = new FormProcessing();
+
+        this.fp.hidePopup();
+
+        bool = false;
+        enemyWaveNr = 0;
+        for (var k = 0; k < towerC; k++) {
             towers[k] = 0;
         }
         this.state.clearCurrentState();
@@ -518,164 +532,164 @@ Helpers.Menu.prototype = {
     },
 
     //InfoTower1
-    infoTower1: function(){
-        if(popupinfoTower1!=null) {
+    infoTower1: function () {
+        if (popupinfoTower1 != null) {
             popupinfoTower1.destroy();
         }
-        popupinfoTower1 = this.add.sprite(button1.x+40, button1.y-30, 'towerInfo1');
-        popupinfoTower1.scale.x=0.8;
-        popupinfoTower1.scale.y=0.8;
+        popupinfoTower1 = this.add.sprite(button1.x + 40, button1.y - 30, 'towerInfo1');
+        popupinfoTower1.scale.x = 0.8;
+        popupinfoTower1.scale.y = 0.8;
         popupinfoTower1.alpha = 0.8;
         popupinfoTower1.anchor.set(0.5);
     },
-    infoTower1Delete: function(){
+    infoTower1Delete: function () {
         popupinfoTower1.destroy();
     },
 
     //InfoTower2
-    infoTower2: function(){
-        if(popupinfoTower2!=null) {
+    infoTower2: function () {
+        if (popupinfoTower2 != null) {
             popupinfoTower2.destroy();
         }
-        popupinfoTower2 = this.add.sprite(button2.x+40, button2.y-30, 'towerInfo2');
-        popupinfoTower2.scale.x=0.8;
-        popupinfoTower2.scale.y=0.8;
+        popupinfoTower2 = this.add.sprite(button2.x + 40, button2.y - 30, 'towerInfo2');
+        popupinfoTower2.scale.x = 0.8;
+        popupinfoTower2.scale.y = 0.8;
         popupinfoTower2.alpha = 0.8;
         popupinfoTower2.anchor.set(0.5);
     },
-    infoTower2Delete: function(){
+    infoTower2Delete: function () {
         popupinfoTower2.destroy();
     },
 
     //InfoTower3
-    infoTower3: function(){
-        if(popupinfoTower3!=null) {
+    infoTower3: function () {
+        if (popupinfoTower3 != null) {
             popupinfoTower3.destroy();
         }
-        popupinfoTower3 = this.add.sprite(button3.x+40, button3.y-30, 'towerInfo3');
-        popupinfoTower3.scale.x=0.8;
-        popupinfoTower3.scale.y=0.8;
+        popupinfoTower3 = this.add.sprite(button3.x + 40, button3.y - 30, 'towerInfo3');
+        popupinfoTower3.scale.x = 0.8;
+        popupinfoTower3.scale.y = 0.8;
         popupinfoTower3.alpha = 0.8;
         popupinfoTower3.anchor.set(0.5);
     },
-    infoTower3Delete: function(){
+    infoTower3Delete: function () {
         popupinfoTower3.destroy();
     },
     //InfoTower4
-    infoTower4: function(){
-        if(popupinfoTower4!=null) {
+    infoTower4: function () {
+        if (popupinfoTower4 != null) {
             popupinfoTower4.destroy();
         }
-        popupinfoTower4 = this.add.sprite(button4.x+40, button4.y-30, 'towerInfo4');
-        popupinfoTower4.scale.x=0.8;
-        popupinfoTower4.scale.y=0.8;
+        popupinfoTower4 = this.add.sprite(button4.x + 40, button4.y - 30, 'towerInfo4');
+        popupinfoTower4.scale.x = 0.8;
+        popupinfoTower4.scale.y = 0.8;
         popupinfoTower4.alpha = 0.8;
         popupinfoTower4.anchor.set(0.5);
     },
-    infoTower4Delete: function(){
+    infoTower4Delete: function () {
         popupinfoTower4.destroy();
     },
-    diamondClicked : function(callback){
-        if(diamonds>=1){
-            diamonds=diamonds-1;
-            diamondAction=true;
+    diamondClicked: function (callback) {
+        if (diamonds >= 1) {
+            diamonds = diamonds - 1;
+            diamondAction = true;
             diamondText.destroy();
-            diamondText = callback.add.text(200,20,diamonds);
+            diamondText = callback.add.text(200, 20, diamonds);
         }
     },
 
-    diamondInfo : function(){
-        diamondInfo = this.add.sprite(button5.x+40,button5.y-30,'DiamondInfo');
-        diamondInfo.scale.x=0.7;
-        diamondInfo.scale.y=0.7;
+    diamondInfo: function () {
+        diamondInfo = this.add.sprite(button5.x + 40, button5.y - 30, 'DiamondInfo');
+        diamondInfo.scale.x = 0.7;
+        diamondInfo.scale.y = 0.7;
         diamondInfo.alpha = 0.8;
         diamondInfo.anchor.set(0.5);
     },
-    diamondInfoDelete : function(){
+    diamondInfoDelete: function () {
         diamondInfo.destroy();
     },
-    popUpT : function(c,callback){
-        towerB=c;
-        popup = callback.add.sprite(c.x+60, c.y-50, 'backgroundT');
+    popUpT: function (c, callback) {
+        towerB = c;
+        popup = callback.add.sprite(c.x + 60, c.y - 50, 'backgroundT');
         popup.alpha = 0.8;
         popup.anchor.set(0.5);
-        popup.scale.x=0.6;
+        popup.scale.x = 0.6;
         popup.inputEnabled = true;
-        upgradeButton= callback.add.button(c.x+30 , c.y-90,'UpgradeT',this.upgradeTower1,callback);
-        upgradeButton.events.onInputOver.add(this.upgradeTowerInfo1,callback);
-        upgradeButton.events.onInputOut.add(this.upgradeTowerInfoDelete,callback);
-        upgradeButton.scale.x=0.8;
-        upgradeButton.scale.y=0.8;
-        deleteButton= callback.add.button(c.x+30 , c.y-40,'Sell',this.deleteTower,callback);
-        deleteButton.scale.x=0.8;
-        deleteButton.scale.y=0.8;
-        exitButton=callback.add.button(c.x+90 , c.y-100,'Exit',this.deleteAll,callback);
-        exitButton.scale.x=0.3;
-        exitButton.scale.y=0.3;
+        upgradeButton = callback.add.button(c.x + 30, c.y - 90, 'UpgradeT', this.upgradeTower1, callback);
+        upgradeButton.events.onInputOver.add(this.upgradeTowerInfo1, callback);
+        upgradeButton.events.onInputOut.add(this.upgradeTowerInfoDelete, callback);
+        upgradeButton.scale.x = 0.8;
+        upgradeButton.scale.y = 0.8;
+        deleteButton = callback.add.button(c.x + 30, c.y - 40, 'Sell', this.deleteTower, callback);
+        deleteButton.scale.x = 0.8;
+        deleteButton.scale.y = 0.8;
+        exitButton = callback.add.button(c.x + 90, c.y - 100, 'Exit', this.deleteAll, callback);
+        exitButton.scale.x = 0.3;
+        exitButton.scale.y = 0.3;
 
     },
-    popUpT2 : function(c,callback){
-        towerB=c;
-        popup = callback.add.sprite(c.x+60, c.y-50, 'backgroundT');
+    popUpT2: function (c, callback) {
+        towerB = c;
+        popup = callback.add.sprite(c.x + 60, c.y - 50, 'backgroundT');
         popup.alpha = 0.8;
         popup.anchor.set(0.5);
-        popup.scale.x=0.6;
+        popup.scale.x = 0.6;
         popup.inputEnabled = true;
-        upgradeButton= callback.add.button(c.x+30 , c.y-90,'UpgradeT',this.upgradeTower2,callback);
-        upgradeButton.events.onInputOver.add(this.upgradeTowerInfo2,callback);
-        upgradeButton.events.onInputOut.add(this.upgradeTowerInfoDelete,callback);
-        upgradeButton.scale.x=0.8;
-        upgradeButton.scale.y=0.8;
-        deleteButton= callback.add.button(c.x+30 , c.y-40,'Sell',this.deleteTower,callback);
-        deleteButton.scale.x=0.8;
-        deleteButton.scale.y=0.8;
-        exitButton=callback.add.button(c.x+90 , c.y-100,'Exit',this.deleteAll,callback);
-        exitButton.scale.x=0.3;
-        exitButton.scale.y=0.3;
+        upgradeButton = callback.add.button(c.x + 30, c.y - 90, 'UpgradeT', this.upgradeTower2, callback);
+        upgradeButton.events.onInputOver.add(this.upgradeTowerInfo2, callback);
+        upgradeButton.events.onInputOut.add(this.upgradeTowerInfoDelete, callback);
+        upgradeButton.scale.x = 0.8;
+        upgradeButton.scale.y = 0.8;
+        deleteButton = callback.add.button(c.x + 30, c.y - 40, 'Sell', this.deleteTower, callback);
+        deleteButton.scale.x = 0.8;
+        deleteButton.scale.y = 0.8;
+        exitButton = callback.add.button(c.x + 90, c.y - 100, 'Exit', this.deleteAll, callback);
+        exitButton.scale.x = 0.3;
+        exitButton.scale.y = 0.3;
 
     },
-    popUpT3 : function(c,callback){
-        towerB=c;
-        popup = callback.add.sprite(c.x+60, c.y-50, 'backgroundT');
+    popUpT3: function (c, callback) {
+        towerB = c;
+        popup = callback.add.sprite(c.x + 60, c.y - 50, 'backgroundT');
         popup.alpha = 0.8;
         popup.anchor.set(0.5);
-        popup.scale.x=0.6;
+        popup.scale.x = 0.6;
         popup.inputEnabled = true;
-        upgradeButton= callback.add.button(c.x+30 , c.y-90,'UpgradeT',this.upgradeTower3,callback);
-        upgradeButton.events.onInputOver.add(this.upgradeTowerInfo3,callback);
-        upgradeButton.events.onInputOut.add(this.upgradeTowerInfoDelete,callback);
-        upgradeButton.scale.x=0.8;
-        upgradeButton.scale.y=0.8;
-        deleteButton= callback.add.button(c.x+30 , c.y-40,'Sell',this.deleteTower,callback);
-        deleteButton.scale.x=0.8;
-        deleteButton.scale.y=0.8;
-        exitButton=callback.add.button(c.x+90 , c.y-100,'Exit',this.deleteAll,callback);
-        exitButton.scale.x=0.3;
-        exitButton.scale.y=0.3;
+        upgradeButton = callback.add.button(c.x + 30, c.y - 90, 'UpgradeT', this.upgradeTower3, callback);
+        upgradeButton.events.onInputOver.add(this.upgradeTowerInfo3, callback);
+        upgradeButton.events.onInputOut.add(this.upgradeTowerInfoDelete, callback);
+        upgradeButton.scale.x = 0.8;
+        upgradeButton.scale.y = 0.8;
+        deleteButton = callback.add.button(c.x + 30, c.y - 40, 'Sell', this.deleteTower, callback);
+        deleteButton.scale.x = 0.8;
+        deleteButton.scale.y = 0.8;
+        exitButton = callback.add.button(c.x + 90, c.y - 100, 'Exit', this.deleteAll, callback);
+        exitButton.scale.x = 0.3;
+        exitButton.scale.y = 0.3;
 
     },
-    popUpT4 : function(c,callback){
-        towerB=c;
-        popup = callback.add.sprite(c.x+60, c.y-50, 'backgroundT');
+    popUpT4: function (c, callback) {
+        towerB = c;
+        popup = callback.add.sprite(c.x + 60, c.y - 50, 'backgroundT');
         popup.alpha = 0.8;
         popup.anchor.set(0.5);
-        popup.scale.x=0.6;
+        popup.scale.x = 0.6;
         popup.inputEnabled = true;
-        upgradeButton= callback.add.button(c.x+30 , c.y-90,'UpgradeT',this.upgradeTower4,callback);
-        upgradeButton.events.onInputOver.add(this.upgradeTowerInfo4,callback);
-        upgradeButton.events.onInputOut.add(this.upgradeTowerInfoDelete,callback);
-        upgradeButton.scale.x=0.8;
-        upgradeButton.scale.y=0.8;
-        deleteButton= callback.add.button(c.x+30 , c.y-40,'Sell',this.deleteTower,callback);
-        deleteButton.scale.x=0.8;
-        deleteButton.scale.y=0.8;
-        exitButton=callback.add.button(c.x+90 , c.y-100,'Exit',this.deleteAll,callback);
-        exitButton.scale.x=0.3;
-        exitButton.scale.y=0.3;
+        upgradeButton = callback.add.button(c.x + 30, c.y - 90, 'UpgradeT', this.upgradeTower4, callback);
+        upgradeButton.events.onInputOver.add(this.upgradeTowerInfo4, callback);
+        upgradeButton.events.onInputOut.add(this.upgradeTowerInfoDelete, callback);
+        upgradeButton.scale.x = 0.8;
+        upgradeButton.scale.y = 0.8;
+        deleteButton = callback.add.button(c.x + 30, c.y - 40, 'Sell', this.deleteTower, callback);
+        deleteButton.scale.x = 0.8;
+        deleteButton.scale.y = 0.8;
+        exitButton = callback.add.button(c.x + 90, c.y - 100, 'Exit', this.deleteAll, callback);
+        exitButton.scale.x = 0.3;
+        exitButton.scale.y = 0.3;
 
     },
-    upgradeTower1: function(){
-        var c=towerB;
+    upgradeTower1: function () {
+        var c = towerB;
         if (c.speeed != 450) {
             //1.Update
             if (c.isUpgraded == false) {
@@ -706,8 +720,8 @@ Helpers.Menu.prototype = {
         upgradeButton.destroy();
 
     },
-    upgradeTower2: function(){
-        var c=towerB;
+    upgradeTower2: function () {
+        var c = towerB;
         if (c.speeed != 650) {
             //1.Update
             if (c.isUpgraded == false) {
@@ -738,8 +752,8 @@ Helpers.Menu.prototype = {
         upgradeButton.destroy();
 
     },
-    upgradeTower3: function(){
-        var c=towerB;
+    upgradeTower3: function () {
+        var c = towerB;
         if (c.speeed != 400) {
             //1.Update
             if (c.isUpgraded == false) {
@@ -770,8 +784,8 @@ Helpers.Menu.prototype = {
         upgradeButton.destroy();
 
     },
-    upgradeTower4: function(){
-        var c=towerB;
+    upgradeTower4: function () {
+        var c = towerB;
         if (c.speeed != 300) {
             //1.Update
             if (c.isUpgraded == false) {
@@ -802,40 +816,40 @@ Helpers.Menu.prototype = {
         upgradeButton.destroy();
 
     },
-    upgradeTowerInfoDelete: function(){
+    upgradeTowerInfoDelete: function () {
         popupinfoTower1U.destroy();
     },
-    deletePopUp : function(){
-            popup.destroy();
-            if (popupinfoTower1U != undefined) {
-                popupinfoTower1U.destroy();
-            }
-            deleteButton.destroy();
-            upgradeButton.destroy();
+    deletePopUp: function () {
+        popup.destroy();
+        if (popupinfoTower1U != undefined) {
+            popupinfoTower1U.destroy();
+        }
+        deleteButton.destroy();
+        upgradeButton.destroy();
     },
-    deleteTower: function(){
+    deleteTower: function () {
         popup.destroy();
         deleteButton.destroy();
         upgradeButton.destroy();
         exitButton.destroy();
-        coins = Math.round(coins + towerB.cost*(0.66));
+        coins = Math.round(coins + towerB.cost * (0.66));
         coinText.destroy();
         coinText = this.add.text(100, 20, coins);
-        towerB.isDestroyed=true;
+        towerB.isDestroyed = true;
         towerB.destroy();
 
     },
 
-    deleteAll: function(){
+    deleteAll: function () {
         popup.destroy();
         deleteButton.destroy();
         upgradeButton.destroy();
         exitButton.destroy();
     },
 
-    upgradeTowerInfo1: function() {
+    upgradeTowerInfo1: function () {
         var c = towerB;
-        if(c.speed!=450) {
+        if (c.speed != 450) {
             // popupinfoTower1U.destroy();
             if (c.isUpgraded == false) {
                 if ((score > 1000) && (coins >= 100)) {
@@ -864,9 +878,9 @@ Helpers.Menu.prototype = {
 
     },
 
-    upgradeTowerInfo2: function() {
+    upgradeTowerInfo2: function () {
         var c = towerB;
-        if(c.speed!=650) {
+        if (c.speed != 650) {
             // popupinfoTower1U.destroy();
             if (c.isUpgraded == false) {
                 if ((score > 2000) && (coins >= 200)) {
@@ -895,9 +909,9 @@ Helpers.Menu.prototype = {
 
     },
 
-    upgradeTowerInfo3: function() {
+    upgradeTowerInfo3: function () {
         var c = towerB;
-        if(c.speed!=400) {
+        if (c.speed != 400) {
             // popupinfoTower1U.destroy();
             if (c.isUpgraded == false) {
                 if ((score > 2000) && (coins >= 200)) {
@@ -925,9 +939,9 @@ Helpers.Menu.prototype = {
         popupinfoTower1U.anchor.set(0.2);
 
     },
-    upgradeTowerInfo4: function() {
+    upgradeTowerInfo4: function () {
         var c = towerB;
-        if(c.speed!=300) {
+        if (c.speed != 300) {
             // popupinfoTower1U.destroy();
             if (c.isUpgraded == false) {
                 if ((score > 1000) && (coins >= 100)) {
@@ -956,4 +970,4 @@ Helpers.Menu.prototype = {
 
     }
 
-}
+};
