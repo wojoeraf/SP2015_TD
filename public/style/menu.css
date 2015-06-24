@@ -9,7 +9,7 @@
 #rankingTable {
     position: absolute;
     width: inherit;
-    top: 350px;
+    top: 250px;
     margin-left: auto;
     margin-right: auto;
     text-align: center;
@@ -31,7 +31,7 @@
 }
 
 /*.formBody h2 {*/
-    /*text-align: center;*/
+/*text-align: center;*/
 /*}*/
 
 #loginArea {
@@ -49,4 +49,18 @@
 
 #forgotPasswordArea {
     margin: 100px auto 0;
+}
+
+#settingsMenu {
+    position: absolute;
+    width: inherit;
+    top: 200px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+#sliderMusic, #sliderSound {
+    margin-right: auto; margin-left: auto; width: 250px;
+    top: 18px;
 }

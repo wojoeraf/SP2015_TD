@@ -52,6 +52,8 @@ Menu.Preloader.prototype = {
         this.load.spritesheet('point2', 'assets/point.png');
         this.load.spritesheet('line', 'assets/menu/line.png');
         this.load.spritesheet('line2', 'assets/menu/line.png');
+        this.load.spritesheet('volumeSound', 'assets/menu/settings/volume_Sound.png');
+        this.load.spritesheet('volumeMusic', 'assets/menu/settings/volume_Music.png');
 
         // Level Selector
         this.load.spritesheet('buttonEasy', 'assets/menu/menuButton_gameEasy.png');
@@ -70,12 +72,12 @@ Menu.Preloader.prototype = {
         this.load.spritesheet('rankingHardBright', 'assets/menu/menuButton_hard_bright.png');
 
 
-        // buy
-        this.load.spritesheet('buyText', 'assets/menu/buy/buy_diamonds.png');
-        this.load.spritesheet('buy1', 'assets/menu/buy/buy1.png');
-        this.load.spritesheet('buy2', 'assets/menu/buy/buy2.png');
-        this.load.spritesheet('buy3', 'assets/menu/buy/buy3.png');
-        this.load.spritesheet('freeDiamonds', 'assets/menu/buy/free_diamonds.png');
+        // Buy
+        this.load.spritesheet('buyText', 'assets/menu/Buy/buy_diamonds.png');
+        this.load.spritesheet('buy1', 'assets/menu/Buy/buy1.png');
+        this.load.spritesheet('buy2', 'assets/menu/Buy/buy2.png');
+        this.load.spritesheet('buy3', 'assets/menu/Buy/buy3.png');
+        this.load.spritesheet('freeDiamonds', 'assets/menu/Buy/free_diamonds.png');
 
 
         // Achievements
@@ -117,6 +119,7 @@ Menu.Preloader.prototype = {
             // Add audios to game audio
             this.add.audio('titleMusic', 1, true);
             this.add.audio('menuClick', 0.2);
+            this.game.sound.volume = 0.5;
 
             // Play music when not muted
             if (!Audio.musicIsMuted) {

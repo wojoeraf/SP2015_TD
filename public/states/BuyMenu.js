@@ -12,7 +12,7 @@ Menu.BuyMenu.prototype = {
         // Add background and text
         this.add.sprite(0, 0, 'menuBG');
 
-        // Add buy buttons and text
+        // Add Buy buttons and text
         this.add.sprite(412, 200, 'buyText');
         this.add.button(187, 285, 'buy1', this.buy1, this);
         this.add.button(412, 285, 'buy2', this.buy2, this);
@@ -33,19 +33,19 @@ Menu.BuyMenu.prototype = {
     },
 
     buy1: function () {
-        //Code for processing the buy request to paypal and stuff
+        //Code for processing the Buy request to paypal and stuff
         this.helper.playSound('menuClick');
 
     },
 
     buy2: function () {
-        //Code for processing the buy request to paypal and stuff
+        //Code for processing the Buy request to paypal and stuff
         this.helper.playSound('menuClick');
 
     },
 
     buy3: function () {
-        //Code for processing the buy request to paypal and stuff
+        //Code for processing the Buy request to paypal and stuff
         this.helper.playSound('menuClick');
 
     },

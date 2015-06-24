@@ -1,132 +1,85 @@
 Menu.SettingsMenu = function () {
 
     this.helper = new Helper.Menu(this);
+    this.fp = new FormProcessing();
 
-//Variablen deklarieren
-    this.soundvolume = 50;
-    this.musicvolume = 50;
-    this.textS = null;
-    this.textM = null;
-    this.style = {font: "25px Arial", fill: "#ff0044", align: "center"};
 
 };
 
-var point;
-var pointM;
+var musicVol = 0.5;
+var soundVol = 0.5;
+
 Menu.SettingsMenu.prototype = {
 
     create: function () {
+
         //Titlebild, Settings-Text und Soundvolume+MusicVolume-Schriftzug hinzufügen
         this.add.sprite(0, 0, 'menuBG');
-        //this.add.sprite(355,350, 'settingsText');
-        //this.add.sprite(285, 499, 'soundvolumeText');
-        //this.add.sprite(285,599, 'musicvolumeText');
+        //Add text
+        this.add.sprite(431, 230, 'volumeMusic');
+        this.add.sprite(431, 370, 'volumeSound');
 
+        //Show the sliders
+        this.fp.showSettings();
+
+        //Standardbuttons
         this.helper.placeBackButton(this.back);
+        this.buttonMusic = this.helper.placeMusicButton(this.musicToggle);
+        this.buttonSound = this.helper.placeSoundButton(this.soundToggle);
 
-        //Balken für die Volume-Anzeigen hinzufügen
-        this.add.sprite(455, 507, 'line');
-        this.add.sprite(455, 607, 'line2');
+        //Füge die beiden slider hinzu
+        $(function() {
+            $( "#sliderMusic" ).slider({
+                animate: true,
+                min: 0,
+                max: 1,
+                step: 0.01,
+                value: musicVol
+            });
+        });
 
-
-        //Schieberegel-Punkt hinzufügen und Drag-Event aktivieren
-        //auf Veränderung des Punktes
-        point = this.add.sprite(455+(Audio.soundVolume)*195, 500, 'point');
-        point.inputEnabled = true;
-        point.input.enableDrag();
-        point.input.allowVerticalDrag = false;
-        this.soundvolume=Audio.soundVolume*195;
-        //neben dem Balken: Textanzeige des aktuellen Volumes
-        this.textS = this.add.text(670, 495, this.soundvolume, this.style);
-
-
-        //MusicVolume
-        pointM = this.add.sprite(455+(Audio.musicVolume)*195, 600, 'point2');
-        pointM.inputEnabled = true;
-        pointM.input.enableDrag();
-        pointM.input.allowVerticalDrag = false;
-        this.musicvolume=Audio.musicVolume*195;
-        this.textM = this.add.text(670, 595, this.musicvolume, this.style);
-
+        $(function() {
+            $( "#sliderSound" ).slider({
+                animate: true,
+                min: 0,
+                max: 1,
+                step: 0.01,
+                value: soundVol
+            });
+        });
 
     },
 
 
     update: function () {
 
-        //Soundeffekte-Punkt
-        if (point.x < 455) {
+        //Neue Lautstärke = Wert der Slider
+        musicVol = $( "#sliderMusic" ).slider( "option", "value" );
+        this.game.sound.volume = musicVol;
 
-            point.x=455;
-            this.soundvolume = 1;
-            this.textS.text=this.soundvolume;
-            Audio.soundVolume=this.soundvolume/100;
+        soundVol = $( "#sliderSound" ).slider( "option", "value" );
+        Audio.soundVolume = soundVol;
 
-
-        }
-        else if (point.x > 650) {
-
-            point.x=650;
-            this.soundvolume = 100;
-            this.textS.text=this.soundvolume;
-            Audio.soundVolume=this.soundvolume/100;
-
-        }
-        else {
-            this.soundvolume = 100 - Math.round(((650 - point.x) / 195) * 100);
-            if (this.soundvolume < 1) {
-                this.soundvolume = 1;
-            }
-            if (this.soundvolume > 100) {
-                this.soundvolume = 100;
-            }
-            this.textS.text=this.soundvolume;
-            Audio.soundVolume=this.soundvolume/100;
-
-        }
-
-
-        //Musicvolume-Punkt
-        if (pointM.x < 455) {
-
-            pointM.x=455;
-            this.musicvolume = 1;
-            this.textM.text=this.musicvolume;
-            Audio.musicVolume=this.musicvolume/100;
-
-
-        }
-        else if (pointM.x > 650) {
-
-            pointM.x=650;
-            this.musicvolume = 100;
-            this.textM.text=this.musicvolume;
-            Audio.musicVolume=this.musicvolume/100;
-
-
-        }
-        else {
-
-            this.musicvolume = 100 - Math.round(((650 - pointM.x) / 195) * 100);
-            if (this.musicvolume < 1) {
-                this.musicvolume = 1;
-            }
-            if (this.musicvolume > 100) {
-                this.musicvolume = 100;
-            }
-            this.textM.text=this.musicvolume;
-            Audio.musicVolume=this.musicvolume/100;
-
-
-        }
     },
 
     // Go back
     back: function () {
         this.helper.playSound('menuClick');
         this.state.start("MainMenu");
+        this.fp.hideSettings();
+
+    },
+
+    musicToggle: function () {
+        this.helper.toggleMusic(this.buttonMusic);
+    },
+
+
+    soundToggle: function () {
+        this.helper.toggleSound(this.buttonSound);
     }
-};
+}
+;
 
 
 
