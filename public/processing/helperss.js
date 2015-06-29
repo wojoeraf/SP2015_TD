@@ -10,8 +10,6 @@ Helpers.Menu = function () {
     this.fp = new FormProcessing();
     this.helper = new Helper.Menu(this);
 
-    console.log(musicVolume);
-
 };
 
 Helpers.Menu.prototype = {
@@ -601,20 +599,13 @@ Helpers.Menu.prototype = {
         }
     },
 
-<<<<<<< HEAD
-    diamondInfo : function(){
-        if(diamondInfo!=null){
+    diamondInfo: function () {
+        if (diamondInfo != null) {
             diamondInfo.destroy();
         }
-        diamondInfo = this.add.sprite(button5.x+40,button5.y-30,'DiamondInfo');
-        diamondInfo.scale.x=0.7;
-        diamondInfo.scale.y=0.7;
-=======
-    diamondInfo: function () {
         diamondInfo = this.add.sprite(button5.x + 40, button5.y - 30, 'DiamondInfo');
         diamondInfo.scale.x = 0.7;
         diamondInfo.scale.y = 0.7;
->>>>>>> origin/master
         diamondInfo.alpha = 0.8;
         diamondInfo.anchor.set(0.5);
     },
