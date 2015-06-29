@@ -1,3 +1,4 @@
 ﻿#Ignore project specific stuff
 .idea/
 ./config.txt
+./db.js
