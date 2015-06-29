@@ -30,7 +30,7 @@ Menu.MainMenu.prototype = {
 
 
         if (player.loggedIn)
-            this.helper.placeLogoutButton(this.back);
+            this.helper.placeLogoutButton(this.logout);
         else
             this.helper.placeBackButton(this.back);
 
@@ -58,6 +58,15 @@ Menu.MainMenu.prototype = {
     showRanking: function () {
         this.helper.playSound('menuClick');
         this.state.start("RankingMenu");
+    },
+
+    // logout
+    logout: function () {
+        this.helper.playSound('menuClick');
+        var success = this.fp.logout();
+        if (success) this.player.loggedIn = false;
+        this.helper.debugLog('The player object:\n' + this.player);
+        this.state.start("LoginMenu");
     },
 
     // Go back

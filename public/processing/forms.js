@@ -9,6 +9,7 @@
 
 FormProcessing = function () {
     this.helper = new Helper.Html();
+    this.helperMenu = new Helper.Menu();
 
     // username regex
     var regexUsername = /[A_Za-z0-9_]/g;
@@ -99,6 +100,33 @@ FormProcessing.prototype = {
 
     hideSettings: function () {
         this.helper.hideElement("#settingsMenu");
+    },
+
+    logout: function() {
+        var ret = false;
+        var helper = this.helperMenu;
+        $(function () {
+            var data = {
+                username: player.name
+            };
+            $.ajax({
+                method: 'get',
+                url: '/logout',
+                type: 'json',
+                data: data
+            }).always(function (data, status, err) {
+                helper.debugLog('Unable to login\nResponse:\n' + JSON.stringify(data, null, 4) + '\nstatus: ' + status + '\nerror message: ' + err);
+                if (data.success === true) {
+                    helper.debugLog('User successfully logged out.');
+                    $(".userInfo").html("");
+                    ret = true
+                } else {
+                    helper.debugLog('Error while logging out.');
+                }
+            });
+            return false;
+        });
+        return ret;
     },
 
     validate: function (username, email, password, confirm) {

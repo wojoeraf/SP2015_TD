@@ -53,9 +53,16 @@ Helper.Html.prototype = {
 
 Helper.Menu = function (game) {
     this.game = game;
+
+    // For developing set this to true, otherwise false.
+    this.debug = true;
 };
 
 Helper.Menu.prototype = {
+
+    debugLog: function(string) {
+        if (this.debug) console.log(string);
+    },
 
     /**
      * Place the back button every time on the same place.

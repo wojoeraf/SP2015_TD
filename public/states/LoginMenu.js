@@ -38,11 +38,7 @@ Menu.LoginMenu.prototype = {
     // Login button callback
     login: function () {
         this.helper.playSound('menuClick');
-        this.fp.hideLoginForm();
-        player.loggedIn = true;
-        this.state.start("MainMenu");
-
-        //TODO check auf erfolg/misserfolg des logins
+        var state = this;
 
         $(function () {
             var data = {
@@ -54,11 +50,18 @@ Menu.LoginMenu.prototype = {
                 url: '/login',
                 type: 'json',
                 data: data
-            }).always(function (data, status, err) {
-                console.log(JSON.stringify(data, null, 4));
-                console.log(status);
-                console.log(err);
-                $(".inhalt").html("Welcome " + data.local.username);
+            }).done(function (data, status, err) {
+                player.loggedIn = true;
+                player.name = data.local.username;
+                player.email = data.local.email;
+                $(".userInfo").html("<p>Welcome " + data.local.username + "</p>");
+                state.state.start("MainMenu");
+                state.fp.hideLoginForm();
+                state.helper.debugLog('Player ' + player.name + ' successfully logged in.');
+            }).fail(function (data, status, err) {
+                player.loggedIn = false;
+                state.helper.debugLog('Unable to login\nResponse:\n' + JSON.stringify(data, null, 4) + '\nstatus: ' + status + '\nerror message: ' + err);
+                $(".userInfo").html("<p>Login error</p>");
             });
             return false;
         });

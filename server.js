@@ -1,6 +1,12 @@
 /**
- * Created by Chris on 15.06.2015.
+ * Main node file. Server starts here.
  */
+
+// Set this while developing to true. For deployment make it false:
+var debug = true;
+
+var port = process.env.PORT || 3012;
+
 var express = require('express');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
@@ -8,6 +14,7 @@ var bodyParser = require('body-parser');
 var dbConfig = require('./db');
 var mongoose = require('mongoose');
 var https = require('https');
+var util = require('util');
 
 var fs = require('fs');
 var path = require('path');
@@ -28,30 +35,49 @@ app.use(bodyParser.urlencoded({extended: false}));
 // passport and session stuff
 var passport = require('passport');
 var expressSession = require('express-session');
-app.use(expressSession({secret: 'mySecretKey'}));
+var MongoStore = require('connect-mongo')(expressSession);
+app.use(expressSession({store: new MongoStore({ mongooseConnection: mongoose.connection }),
+                        secret: '%@b<%L2zF:/n.x+A7("hq>Dom{$QlS|A',
+                        resave: false,
+                        saveUninitialized: false}));
 app.use(passport.initialize());
 app.use(passport.session());
 var initPassport = require('./auth/userAuth');
 initPassport(passport);
 
 app.post('/login', function (req, res, next) {
-
     passport.authenticate('local-login', function (err, user, info) {
         console.log(info);
         console.log(typeof user);
         if (err) {
-            res.status(500).json(error);
+            return res.status(500).json(error).end();
         }
         if (!user) {
-            res.status(401).json(info.message);
+            return res.status(401).json(info.message).end();
         }
         req.logIn(user, function (err) {
             if (err) {
-                console.log('something wrong2!');
+                console.log('Error while trying to login');
+                return res.json(err).end();
             }
-            return res.json(user);
+            return res.json(user).end();
         });
     })(req, res, next);
+});
+
+app.get('/logout', function(req, res) {
+    console.log('logging out...');
+    //util.log(util.inspect(req));
+    util.log('Request received: \nmethod: ' + req.method + '\nurl: ' + req.url)
+    req.session.destroy(function(err) {
+        if (err) {
+            console.log('error while logging out: ' + err);
+            res.status(500).json({success: true}).end();
+        } else {
+            res.json({success: true}).end();
+            console.log('User successfully logged out.');
+        }
+    });
 });
 
 app.post('/signup', function (req, res, next) {
@@ -131,4 +157,6 @@ function captchaCallback(value) {
     console.log("callback called. argument: " + value);
 }
 
-app.listen(3012);
+app.listen(port, function() {
+    console.log('App is listening on port ' + port);
+});
