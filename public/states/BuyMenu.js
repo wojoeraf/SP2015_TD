@@ -9,6 +9,8 @@ Menu.BuyMenu.prototype = {
 
     create: function () {
 
+
+
         // Add background and text
         this.add.sprite(0, 0, 'menuBG');
 
@@ -24,6 +26,7 @@ Menu.BuyMenu.prototype = {
         this.buttonSound = this.helper.placeSoundButton(this.soundToggle);
         this.helper.placeBackButton(this.back);
 
+        //Show the captcha
         this.fp.showCaptcha();
 
     },

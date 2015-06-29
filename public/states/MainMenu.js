@@ -16,6 +16,9 @@ Menu.MainMenu.prototype = {
 
     create: function () {
 
+        //Render the captcha
+        this.renderCaptcha();
+
         // Add background
         this.add.sprite(0, 0, 'menuBG');
 
@@ -95,6 +98,32 @@ Menu.MainMenu.prototype = {
     achieve: function () {
         this.helper.playSound('menuClick');
         this.state.start("AchievementMenu");
+    },
+
+    renderCaptcha: function () {
+        console.log("render render");
+        var captchaContainer = null;
+        loadCaptcha = function () {
+            console.log("entering loadCaptcha");
+            captchaContainer = grecaptcha.render('captcha_container', {
+                'sitekey': '6LeBSwgTAAAAAMOYTY-lEdVzRMnmvPIVLNSj75b8',
+                'callback': function (response) {
+                    console.log(response);
+
+                    $.ajax({
+                        method: 'post',
+                        url: '/verify',
+                        dataType: "text",
+                        data: response
+                    }).always(function (data, status, err) {
+                        console.log(status);
+                        console.log(err);
+                    });
+
+                }
+            });
+        };
+        loadCaptcha();
     }
 
 };

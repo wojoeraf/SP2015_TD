@@ -102,6 +102,14 @@ FormProcessing.prototype = {
         this.helper.hideElement("#settingsMenu");
     },
 
+    showPopup: function () {
+        this.helper.showElement("#popupSlider");
+    },
+
+    hidePopup: function () {
+        this.helper.hideElement("#popupSlider");
+    },
+
     logout: function() {
         var ret = false;
         var helper = this.helperMenu;
