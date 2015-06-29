@@ -24,6 +24,8 @@ Player = function () {
      */
     this.loggedIn = false;
 
+    this.diamonds = 0;
+
 };
 
 Player.prototype = {

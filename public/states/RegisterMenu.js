@@ -1,6 +1,7 @@
 Menu.RegisterMenu = function(){
     this.fp = new FormProcessing();
     this.helper = new Helper.Menu(this);
+
 };
 
 Menu.RegisterMenu.prototype = {

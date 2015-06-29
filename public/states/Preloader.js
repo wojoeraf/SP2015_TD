@@ -126,6 +126,9 @@ Menu.Preloader.prototype = {
                     }).always(function (data, status, err) {
                         console.log(status);
                         console.log(err);
+                    }).success(function(data, status, err){
+                        console.log("awarding diamonds");
+                        player.diamonds++;
                     });
 
                 }

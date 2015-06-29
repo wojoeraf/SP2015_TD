@@ -20,7 +20,14 @@ Menu.MainMenu.prototype = {
         this.add.sprite(0, 0, 'menuBG');
 
         // Add buttons
-        this.add.button(900, 50, 'buttonBuy', this.buyDiamonds, this);
+
+        if (player.loggedIn == true) {
+            this.add.button(900, 50, 'buttonBuy', this.buyDiamonds, this);
+            var string = player.diamonds + " diamonds!";
+            this.add.text(850, 10, string);
+        }
+        ;
+
         this.add.button(437, 300, 'buttonPlay', this.startGame, this);
         this.add.button(437, 370, 'buttonSettings', this.showSettings, this);
         this.add.button(437, 440, 'buttonRanking', this.showRanking, this);
