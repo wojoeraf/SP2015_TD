@@ -27,7 +27,7 @@ Menu.RegisterMenu.prototype = {
     registration: function(){
         //this.fp.hideRegisterForm();
 
-        var fp = this.fp;
+        var outerThis = this;
 
         $(function () {
             var username = $("input[name=registerUsername]").val();
@@ -52,14 +52,17 @@ Menu.RegisterMenu.prototype = {
                 //console.log(JSON.stringify(data, null, 4));
                 //console.log(status);
                 //console.log(err);
-                fp.hideRegisterForm();
+                outerThis.fp.hideRegisterForm();
                 player.loggedIn = true;
                 console.log('Registration successful.');
-                this.state.start("MainMenu");
+                outerThis.state.start("MainMenu");
                 //$(".inhalt").html(data.message);
             }).fail(function (data, status, err) {
                 console.log('Registration failed.');
-                $(".resp").html("Registration failed.");
+                outerThis.helper.debugLog('Unable to login\nResponse:\n' + JSON.stringify(data, null, 4));
+                var message = data.responseJSON.message;
+                console.log(message);
+                $("#responseRegister").html(message);
             });
             return false;
         });

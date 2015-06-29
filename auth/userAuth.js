@@ -77,9 +77,8 @@ module.exports = function (passport) {
                 var email = req.body.email;
                 var confirmedPassword = req.body.confirmPassword;
 
-                console.log(req.body);
-
-                console.log('password: ' + password + '; confirm: ' + confirmedPassword);
+                //console.log(req.body);
+                //console.log('password: ' + password + '; confirm: ' + confirmedPassword);
 
                 //validate input
                 if (!validator.isEmail(email)) {
@@ -96,13 +95,11 @@ module.exports = function (passport) {
                 }
 
                 var findOrCreateUser = function () {
-                    User.findOne({ $or: [{'local.username': username, 'local.email': email}]}, function (err, user) {
+                    User.findOne({ $or: [{'local.username': username}, {'local.email': email}]}, function (err, user) {
                         if (err) {
                             console.log('Error on signup!');
                             return done(err);
                         }
-
-                        console.log("user müsste existieren, username " + username);
 
                         // user already exists
                         if (user) {
