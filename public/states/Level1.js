@@ -97,7 +97,6 @@ Menu.Level1.prototype = {
     //Je nach Welle -> Sprites hinzufügen (Aufruf von buildWave(EnemyTyp,Anzahl,Speed,Lifes)
     boolF : function(){
 
-
         if(enemyWaveNr==0){
             this.helpers.wave1(this.start.x,this.start.y,this);
         }
@@ -124,10 +123,7 @@ Menu.Level1.prototype = {
 
     //Nächste Gegnerwelle
     nextWave : function(player,arraynumber){
-        if(marker!=null){
-            marker.destroy();
-            marker=null;
-        }
+
         this.physics.arcade.collide(player, layer);
         var a = array[arraynumber];
         if(player.x<this.visiblePoint){
