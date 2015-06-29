@@ -126,8 +126,11 @@ module.exports = function (passport) {
                             newUser.local.created_at = currentDate;
                             newUser.local.last_login = currentDate;
 
+                            console.log("NewUser is: "+ newUser);
+
                             // save the user
-                            newUser.save(function (err) {
+                            newUser.save(function (err, data) {
+                                console.log("Data is: " + data);
                                 if (err) {
                                     console.log('Error saving new user. Registration aborted!');
                                     throw err;
