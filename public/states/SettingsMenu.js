@@ -25,7 +25,6 @@ Menu.SettingsMenu.prototype = {
         this.buttonSound = this.helper.placeSoundButton(this.soundToggle);
 
 
-
     },
 
 
@@ -33,22 +32,24 @@ Menu.SettingsMenu.prototype = {
         console.log(musicVolume);
 
         //Neue Lautstärke = Wert der Slider
-        musicVolume = $( "#sliderMusic" ).slider( "option", "value" );
+        musicVolume = $("#sliderMusic").slider("option", "value");
         this.game.sound.volume = musicVolume;
 
-        soundVolume = $( "#sliderSound" ).slider( "option", "value" );
+        soundVolume = $("#sliderSound").slider("option", "value");
         Audio.soundVolume = soundVolume;
 
-        $("#popupMusic").slider('value',musicVolume);
-        $("#popupSound").slider('value',soundVolume);
+        $("#popupMusic").slider('value', musicVolume);
+        $("#popupSound").slider('value', soundVolume);
 
     },
 
     // Go back
     back: function () {
+
         this.helper.playSound('menuClick');
         this.state.start("MainMenu");
         this.fp.hideSettings();
+
 
     },
 

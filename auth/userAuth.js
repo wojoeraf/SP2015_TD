@@ -128,7 +128,7 @@ module.exports = function (passport) {
                             newUser.local.created_at = currentDate;
                             newUser.local.last_login = currentDate;
 
-                            console.log(newUser);
+                            console.log("NewUser is: "+ newUser);
 
                             // save the user
                             newUser.save(function (err, data) {
