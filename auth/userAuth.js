@@ -102,6 +102,8 @@ module.exports = function (passport) {
                             return done(err);
                         }
 
+                        console.log("user müsste existieren, username " + username);
+
                         // user already exists
                         if (user) {
                             if (user.local.email === email) {
@@ -126,11 +128,15 @@ module.exports = function (passport) {
                             newUser.local.created_at = currentDate;
                             newUser.local.last_login = currentDate;
 
+                            console.log(newUser);
+
                             // save the user
-                            newUser.save(function (err) {
+                            newUser.save(function (err, data) {
                                 if (err) {
                                     console.log('Error saving new user. Registration aborted!');
-                                    throw err;
+                                    console.log(data);
+                                    return done(null, false, {message: 'An Database error occurred.'});
+                                    //throw err;
                                 }
                                 console.log('User Registration successful');
                                 return done(null, newUser);

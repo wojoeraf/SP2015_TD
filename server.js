@@ -85,20 +85,20 @@ app.post('/signup', function (req, res, next) {
         console.log(info);
         console.log('user is ' + typeof user + ' and has value: ' + user);
         if (user === false) {
-            res.status(500).json({message: 'Failed to register user.'});
+            return res.status(500).json({message: 'Failed to register user.'});
         }
         if (err) {
-            res.status(500).json({message: err});
+            return res.status(500).json({message: err});
         }
         if (!user) {
-            res.status(401).json({message: 'Failed to register user...'});
+            return res.status(401).json({message: 'Failed to register user...'});
         }
-        req.logIn(user, function (err) {
-            if (err) {
-                console.log('something wrong2!');
-            }
-            return res.json(user);
-        });
+        //req.logIn(user, function (err) {
+        //    if (err) {
+        //        console.log('something wrong2!');
+        //    }
+        //    return res.json(user);
+        //});
     })(req, res, next);
 
 });

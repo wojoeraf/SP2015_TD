@@ -25,7 +25,7 @@ Menu.RegisterMenu.prototype = {
 
 
     registration: function(){
-        this.fp.hideRegisterForm();
+        //this.fp.hideRegisterForm();
 
         var fp = this.fp;
 
@@ -52,18 +52,17 @@ Menu.RegisterMenu.prototype = {
                 //console.log(JSON.stringify(data, null, 4));
                 //console.log(status);
                 //console.log(err);
+                fp.hideRegisterForm();
+                player.loggedIn = true;
                 console.log('Registration successful.');
-                //$(".inhalt").html("Welcome " + data.local.username);
-                $(".inhalt").html(data.message);
+                this.state.start("MainMenu");
+                //$(".inhalt").html(data.message);
             }).fail(function (data, status, err) {
                 console.log('Registration failed.');
                 $(".resp").html("Registration failed.");
             });
             return false;
         });
-
-        player.loggedIn = true;
-        this.state.start("MainMenu");
     },
 
 
