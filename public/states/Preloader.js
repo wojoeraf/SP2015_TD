@@ -109,6 +109,31 @@ Menu.Preloader.prototype = {
         this.load.image('achieveText8', 'assets/menu/achievements/placeholder.png');
         this.load.image('achieveText9', 'assets/menu/achievements/placeholder.png');
 
+        //Render the captcha into the empty container
+
+        var captchaContainer = null;
+        loadCaptcha = function () {
+            captchaContainer = grecaptcha.render('captcha_container', {
+                'sitekey': '6LeBSwgTAAAAAMOYTY-lEdVzRMnmvPIVLNSj75b8',
+                'callback': function (response) {
+                    console.log(response);
+
+                    $.ajax({
+                        method: 'post',
+                        url: '/verify',
+                        dataType: "text",
+                        data: response
+                    }).always(function (data, status, err) {
+                        console.log(status);
+                        console.log(err);
+                    });
+
+                }
+            });
+        };
+        loadCaptcha();
+
+
         //Initialize the slider for the popup menu
 
         $(function () {

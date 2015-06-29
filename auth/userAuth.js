@@ -77,7 +77,7 @@ module.exports = function (passport) {
                 var email = req.body.email;
                 var confirmedPassword = req.body.confirmPassword;
 
-                console.log(req.body);
+                console.log("request body: " + req.body);
 
                 console.log('password: ' + password + '; confirm: ' + confirmedPassword);
 
@@ -127,6 +127,8 @@ module.exports = function (passport) {
                             var currentDate = new Date();
                             newUser.local.created_at = currentDate;
                             newUser.local.last_login = currentDate;
+                            newUser.local.diamonds = 5;
+                            newUser.local.achievements = [1];
 
                             console.log("NewUser is: "+ newUser);
 
