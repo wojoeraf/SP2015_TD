@@ -124,6 +124,8 @@ module.exports = function (passport) {
                             var currentDate = new Date();
                             newUser.local.created_at = currentDate;
                             newUser.local.last_login = currentDate;
+                            newUser.local.diamonds = 5;
+                            newUser.local.achievements = [1];
 
                             console.log("NewUser is: "+ newUser);
 
