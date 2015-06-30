@@ -14,10 +14,10 @@ Menu.Level1.prototype = {
     preload: function(){
 
         this.visiblePoint=990;
-        this.myPoint1 = new Phaser.Point(600,190);
-        this.myPoint2 = new Phaser.Point(600,380);
-        this.myPoint3 = new Phaser.Point(280,380);
-        this.myPoint4 = new Phaser.Point(280,130);
+        this.myPoint1 = new Phaser.Point(590,190);
+        this.myPoint2 = new Phaser.Point(590,380);
+        this.myPoint3 = new Phaser.Point(270,380);
+        this.myPoint4 = new Phaser.Point(270,130);
         this.myPoint5 = new Phaser.Point(0,130);
         this.start = new Phaser.Point(1000,190);
         //Map
@@ -109,22 +109,87 @@ Menu.Level1.prototype = {
     },
     //Je nach Welle -> Sprites hinzufügen (Aufruf von buildWave(EnemyTyp,Anzahl,Speed,Lifes)
     boolF : function(){
-        //Zinssystem
-        coins = Math.round(coins + coins*0.1);
-        coinText.destroy();
-        coinText=this.add.text(100,20,coins);
+
         if(enemyWaveNr==0){
+            //Zinssystem
+            coins = Math.round(coins + coins*0.2);
+            coinText.destroy();
+            coinText=this.add.text(100,20,coins);
             this.helpers.wave1(this.start.x,this.start.y,this);
+
         }
         //2.Welle
         else if(enemyWaveNr==1){
+            //Zinssystem
+            coins = Math.round(coins + coins*0.2);
+            coinText.destroy();
+            coinText=this.add.text(100,20,coins);
            this.helpers.wave2(this.start.x,this.start.y,this);
+
         }
         else if(enemyWaveNr==2){
+            //Zinssystem
+            coins = Math.round(coins + coins*0.2);
+            coinText.destroy();
+            coinText=this.add.text(100,20,coins);
             this.helpers.wave3(this.start.x,this.start.y,this);
+
         }
         else if(enemyWaveNr==3){
-            this.helpers.wave3(this.start.x,this.start.y,this);
+            //Zinssystem
+            coins = Math.round(coins + coins*0.2);
+            coinText.destroy();
+            coinText=this.add.text(100,20,coins);
+            this.helpers.wave4(this.start.x,this.start.y,this);
+        }
+        else if(enemyWaveNr==4){
+            //Zinssystem
+            coins = Math.round(coins + coins*0.2);
+            coinText.destroy();
+            coinText=this.add.text(100,20,coins);
+            this.helpers.wave5(this.start.x,this.start.y,this);
+        }
+        else if(enemyWaveNr==5){
+            //Zinssystem
+            coins = Math.round(coins + coins*0.2);
+            coinText.destroy();
+            coinText=this.add.text(100,20,coins);
+            this.helpers.wave6(this.start.x,this.start.y,this);
+        }
+        else if(enemyWaveNr==6){
+            //Zinssystem
+            coins = Math.round(coins + coins*0.2);
+            coinText.destroy();
+            coinText=this.add.text(100,20,coins);
+            this.helpers.wave7(this.start.x,this.start.y,this);
+        }
+        else if(enemyWaveNr==7){
+            //Zinssystem
+            coins = Math.round(coins + coins*0.2);
+            coinText.destroy();
+            coinText=this.add.text(100,20,coins);
+            this.helpers.wave8(this.start.x,this.start.y,this);
+        }
+        else if(enemyWaveNr==8){
+            //Zinssystem
+            coins = Math.round(coins + coins*0.2);
+            coinText.destroy();
+            coinText=this.add.text(100,20,coins);
+            this.helpers.wave9(this.start.x,this.start.y,this);
+        }
+        else if(enemyWaveNr==9){
+            //Zinssystem
+            coins = Math.round(coins + coins*0.2);
+            coinText.destroy();
+            coinText=this.add.text(100,20,coins);
+            this.helpers.wave10(this.start.x,this.start.y,this);
+        }
+        else if(enemyWaveNr==10){
+            //Zinssystem
+            coins = Math.round(coins + coins*0.2);
+            coinText.destroy();
+            coinText=this.add.text(100,20,coins);
+            this.helpers.wave11(this.start.x,this.start.y,this);
         }
     },
     //Popup-Menü öffen und je nach Button verlinken

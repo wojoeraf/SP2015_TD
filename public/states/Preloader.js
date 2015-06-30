@@ -137,6 +137,7 @@ Menu.Preloader.prototype = {
         loadCaptcha();
 
 
+
         //Initialize the slider for the popup menu
 
         $(function () {

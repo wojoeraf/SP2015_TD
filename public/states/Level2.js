@@ -12,12 +12,12 @@ Menu.Level2.prototype = {
     preload: function(){
 
         this.visiblePoint=990;
-        this.myPoint1 = new Phaser.Point(730,400);
-        this.myPoint2 = new Phaser.Point(730,210);
-        this.myPoint3 = new Phaser.Point(470,210);
-        this.myPoint4 = new Phaser.Point(470,380);
+        this.myPoint1 = new Phaser.Point(720,380);
+        this.myPoint2 = new Phaser.Point(720,195);
+        this.myPoint3 = new Phaser.Point(460,195);
+        this.myPoint4 = new Phaser.Point(460,380);
         this.myPoint5 = new Phaser.Point(0,380);
-        this.start=new Phaser.Point(1000,400);
+        this.start=new Phaser.Point(1000,380);
         //Map
         this.load.tilemap('map', 'assets/tilemaps/csv/newMap2.csv', null, Phaser.Tilemap.CSV);
         this.load.image('tiles', 'assets/tilemaps/tiles/grass-tiles-2-small.png');
@@ -130,19 +130,87 @@ Menu.Level2.prototype = {
     },
     //Je nach Welle -> Sprites hinzufügen (Aufruf von buildWave(EnemyTyp,Anzahl,Speed,Lifes)
     boolF : function(){
-        //Zinssystem
-        coins = Math.round(coins + coins*0.1);
-        coinText.destroy();
-        coinText=this.add.text(100,20,coins);
+
         if(enemyWaveNr==0){
+            //Zinssystem
+            coins = Math.round(coins + coins*0.2);
+            coinText.destroy();
+            coinText=this.add.text(100,20,coins);
             this.helpers.wave1(this.start.x,this.start.y,this);
+
         }
         //2.Welle
         else if(enemyWaveNr==1){
+            //Zinssystem
+            coins = Math.round(coins + coins*0.2);
+            coinText.destroy();
+            coinText=this.add.text(100,20,coins);
             this.helpers.wave2(this.start.x,this.start.y,this);
+
         }
         else if(enemyWaveNr==2){
+            //Zinssystem
+            coins = Math.round(coins + coins*0.2);
+            coinText.destroy();
+            coinText=this.add.text(100,20,coins);
             this.helpers.wave3(this.start.x,this.start.y,this);
+
+        }
+        else if(enemyWaveNr==3){
+            //Zinssystem
+            coins = Math.round(coins + coins*0.2);
+            coinText.destroy();
+            coinText=this.add.text(100,20,coins);
+            this.helpers.wave4(this.start.x,this.start.y,this);
+        }
+        else if(enemyWaveNr==4){
+            //Zinssystem
+            coins = Math.round(coins + coins*0.2);
+            coinText.destroy();
+            coinText=this.add.text(100,20,coins);
+            this.helpers.wave5(this.start.x,this.start.y,this);
+        }
+        else if(enemyWaveNr==5){
+            //Zinssystem
+            coins = Math.round(coins + coins*0.2);
+            coinText.destroy();
+            coinText=this.add.text(100,20,coins);
+            this.helpers.wave6(this.start.x,this.start.y,this);
+        }
+        else if(enemyWaveNr==6){
+            //Zinssystem
+            coins = Math.round(coins + coins*0.2);
+            coinText.destroy();
+            coinText=this.add.text(100,20,coins);
+            this.helpers.wave7(this.start.x,this.start.y,this);
+        }
+        else if(enemyWaveNr==7){
+            //Zinssystem
+            coins = Math.round(coins + coins*0.2);
+            coinText.destroy();
+            coinText=this.add.text(100,20,coins);
+            this.helpers.wave8(this.start.x,this.start.y,this);
+        }
+        else if(enemyWaveNr==8){
+            //Zinssystem
+            coins = Math.round(coins + coins*0.2);
+            coinText.destroy();
+            coinText=this.add.text(100,20,coins);
+            this.helpers.wave9(this.start.x,this.start.y,this);
+        }
+        else if(enemyWaveNr==9){
+            //Zinssystem
+            coins = Math.round(coins + coins*0.2);
+            coinText.destroy();
+            coinText=this.add.text(100,20,coins);
+            this.helpers.wave10(this.start.x,this.start.y,this);
+        }
+        else if(enemyWaveNr==10){
+            //Zinssystem
+            coins = Math.round(coins + coins*0.2);
+            coinText.destroy();
+            coinText=this.add.text(100,20,coins);
+            this.helpers.wave11(this.start.x,this.start.y,this);
         }
 
     },

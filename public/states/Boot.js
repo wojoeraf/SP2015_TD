@@ -196,7 +196,10 @@ Menu.Boot.prototype = {
         //Enemies
         this.load.spritesheet('player', 'assets/sprites/spaceman.png', 16, 16);
         this.load.spritesheet('newEnemy1', 'assets/enemies_new/sprite_enemy1.png',64,64);
-
+        this.load.spritesheet('newEnemy2', 'assets/enemies_new/sprite_enemy2.png',64,64);
+        this.load.spritesheet('newEnemy3', 'assets/enemies_new/sprite_enemy3.png',64,64);
+        this.load.spritesheet('newEnemy4', 'assets/enemies_new/sprite_enemy4.png',64,64);
+        this.load.spritesheet('newEnemy5', 'assets/enemies_new/sprite_enemy5.png',64,64);
 
     },
 

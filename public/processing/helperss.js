@@ -22,20 +22,75 @@ Helpers.Menu.prototype = {
 
     },
     wave2: function (xPoint, yPoint, callback) {
-        //EnemiesGesamt = 10 Stück
-        enemyNumber = 10;
+        //EnemiesGesamt = 5 Stück
+        enemyNumber = 5;
         new Wave2(xPoint, yPoint, callback);
         bool = true;
 
     },
     wave3: function (xPoint, yPoint, callback) {
-        //EnemiesGesamt = 14 Stück
-        enemyNumber = 10;
+        //EnemiesGesamt = 5 Stück
+        enemyNumber = 5;
         new Wave3(xPoint, yPoint, callback);
         bool = true;
 
     },
+    wave4: function (xPoint, yPoint, callback) {
+        //EnemiesGesamt = 5 Stück
+        enemyNumber = 5;
+        new Wave4(xPoint, yPoint, callback);
+        bool = true;
 
+    },
+    wave5: function (xPoint, yPoint, callback) {
+        //EnemiesGesamt = 5 Stück
+        enemyNumber = 5;
+        new Wave5(xPoint, yPoint, callback);
+        bool = true;
+
+    },
+    wave6: function (xPoint, yPoint, callback) {
+        //EnemiesGesamt = 5 Stück
+        enemyNumber = 5;
+        new Wave6(xPoint, yPoint, callback);
+        bool = true;
+
+    },
+    wave7: function (xPoint, yPoint, callback) {
+        //EnemiesGesamt = 5 Stück
+        enemyNumber = 5;
+        new Wave7(xPoint, yPoint, callback);
+        bool = true;
+
+    },
+    wave8: function (xPoint, yPoint, callback) {
+        //EnemiesGesamt = 5 Stück
+        enemyNumber = 5;
+        new Wave8(xPoint, yPoint, callback);
+        bool = true;
+
+    },
+    wave9: function (xPoint, yPoint, callback) {
+        //EnemiesGesamt = 5 Stück
+        enemyNumber = 5;
+        new Wave9(xPoint, yPoint, callback);
+        bool = true;
+
+    },
+    wave10: function (xPoint, yPoint, callback) {
+        //EnemiesGesamt = 7 Stück
+        enemyNumber = 7;
+        new Wave10(xPoint, yPoint, callback);
+        bool = true;
+
+    },
+    wave11: function (xPoint, yPoint, callback) {
+        //EnemiesGesamt = 5 Stück
+        enemyNumber = 5;
+        new Wave11(xPoint, yPoint, callback);
+        bool = true;
+
+    },
     //Healthbars hinzufügen für jeden sprite
     createHealthbars: function () {
         if (bool == true) {
@@ -328,7 +383,7 @@ Helpers.Menu.prototype = {
                                 if (col == true) {
                                     //TOWER3 = CHAIN
                                     if (towers[i].typ == 2) {
-                                        spriteArray[j].body.bounce.set(-1.25);
+                                        spriteArray[j].body.bounce.set(-1.50);
                                         counterArray[j] = 0;
                                         if (diamondAction == false) {
                                             spriteArray[j].life = spriteArray[j].life - 0.33;
@@ -343,7 +398,7 @@ Helpers.Menu.prototype = {
                                             spriteArray[j].visible = false;
                                             spriteArray[j].destroy();
                                             spriteArray[j] = null;
-                                            coins = coins + 10;
+                                            coins = coins + 7;
                                             coinText.destroy();
                                             coinText = callback.add.text(100, 20, coins);
                                             score = score + 100;
@@ -370,7 +425,7 @@ Helpers.Menu.prototype = {
                                                             spriteArray[y].destroy();
                                                             spriteArray[y] = null;
                                                             array[y] = 5;
-                                                            coins = coins + 10;
+                                                            coins = coins + 7;
                                                             coinText.destroy();
                                                             coinText = callback.add.text(100, 20, coins);
                                                             score = score + 100;
@@ -387,7 +442,7 @@ Helpers.Menu.prototype = {
                                     //TOWER4 = SLOW
                                     else if (towers[i].typ == 3) {
                                         //Enemies werden nicht mehr so weit abgedrängt bei einer Collision
-                                        spriteArray[j].body.bounce.set(-1.25);
+                                        spriteArray[j].body.bounce.set(-1.50);
                                         counterArray[j] = 0;
                                         if (diamondAction == false) {
                                             spriteArray[j].speed = spriteArray[j].speed - 7.5;
@@ -402,7 +457,7 @@ Helpers.Menu.prototype = {
                                             spriteArray[j].visible = false;
                                             spriteArray[j].destroy();
                                             spriteArray[j] = null;
-                                            coins = coins + 10;
+                                            coins = coins + 7;
                                             coinText.destroy();
                                             coinText = callback.add.text(100, 20, coins);
                                             score = score + 100;
@@ -423,7 +478,7 @@ Helpers.Menu.prototype = {
                                                 spriteArray[j].visible = false;
                                                 spriteArray[j].destroy();
                                                 spriteArray[j] = null;
-                                                coins = coins + 10;
+                                                coins = coins + 7;
                                                 coinText.destroy();
                                                 coinText = callback.add.text(100, 20, coins);
                                                 score = score + 100;
@@ -444,7 +499,7 @@ Helpers.Menu.prototype = {
                                     //TOWER 1 und 2 = NORMAL
                                     else {
                                         //Enemies werden nicht mehr so weit abgedrängt bei einer Collision
-                                        spriteArray[j].body.bounce.set(-1.25);
+                                        spriteArray[j].body.bounce.set(-1.50);
                                         counterArray[j] = 0;
                                         if (diamondAction == false) {
                                             spriteArray[j].life = spriteArray[j].life - 1;
@@ -459,7 +514,7 @@ Helpers.Menu.prototype = {
                                             spriteArray[j].visible = false;
                                             spriteArray[j].destroy();
                                             spriteArray[j] = null;
-                                            coins = coins + 10;
+                                            coins = coins + 7;
                                             coinText.destroy();
                                             coinText = callback.add.text(100, 20, coins);
                                             score = score + 100;
@@ -722,6 +777,7 @@ Helpers.Menu.prototype = {
         popupinfoTower1U.destroy();
         deleteButton.destroy();
         upgradeButton.destroy();
+        exitButton.destroy();
 
     },
     upgradeTower2: function () {
@@ -754,6 +810,7 @@ Helpers.Menu.prototype = {
         popupinfoTower1U.destroy();
         deleteButton.destroy();
         upgradeButton.destroy();
+        exitButton.destroy();
 
     },
     upgradeTower3: function () {
@@ -786,6 +843,7 @@ Helpers.Menu.prototype = {
         popupinfoTower1U.destroy();
         deleteButton.destroy();
         upgradeButton.destroy();
+        exitButton.destroy();
 
     },
     upgradeTower4: function () {
@@ -818,6 +876,7 @@ Helpers.Menu.prototype = {
         popupinfoTower1U.destroy();
         deleteButton.destroy();
         upgradeButton.destroy();
+        exitButton.destroy();
 
     },
     upgradeTowerInfoDelete: function () {

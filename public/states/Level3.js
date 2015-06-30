@@ -14,14 +14,14 @@ Menu.Level3.prototype = {
     preload: function(){
 
         this.visiblePoint=990;
-        this.myPoint1 = new Phaser.Point(845,520);
-        this.myPoint2 = new Phaser.Point(845,205);
-        this.myPoint3 = new Phaser.Point(330,205);
-        this.myPoint4 = new Phaser.Point(330,330);
-        this.myPoint5 = new Phaser.Point(80,330);
-        this.myPoint6 = new Phaser.Point(80,270);
-        this.myPoint7 = new Phaser.Point(0,270);
-        this.start = new Phaser.Point(1000,520);
+        this.myPoint1 = new Phaser.Point(845,510);
+        this.myPoint2 = new Phaser.Point(845,195);
+        this.myPoint3 = new Phaser.Point(330,195);
+        this.myPoint4 = new Phaser.Point(330,325);
+        this.myPoint5 = new Phaser.Point(80,325);
+        this.myPoint6 = new Phaser.Point(80,260);
+        this.myPoint7 = new Phaser.Point(0,260);
+        this.start = new Phaser.Point(1000,510);
         //Map
         this.load.tilemap('map', 'assets/tilemaps/csv/newMap3.csv', null, Phaser.Tilemap.CSV);
         this.load.image('tiles', 'assets/tilemaps/tiles/grass-tiles-2-small.png');
@@ -128,23 +128,89 @@ Menu.Level3.prototype = {
     },
     //Je nach Welle -> Sprites hinzufügen (Aufruf von buildWave(EnemyTyp,Anzahl,Speed,Lifes)
     boolF : function(){
-        //Zinssystem
-        coins = Math.round(coins + coins*0.1);
-        coinText.destroy();
-        coinText=this.add.text(100,20,coins);
+
         if(enemyWaveNr==0){
+            //Zinssystem
+            coins = Math.round(coins + coins*0.2);
+            coinText.destroy();
+            coinText=this.add.text(100,20,coins);
             this.helpers.wave1(this.start.x,this.start.y,this);
+
         }
         //2.Welle
         else if(enemyWaveNr==1){
+            //Zinssystem
+            coins = Math.round(coins + coins*0.2);
+            coinText.destroy();
+            coinText=this.add.text(100,20,coins);
             this.helpers.wave2(this.start.x,this.start.y,this);
+
         }
         else if(enemyWaveNr==2){
+            //Zinssystem
+            coins = Math.round(coins + coins*0.2);
+            coinText.destroy();
+            coinText=this.add.text(100,20,coins);
             this.helpers.wave3(this.start.x,this.start.y,this);
+
         }
         else if(enemyWaveNr==3){
-            this.helpers.wave3(this.start.x,this.start.y,this);
+            //Zinssystem
+            coins = Math.round(coins + coins*0.2);
+            coinText.destroy();
+            coinText=this.add.text(100,20,coins);
+            this.helpers.wave4(this.start.x,this.start.y,this);
         }
+        else if(enemyWaveNr==4){
+            //Zinssystem
+            coins = Math.round(coins + coins*0.2);
+            coinText.destroy();
+            coinText=this.add.text(100,20,coins);
+            this.helpers.wave5(this.start.x,this.start.y,this);
+        }
+        else if(enemyWaveNr==5){
+            //Zinssystem
+            coins = Math.round(coins + coins*0.2);
+            coinText.destroy();
+            coinText=this.add.text(100,20,coins);
+            this.helpers.wave6(this.start.x,this.start.y,this);
+        }
+        else if(enemyWaveNr==6){
+            //Zinssystem
+            coins = Math.round(coins + coins*0.2);
+            coinText.destroy();
+            coinText=this.add.text(100,20,coins);
+            this.helpers.wave7(this.start.x,this.start.y,this);
+        }
+        else if(enemyWaveNr==7){
+            //Zinssystem
+            coins = Math.round(coins + coins*0.2);
+            coinText.destroy();
+            coinText=this.add.text(100,20,coins);
+            this.helpers.wave8(this.start.x,this.start.y,this);
+        }
+        else if(enemyWaveNr==8){
+            //Zinssystem
+            coins = Math.round(coins + coins*0.2);
+            coinText.destroy();
+            coinText=this.add.text(100,20,coins);
+            this.helpers.wave9(this.start.x,this.start.y,this);
+        }
+        else if(enemyWaveNr==9){
+            //Zinssystem
+            coins = Math.round(coins + coins*0.2);
+            coinText.destroy();
+            coinText=this.add.text(100,20,coins);
+            this.helpers.wave10(this.start.x,this.start.y,this);
+        }
+        else if(enemyWaveNr==10){
+            //Zinssystem
+            coins = Math.round(coins + coins*0.2);
+            coinText.destroy();
+            coinText=this.add.text(100,20,coins);
+            this.helpers.wave11(this.start.x,this.start.y,this);
+        }
+
     },
     //Popup-Menü öffen und je nach Button verlinken
     popUp : function(){
