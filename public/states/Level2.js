@@ -130,7 +130,10 @@ Menu.Level2.prototype = {
     },
     //Je nach Welle -> Sprites hinzufügen (Aufruf von buildWave(EnemyTyp,Anzahl,Speed,Lifes)
     boolF : function(){
-
+        //Zinssystem
+        coins = Math.round(coins + coins*0.1);
+        coinText.destroy();
+        coinText=this.add.text(100,20,coins);
         if(enemyWaveNr==0){
             this.helpers.wave1(this.start.x,this.start.y,this);
         }
