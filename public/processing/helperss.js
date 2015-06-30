@@ -43,7 +43,7 @@ Helpers.Menu.prototype = {
                 var healthbar = healthBars[j];
                 var sprite = sprites[j];
                 if (sprite != null) {
-                    healthbar.x = sprite.x;
+                    healthbar.x = sprite.x+12;
                     healthbar.y = sprite.y - 10;
                 }
             }

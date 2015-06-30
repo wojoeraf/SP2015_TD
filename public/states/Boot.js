@@ -195,6 +195,7 @@ Menu.Boot.prototype = {
         this.load.image('Sell', 'assets/sprites/sell.png');
         //Enemies
         this.load.spritesheet('player', 'assets/sprites/spaceman.png', 16, 16);
+        this.load.spritesheet('newEnemy1', 'assets/enemies_new/sprite_enemy1.png',64,64);
 
 
     },

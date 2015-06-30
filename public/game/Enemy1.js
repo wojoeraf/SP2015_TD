@@ -17,4 +17,6 @@ Enemy1 = function (positionX,yPoint,callback) {
     this.healthbar.scale.x=0.033;
     callback.physics.enable(this.enemy, Phaser.Physics.ARCADE);
 
+
+
 };

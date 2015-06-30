@@ -14,14 +14,14 @@ Menu.Level3.prototype = {
     preload: function(){
 
         this.visiblePoint=990;
-        this.myPoint1 = new Phaser.Point(860,530);
-        this.myPoint2 = new Phaser.Point(860,215);
-        this.myPoint3 = new Phaser.Point(350,215);
-        this.myPoint4 = new Phaser.Point(350,350);
-        this.myPoint5 = new Phaser.Point(100,350);
-        this.myPoint6 = new Phaser.Point(100,280);
-        this.myPoint7 = new Phaser.Point(0,280);
-        this.start = new Phaser.Point(1000,530);
+        this.myPoint1 = new Phaser.Point(845,520);
+        this.myPoint2 = new Phaser.Point(845,205);
+        this.myPoint3 = new Phaser.Point(330,205);
+        this.myPoint4 = new Phaser.Point(330,330);
+        this.myPoint5 = new Phaser.Point(80,330);
+        this.myPoint6 = new Phaser.Point(80,270);
+        this.myPoint7 = new Phaser.Point(0,270);
+        this.start = new Phaser.Point(1000,520);
         //Map
         this.load.tilemap('map', 'assets/tilemaps/csv/newMap3.csv', null, Phaser.Tilemap.CSV);
         this.load.image('tiles', 'assets/tilemaps/tiles/grass-tiles-2-small.png');

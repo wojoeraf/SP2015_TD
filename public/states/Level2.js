@@ -15,8 +15,8 @@ Menu.Level2.prototype = {
         this.myPoint1 = new Phaser.Point(730,400);
         this.myPoint2 = new Phaser.Point(730,210);
         this.myPoint3 = new Phaser.Point(470,210);
-        this.myPoint4 = new Phaser.Point(470,400);
-        this.myPoint5 = new Phaser.Point(0,400);
+        this.myPoint4 = new Phaser.Point(470,380);
+        this.myPoint5 = new Phaser.Point(0,380);
         this.start=new Phaser.Point(1000,400);
         //Map
         this.load.tilemap('map', 'assets/tilemaps/csv/newMap2.csv', null, Phaser.Tilemap.CSV);
