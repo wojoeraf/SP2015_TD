@@ -91,6 +91,20 @@ Helpers.Menu.prototype = {
         bool = true;
 
     },
+    wave12: function (xPoint, yPoint, callback) {
+        //EnemiesGesamt = 12 Stück
+        enemyNumber = 12;
+        new Wave12(xPoint, yPoint, callback);
+        bool = true;
+
+    },
+    wave13: function (xPoint, yPoint, callback) {
+        //EnemiesGesamt = 8 Stück
+        enemyNumber = 8;
+        new Wave13(xPoint, yPoint, callback);
+        bool = true;
+
+    },
     //Healthbars hinzufügen für jeden sprite
     createHealthbars: function () {
         if (bool == true) {
@@ -404,7 +418,7 @@ Helpers.Menu.prototype = {
                                             score = score + 100;
                                             scoreText.destroy();
                                             scoreText = callback.add.text(730, 20, "Score: " + score);
-                                            xpBar.scale.x = xpBar.scale.x + 0.01;
+                                            xpBar.scale.x = xpBar.scale.x + 0.002;
                                             if (xpBar.scale.x > 0.34) {
                                                 xpBar.scale.set(0.2);
                                                 xpBar.scale.x = 0.0;
@@ -463,7 +477,7 @@ Helpers.Menu.prototype = {
                                             score = score + 100;
                                             scoreText.destroy();
                                             scoreText = callback.add.text(730, 20, "Score: " + score);
-                                            xpBar.scale.x = xpBar.scale.x + 0.01;
+                                            xpBar.scale.x = xpBar.scale.x + 0.002;
                                             if (xpBar.scale.x > 0.34) {
                                                 xpBar.scale.set(0.2);
                                                 xpBar.scale.x = 0.0;
@@ -484,7 +498,7 @@ Helpers.Menu.prototype = {
                                                 score = score + 100;
                                                 scoreText.destroy();
                                                 scoreText = callback.add.text(730, 20, "Score: " + score);
-                                                xpBar.scale.x = xpBar.scale.x + 0.01;
+                                                xpBar.scale.x = xpBar.scale.x + 0.002;
                                                 if (xpBar.scale.x > 0.34) {
                                                     xpBar.scale.set(0.2);
                                                     xpBar.scale.x = 0.0;
@@ -520,7 +534,7 @@ Helpers.Menu.prototype = {
                                             score = score + 100;
                                             scoreText.destroy();
                                             scoreText = callback.add.text(730, 20, "Score: " + score);
-                                            xpBar.scale.x = xpBar.scale.x + 0.01;
+                                            xpBar.scale.x = xpBar.scale.x + 0.002;
                                             if (xpBar.scale.x > 0.34) {
                                                 xpBar.scale.set(0.2);
                                                 xpBar.scale.x = 0.0;

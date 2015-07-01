@@ -265,7 +265,7 @@ Menu.Level1.prototype = {
                         heartText.destroy();
                         heartText = this.add.text(290,20,life);
                         if(coins-10>=0) {
-                            coins = coins - 10;
+                            coins = coins - 5;
                             coinText.destroy();
                             coinText = this.add.text(100, 20, coins);
                         }

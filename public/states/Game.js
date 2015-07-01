@@ -33,6 +33,14 @@ Menu.Game.prototype = {
 
     preload: function(){
 
+        //Tower auf Tower platzieren nicht möglich machen
+        for (var k = 0; k < towerC; k++) {
+            if (towers[k].isDestroyed == false) {
+                towers[k].destroy();
+                towers[k]=0;
+            }
+        }
+
         if(levelchooser==1){
             this.state.start("Level1");
         }
