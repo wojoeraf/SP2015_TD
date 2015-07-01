@@ -51,9 +51,14 @@ Menu.LoginMenu.prototype = {
                 type: 'json',
                 data: data
             }).done(function (data, status, err) {
+
+                //assigning the database entries to the corresponding fields of the player
                 player.loggedIn = true;
                 player.name = data.local.username;
                 player.email = data.local.email;
+                player.diamonds = data.local.diamonds;
+
+                console.log("Player has " + player.diamonds + " Diamonds");
                 $(".userInfo").html("<p>Welcome " + data.local.username + "</p>");
                 state.state.start("MainMenu");
                 state.fp.hideLoginForm();

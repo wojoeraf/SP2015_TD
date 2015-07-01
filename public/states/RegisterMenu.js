@@ -54,7 +54,12 @@ Menu.RegisterMenu.prototype = {
                 //console.log(status);
                 //console.log(err);
                 outerThis.fp.hideRegisterForm();
+
                 player.loggedIn = true;
+                player.name = data.local.username;
+                player.email = data.local.email;
+                player.diamonds = data.local.diamonds;
+
                 console.log('Registration successful.');
                 outerThis.state.start("MainMenu");
                 //$(".inhalt").html(data.message);
