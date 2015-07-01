@@ -766,21 +766,21 @@ Helpers.Menu.prototype = {
         if (c.speeed != 450) {
             //1.Update
             if (c.isUpgraded == false) {
-                if ((score > 1000) && (coins >= 100)) {
+                if ((score > 500) && (coins >= 25)) {
                     c.speeed = 350;
                     c.reach = 250;
                     c.isUpgraded = true;
-                    coins = coins - 100;
+                    coins = coins - 25;
                     coinText.destroy();
                     coinText = this.add.text(100, 20, coins);
                 }
 
             }
             else if (c.isUpgraded == true) {
-                if ((score > 2000) && (coins >= 200)) {
+                if ((score > 1000) && (coins >= 50)) {
                     c.speeed = 450;
                     c.reach = 300;
-                    coins = coins - 200;
+                    coins = coins - 50;
                     coinText.destroy();
                     coinText = this.add.text(100, 20, coins);
                 }
@@ -799,21 +799,21 @@ Helpers.Menu.prototype = {
         if (c.speeed != 650) {
             //1.Update
             if (c.isUpgraded == false) {
-                if ((score > 2000) && (coins >= 200)) {
+                if ((score > 1000) && (coins >= 50)) {
                     c.speeed = 550;
                     c.reach = 300;
                     c.isUpgraded = true;
-                    coins = coins - 200;
+                    coins = coins - 50;
                     coinText.destroy();
                     coinText = this.add.text(100, 20, coins);
                 }
 
             }
             else if (c.isUpgraded == true) {
-                if ((score > 3000) && (coins >= 300)) {
+                if ((score > 2000) && (coins >= 100)) {
                     c.speeed = 650;
                     c.reach = 350;
-                    coins = coins - 300;
+                    coins = coins - 100;
                     coinText.destroy();
                     coinText = this.add.text(100, 20, coins);
                 }
@@ -832,21 +832,21 @@ Helpers.Menu.prototype = {
         if (c.speeed != 400) {
             //1.Update
             if (c.isUpgraded == false) {
-                if ((score > 2000) && (coins >= 200)) {
+                if ((score > 1000) && (coins >= 50)) {
                     c.speeed = 320;
                     c.reach = 220;
                     c.isUpgraded = true;
-                    coins = coins - 200;
+                    coins = coins - 50;
                     coinText.destroy();
                     coinText = this.add.text(100, 20, coins);
                 }
 
             }
             else if (c.isUpgraded == true) {
-                if ((score > 3000) && (coins >= 300)) {
+                if ((score > 2000) && (coins >= 100)) {
                     c.speeed = 400;
                     c.reach = 270;
-                    coins = coins - 300;
+                    coins = coins - 100;
                     coinText.destroy();
                     coinText = this.add.text(100, 20, coins);
                 }
@@ -865,21 +865,21 @@ Helpers.Menu.prototype = {
         if (c.speeed != 300) {
             //1.Update
             if (c.isUpgraded == false) {
-                if ((score > 1000) && (coins >= 100)) {
+                if ((score > 500) && (coins >= 25)) {
                     c.speeed = 230;
                     c.reach = 200;
                     c.isUpgraded = true;
-                    coins = coins - 100;
+                    coins = coins - 25;
                     coinText.destroy();
                     coinText = this.add.text(100, 20, coins);
                 }
 
             }
             else if (c.isUpgraded == true) {
-                if ((score > 2000) && (coins >= 200)) {
+                if ((score > 1000) && (coins >= 50)) {
                     c.speeed = 300;
                     c.reach = 230;
-                    coins = coins - 200;
+                    coins = coins - 50;
                     coinText.destroy();
                     coinText = this.add.text(100, 20, coins);
                 }
@@ -926,10 +926,10 @@ Helpers.Menu.prototype = {
 
     upgradeTowerInfo1: function () {
         var c = towerB;
-        if (c.speed != 450) {
+        if (c.speeed != 450) {
             // popupinfoTower1U.destroy();
             if (c.isUpgraded == false) {
-                if ((score > 1000) && (coins >= 100)) {
+                if ((score > 500) && (coins >= 25)) {
                     popupinfoTower1U = this.add.sprite(upgradeButton.x + 80, upgradeButton.y - 30, 'tower1Upgrade1');
                 }
                 else {
@@ -938,7 +938,7 @@ Helpers.Menu.prototype = {
 
             }
             else if (c.isUpgraded == true) {
-                if ((score > 2000) && (coins >= 200)) {
+                if ((score > 1000) && (coins >= 50)) {
                     popupinfoTower1U = this.add.sprite(upgradeButton.x + 80, upgradeButton.y - 30, 'tower1Upgrade2');
                 }
                 else {
@@ -957,10 +957,10 @@ Helpers.Menu.prototype = {
 
     upgradeTowerInfo2: function () {
         var c = towerB;
-        if (c.speed != 650) {
+        if (c.speeed != 650) {
             // popupinfoTower1U.destroy();
             if (c.isUpgraded == false) {
-                if ((score > 2000) && (coins >= 200)) {
+                if ((score > 1000) && (coins >= 50)) {
                     popupinfoTower1U = this.add.sprite(upgradeButton.x + 80, upgradeButton.y - 30, 'tower2Upgrade1');
                 }
                 else {
@@ -969,7 +969,7 @@ Helpers.Menu.prototype = {
 
             }
             else if (c.isUpgraded == true) {
-                if ((score > 3000) && (coins >= 300)) {
+                if ((score > 2000) && (coins >= 100)) {
                     popupinfoTower1U = this.add.sprite(upgradeButton.x + 80, upgradeButton.y - 30, 'tower2Upgrade2');
                 }
                 else {
@@ -988,10 +988,10 @@ Helpers.Menu.prototype = {
 
     upgradeTowerInfo3: function () {
         var c = towerB;
-        if (c.speed != 400) {
+        if (c.speeed != 400) {
             // popupinfoTower1U.destroy();
             if (c.isUpgraded == false) {
-                if ((score > 2000) && (coins >= 200)) {
+                if ((score > 1000) && (coins >= 50)) {
                     popupinfoTower1U = this.add.sprite(upgradeButton.x + 80, upgradeButton.y - 30, 'tower3Upgrade1');
                 }
                 else {
@@ -1000,7 +1000,7 @@ Helpers.Menu.prototype = {
 
             }
             else if (c.isUpgraded == true) {
-                if ((score > 3000) && (coins >= 300)) {
+                if ((score > 2000) && (coins >= 100)) {
                     popupinfoTower1U = this.add.sprite(upgradeButton.x + 80, upgradeButton.y - 30, 'tower3Upgrade2');
                 }
                 else {
@@ -1018,10 +1018,10 @@ Helpers.Menu.prototype = {
     },
     upgradeTowerInfo4: function () {
         var c = towerB;
-        if (c.speed != 300) {
+        if (c.speeed != 300) {
             // popupinfoTower1U.destroy();
             if (c.isUpgraded == false) {
-                if ((score > 1000) && (coins >= 100)) {
+                if ((score > 500) && (coins >= 25)) {
                     popupinfoTower1U = this.add.sprite(upgradeButton.x + 80, upgradeButton.y - 30, 'tower4Upgrade1');
                 }
                 else {
@@ -1030,7 +1030,7 @@ Helpers.Menu.prototype = {
 
             }
             else if (c.isUpgraded == true) {
-                if ((score > 2000) && (coins >= 200)) {
+                if ((score > 1000) && (coins >= 50)) {
                     popupinfoTower1U = this.add.sprite(upgradeButton.x + 80, upgradeButton.y - 30, 'tower4Upgrade2');
                 }
                 else {
