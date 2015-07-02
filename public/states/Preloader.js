@@ -118,6 +118,8 @@ Menu.Preloader.prototype = {
                 'callback': function (response) {
                     console.log(response);
 
+                    response = response + "#" + player.name;
+
                     $.ajax({
                         method: 'post',
                         url: '/verify',

@@ -106,19 +106,42 @@ app.post('/signup', function (req, res, next) {
 
 });
 
+//Listener for the captcha verification
 app.post('/verify', function (req, res, next) {
     //extracts the response from the google api from the recieved JSON Object
     var out = JSON.stringify(req.body);
+    //Split by '#' to sperate the different elements of the request message
+    var data = out.split("#");
+
+    //We need to cut of the first characters of the string because for some reason it contains {" , a sequence that is neither desired nor needed
     var response = "";
-    for (var i = 2; i < out.length - 5; i++) {
+    for (var i = 2; i < data[0].length; i++) {
         response = response + out[i];
     }
+
+    console.log("response is:");
+    console.log(response);
+
+    var playername = data[1].substring(0,data[1].length-5);
+    console.log("playername: " +playername);
+
+    //Packing the response and the playername into an array to hand them over to the verifyRecaptcha method
+    var information = [];
+    information[0] = response;
+    information[1] = playername;
+
+
     //Method to verify the response
-    verifyRecaptcha(response, captchaCallback);
+    verifyRecaptcha(information, captchaCallback);
 
 });
 
 function verifyRecaptcha(key, callback) {
+
+    //gResponse is the response he got from the google server. shitty name, i know
+    var gResponse = key[0];
+    //as the name says, this is the name of the player
+    var playername = key[1];
 
     var filePath = path.join(__dirname, 'config.txt');
     var SECRET = "toast";
@@ -133,7 +156,7 @@ function verifyRecaptcha(key, callback) {
         //secret gets parsed
         SECRET = config[1].substring(0);
 
-        https.get("https://www.google.com/recaptcha/api/siteverify?secret=" + SECRET + "&response=" + key, function (res) {
+        https.get("https://www.google.com/recaptcha/api/siteverify?secret=" + SECRET + "&response=" + gResponse, function (res) {
             var data = "" +
                 "";
             res.on('data', function (chunk) {
@@ -141,10 +164,23 @@ function verifyRecaptcha(key, callback) {
             });
             res.on('end', function () {
                 try {
+                    //Gets called if the captcha was verified correctly and nothing else went wrong
                     var parsedData = JSON.parse(data);
                     console.log(parsedData);
+
+                    /**
+                    var db = mongoose.connection;
+                    db.on('error', console.error.bind(console, 'connetcion error:'));
+                    db.once('open', function(callback){
+                       console.log("Connection established");
+                    });
+                     **/
+
+
+
                     callback(parsedData.success);
                 } catch (e) {
+                    //response false
                     callback(false);
                 }
             });
@@ -156,7 +192,7 @@ function verifyRecaptcha(key, callback) {
 }
 
 function captchaCallback(value) {
-    //Method that awards the tiamonds
+    //Method that awards the diamonds
     console.log("callback called. argument: " + value);
 }
 

@@ -29,8 +29,6 @@ Menu.SettingsMenu.prototype = {
 
 
     update: function () {
-        console.log(musicVolume);
-
         //Neue Lautstärke = Wert der Slider
         musicVolume = $("#sliderMusic").slider("option", "value");
         this.game.sound.volume = musicVolume;
