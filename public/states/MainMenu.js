@@ -14,6 +14,13 @@ Menu.MainMenu = function () {
 
 Menu.MainMenu.prototype = {
 
+    init: function () {
+        // Pause game when game tab looses focus
+        this.stage.disableVisibilityChange = true;
+        this.helper.debugLog('The player data is: ' + JSON.stringify(player), this);
+    },
+
+
     create: function () {
 
         // Add background
@@ -23,10 +30,9 @@ Menu.MainMenu.prototype = {
 
         if (player.loggedIn == true) {
             this.add.button(900, 50, 'buttonBuy', this.buyDiamonds, this);
-            var string = player.diamonds + " diamonds!";
-            this.add.text(850, 10, string);
+            this.add.sprite(935,12,'diamond');
+            this.add.text(915, 10, player.diamonds);
         }
-        ;
 
         this.add.button(437, 300, 'buttonPlay', this.startGame, this);
         this.add.button(437, 370, 'buttonSettings', this.showSettings, this);
@@ -70,9 +76,11 @@ Menu.MainMenu.prototype = {
     // logout
     logout: function () {
         this.helper.playSound('menuClick');
-        var success = this.fp.logout();
-        if (success) this.player.loggedIn = false;
-        this.helper.debugLog('The player object:\n' + this.player);
+        var success = this.fp.logout(this);
+        if (success) {
+            this.player = new Player();
+        }
+        this.helper.debugLog('Emptied the player object. It is: ' + JSON.stringify(this.player), this);
         this.state.start("LoginMenu");
     },
 

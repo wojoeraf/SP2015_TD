@@ -12,12 +12,12 @@ FormProcessing = function () {
     this.helperMenu = new Helper.Menu();
 
     // username regex
-    var regexUsername = /[A_Za-z0-9_]/g;
+    var regexUsername = /^\w{2,20}$/;
 
     // extend validator
     validator.extend('isUsername', function(str) {
         var bool = regexUsername.test(str);
-        return str.length >= 20 ? false : bool;
+        return str.length > 20 ? false : bool;
     });
 };
 
@@ -110,27 +110,23 @@ FormProcessing.prototype = {
         this.helper.hideElement("#popupSlider");
     },
 
-    logout: function() {
+    logout: function(outerThis) {
         var ret = false;
         var helper = this.helperMenu;
+        helper.debugLog('Logging out...');
         $(function () {
-            var data = {
-                username: player.name
-            };
             $.ajax({
-                method: 'get',
-                url: '/logout',
-                type: 'json',
-                data: data
-            }).always(function (data, status, err) {
-                helper.debugLog('Unable to login\nResponse:\n' + JSON.stringify(data, null, 4) + '\nstatus: ' + status + '\nerror message: ' + err);
-                if (data.success === true) {
-                    helper.debugLog('User successfully logged out.');
-                    $(".userInfo").html("");
-                    ret = true
-                } else {
-                    helper.debugLog('Error while logging out.');
-                }
+            method: 'post',
+            url: '/logout',
+            dataType: 'json',
+            data: {}
+        }).done(function (data, status, err) {
+                helper.debugLog('Status: ' + status, outerThis);
+                helper.debugLog('Returned data: ' + JSON.stringify(data), outerThis);
+            }).fail(function (status, err) {
+                helper.debugLog('Status: ' + status, outerThis);
+                helper.debugLog('Error: ' + err, outerThis);
+                helper.debugLog('Returned data: ' + JSON.stringify(data.responseJSON), outerThis);
             });
             return false;
         });
@@ -139,9 +135,14 @@ FormProcessing.prototype = {
 
     validate: function (username, email, password, confirm) {
         var ret = {success: true, message: ''};
+        if (username === '' || email === '' || password === '' || confirm === '') {
+            ret.success = false;
+            ret.message = 'Missing some stuff... Review your input.';
+            return ret;
+        }
         if (username !== undefined && !validator.isUsername(username)) {
             ret.success = false;
-            ret.message = 'Username contains illegal characters. (Use only letters, numbers and underscores.)';
+            ret.message = 'Illegal username (2-20 characters)';
             return ret;
         }
         if (email !== undefined && !validator.isEmail(email)) {

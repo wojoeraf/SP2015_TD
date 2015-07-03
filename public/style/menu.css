@@ -52,6 +52,11 @@
     font-weight: bold;
 }
 
+#responseLogin {
+    color: #A30000;
+    font-weight: bold;
+}
+
 #forgotPasswordArea {
     margin: 100px auto 0;
 }

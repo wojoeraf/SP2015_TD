@@ -14,18 +14,19 @@ module.exports = function (passport) {
 
     // extend validator
     validator.extend('isUsername', function(str) {
-        return regexUsername.test(str);
+        var bool = regexUsername.test(str);
+        return str.length > 20 ? false : bool;
     });
 
     // passport need serialization for sessions
     passport.serializeUser(function (user, done) {
-        done(null, user.id);
+        done(null, {username: user.local.username, _id: user._id});
     });
 
 
     // passport need deserialization for sessions
-    passport.deserializeUser(function (id, done) {
-       done(null, id);
+    passport.deserializeUser(function (sessionUser, done) {
+       done(null, sessionUser);
     });
 
 
@@ -63,7 +64,7 @@ module.exports = function (passport) {
 
                     // user exists and password match
                     user.local.last_login = new Date();
-                    return done(null, user);
+                    return done(null, user, {message: 'User found.'});
                 }
             );
         }));
@@ -87,7 +88,7 @@ module.exports = function (passport) {
                 }
                 if (!validator.isUsername(username)) {
                     console.log('Username is not valid');
-                    return done(null, false, {message: 'Username can only contain characters, numbers and underscores'});
+                    return done(null, false, {message: 'Illegal username (2-20 characters)'});
                 }
                 if (!(password === confirmedPassword)) {
                     console.log('Password confirmation failed');

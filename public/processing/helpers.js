@@ -60,8 +60,15 @@ Helper.Menu = function (game) {
 
 Helper.Menu.prototype = {
 
-    debugLog: function(string) {
-        if (this.debug) console.log(string);
+    /**
+     * Log a message in the console for debuging purpose.
+     * @param {string} string - The debug message.
+     */
+    debugLog: function(string, outer) {
+        var str = '';
+        if (typeof outer !== 'undefined')
+            str += '[' + outer.key + '] ';
+        if (this.debug) console.log(str + string);
     },
 
     /**

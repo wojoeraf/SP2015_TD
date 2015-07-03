@@ -1,6 +1,7 @@
 // Preloading state
 Menu.Preloader = function () {
     this.fp = new FormProcessing(); // for handling the forms and input
+    this.helper = new Helper.Menu(this);
 };
 
 var musicVolume = 0.5;
@@ -183,7 +184,42 @@ Menu.Preloader.prototype = {
             });
         });
 
+        // Check for active session
+        var outerThis = this;
+        $(function () {
+            $.ajax({
+                method: 'post',
+                url: '/checkSession',
+                dataType: 'json',
+                data: {}
+            }).done(function (data, status, err) {
+                //console.log(JSON.stringify(data, null, 4));
+                //console.log(status);
+                //console.log(err);
 
+                //assigning the database entries to the corresponding fields of the player
+                //player.loggedIn = true;
+                //player.name = data.local.username;
+                //player.email = data.local.email;
+                //player.diamonds = data.local.diamonds;
+                //player.achievements = data.local.achievements;
+
+                outerThis.helper.debugLog('Session check successful.', outerThis);
+                outerThis.helper.debugLog('Active session: ' + data.bool, outerThis);
+                if (data.bool == true) {
+                    // session found and user detected, so load his credentials
+                    player.loadData(data.user.local);
+                }
+            }).fail(function (data, status, err) {
+                outerThis.helper.debugLog('Session check failed.');
+                outerThis.helper.debugLog('Unable to check for session\nResponse:\n' + JSON.stringify(data, null, 4));
+                var message = data.responseJSON.message;
+                outerThis.helper.debugLog(message);
+
+                player.loggedIn = false;
+            });
+            return false;
+        });
 
     },
 
@@ -204,8 +240,12 @@ Menu.Preloader.prototype = {
                 this.sound.play('titleMusic');
             }
 
-            // Go to login state
-            this.state.start("LoginMenu");
+            // Go to next state depending on logged in or not (due to session checking)
+            if (player.loggedIn) {
+                this.state.start("MainMenu");
+            } else {
+                this.state.start("LoginMenu");
+            }
         }
     }
 };

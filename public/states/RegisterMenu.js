@@ -26,17 +26,21 @@ Menu.RegisterMenu.prototype = {
 
 
     registration: function(){
-        //this.fp.hideRegisterForm();
-
+        this.helper.playSound('menuClick');
         var outerThis = this;
 
         $(function () {
             var username = $("input[name=registerUsername]").val();
             var email = $("input[name=registerEmail]").val();
             var password = $("input[name=registerPassword]").val();
-            var confirmPassword = $("input[name=registerConfirmPassword]").val()
+            var confirmPassword = $("input[name=registerConfirmPassword]").val();
 
-            //validation of input is made server side
+            //Validate the input on client side (server side validates too)
+            var valid = outerThis.fp.validate(username, email, password, confirmPassword);
+            if (valid.success === false) {
+                $("#responseRegister").html(valid.message);
+                return false;
+            }
 
             var data = {
                 username: username,
@@ -44,30 +48,29 @@ Menu.RegisterMenu.prototype = {
                 password: password,
                 confirmPassword: confirmPassword
             };
+
             $.ajax({
                 method: 'post',
                 url: '/signup',
-                type: 'json',
+                dataType: 'json',
                 data: data
-            }).done(function (data, status, err) {
-                //console.log(JSON.stringify(data, null, 4));
-                //console.log(status);
-                //console.log(err);
+            }).done(function (data, status) {
                 outerThis.fp.hideRegisterForm();
+                outerThis.helper.debugLog('Status: ' + status, outerThis);
+                outerThis.helper.debugLog('Returned data: ' + JSON.stringify(data), outerThis);
 
-                player.loggedIn = true;
-                player.name = data.local.username;
-                player.email = data.local.email;
-                player.diamonds = data.local.diamonds;
+                //assigning the database entries to the corresponding fields of the player
+                player.loadData(data.local);
 
-                console.log('Registration successful.');
+                //Start MainMenu
                 outerThis.state.start("MainMenu");
-                //$(".inhalt").html(data.message);
             }).fail(function (data, status, err) {
-                console.log('Registration failed.');
-                outerThis.helper.debugLog('Unable to login\nResponse:\n' + JSON.stringify(data, null, 4));
+                player.loggedIn = false;
+                outerThis.helper.debugLog('Status: ' + status, outerThis);
+                outerThis.helper.debugLog('Error: ' + err, outerThis);
+                outerThis.helper.debugLog('Returned data: ' + JSON.stringify(data.responseJSON), outerThis);
+
                 var message = data.responseJSON.message;
-                console.log(message);
                 $("#responseRegister").html(message);
             });
             return false;
