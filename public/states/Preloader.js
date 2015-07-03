@@ -129,16 +129,20 @@ Menu.Preloader.prototype = {
                     }).always(function (data, status, err) {
                         console.log(status);
                         console.log(err);
-                    }).success(function(data, status, err){
-                        console.log("awarding diamonds");
-                        player.diamonds++;
+                    }).success(function (data, status, err) {
+                        console.log(data);
+                        console.log(status);
+                        console.log(err);
+
+
+                         player.diamonds++;
+                         console.log("Player now has " + Player.diamonds + " diamonds");
                     });
 
                 }
             });
         };
         loadCaptcha();
-
 
 
         //Initialize the slider for the popup menu
@@ -164,8 +168,8 @@ Menu.Preloader.prototype = {
         });
 
         //Füge die Slider für das Settins menü hinzu
-        $(function() {
-            $( "#sliderMusic" ).slider({
+        $(function () {
+            $("#sliderMusic").slider({
                 animate: true,
                 min: 0,
                 max: 1,
@@ -174,8 +178,8 @@ Menu.Preloader.prototype = {
             });
         });
 
-        $(function() {
-            $( "#sliderSound" ).slider({
+        $(function () {
+            $("#sliderSound").slider({
                 animate: true,
                 min: 0,
                 max: 1,
