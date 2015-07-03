@@ -37,14 +37,16 @@ app.use(bodyParser.urlencoded({extended: false}));
 var passport = require('passport');
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
-app.use(session({store: new MongoStore  ({  mongooseConnection: mongoose.connection,
-                                            ttl: 2*60*60 // Session expiration
-                                        }),
-                secret: '%@b<%L2zF:/n.x+A7("hq>Dom{$QlS|A',
-                resave: false,              // don't save session if unmodified
-                saveUninitialized: false,    // don't create session until something stored
-                cookie: {maxAge: 2*60*60*1000}
-                }));
+app.use(session({
+    store: new MongoStore({
+        mongooseConnection: mongoose.connection,
+        ttl: 2 * 60 * 60 // Session expiration
+    }),
+    secret: '%@b<%L2zF:/n.x+A7("hq>Dom{$QlS|A',
+    resave: false,              // don't save session if unmodified
+    saveUninitialized: false,    // don't create session until something stored
+    cookie: {maxAge: 2 * 60 * 60 * 1000}
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 var initPassport = require('./auth/userAuth');
@@ -55,7 +57,7 @@ initPassport(passport);
 //    next();
 //});
 
-app.post('/checkSession', function(req, res, next) {
+app.post('/checkSession', function (req, res, next) {
     util.log('Checking for active session:\nmethod: ' + req.method + '\nurl: ' + req.url);
     var response = {bool: false, message: 'no session', user: undefined};
     var status = 200;
@@ -110,11 +112,11 @@ app.post('/login', function (req, res, next) {
     })(req, res, next);
 });
 
-app.post('/logout', function(req, res) {
+app.post('/logout', function (req, res) {
     console.log('logging out...');
     //util.log(util.inspect(req));
     util.log('Request received: \nmethod: ' + req.method + '\nurl: ' + req.url);
-    req.session.destroy(function(err) {
+    req.session.destroy(function (err) {
         if (err) {
             console.log('error while logging out: ' + err);
             res.status(500).json({message: 'Error while logging out: ' + err}).end();
@@ -167,26 +169,23 @@ app.post('/verify', function (req, res, next) {
     console.log("response is:");
     console.log(response);
 
-    var playername = data[1].substring(0,data[1].length-5);
-    console.log("playername: " +playername);
-
-    //Packing the response and the playername into an array to hand them over to the verifyRecaptcha method
-    var information = [];
-    information[0] = response;
-    information[1] = playername;
-
+    var playername = data[1].substring(0, data[1].length - 5);
+    console.log("playername: " + playername);
 
     //Method to verify the response
-    verifyRecaptcha(information, captchaCallback);
+    verifyRecaptcha(response, playername, captchaCallback);
+
+
+
+
 
 });
 
-function verifyRecaptcha(key, callback) {
+function verifyRecaptcha(key, playername, callback) {
 
-    //gResponse is the response he got from the google server. shitty name, i know
-    var gResponse = key[0];
-    //as the name says, this is the name of the player
-    var playername = key[1];
+    console.log("key: " + key);
+    console.log("username: " + playername);
+
 
     var filePath = path.join(__dirname, 'config.txt');
     var SECRET = "toast";
@@ -201,7 +200,7 @@ function verifyRecaptcha(key, callback) {
         //secret gets parsed
         SECRET = config[1].substring(0);
 
-        https.get("https://www.google.com/recaptcha/api/siteverify?secret=" + SECRET + "&response=" + gResponse, function (res) {
+        https.get("https://www.google.com/recaptcha/api/siteverify?secret=" + SECRET + "&response=" + key, function (res) {
             var data = "" +
                 "";
             res.on('data', function (chunk) {
@@ -213,20 +212,14 @@ function verifyRecaptcha(key, callback) {
                     var parsedData = JSON.parse(data);
                     console.log(parsedData);
 
-                    /**
-                    var db = mongoose.connection;
-                    db.on('error', console.error.bind(console, 'connetcion error:'));
-                    db.once('open', function(callback){
-                       console.log("Connection established");
-                    });
-                     **/
-
-
-
-                    callback(parsedData.success);
+                    callback(parsedData.success, playername);
+                    console.log("returning true");
+                    return true;
                 } catch (e) {
                     //response false
-                    callback(false);
+                    callback(false, playername);
+                    console.log("returning false");
+                    return false;
                 }
             });
         });
@@ -236,11 +229,67 @@ function verifyRecaptcha(key, callback) {
 
 }
 
-function captchaCallback(value) {
+function captchaCallback(value, name) {
     //Method that awards the diamonds
     console.log("callback called. argument: " + value);
-}
+    if (value) {
+        console.log(name + " will recieve some diamonds");
+        incrementDiamonds(name);
 
-app.listen(port, function() {
+    }
+    else {
+        console.log(name + " will recieve no diamonds :(");
+    }
+};
+
+//Function that increments the diamond count of the user with the name 'username' by one
+function incrementDiamonds(username){
+    console.log("incrementDiamonds");
+
+    //The first pair of curly brackets contains the selector, the second one the update instruction
+    UserModel.update({'local.username': username}, { $inc: {'local.diamonds': 1}},
+        function (err, log, data) {
+            if (err) {
+                status = 500;
+                response.message = 'Session error';
+                console.log("Database Error!");
+            }
+
+            // user does not exist
+            if (!log) {
+                console.log('Session: User not found!');
+                status = 500;
+            }
+            console.log("user found!");
+            console.log(log);
+        });
+
+};
+
+//Function that decrements the diamond count of the player with name 'username' by one
+function decrementDiamonds(username){
+    console.log("decrementDiamonds");
+
+    //The first pair of curly brackets contains the selector, the second one the update instruction
+    UserModel.update({'local.username': username}, { $inc: {'local.diamonds': -1}},
+        function (err, log, data) {
+            if (err) {
+                status = 500;
+                response.message = 'Session error';
+                console.log("Database Error!");
+            }
+
+            // user does not exist
+            if (!log) {
+                console.log('Session: User not found!');
+                status = 500;
+            }
+            console.log("user found!");
+            console.log(log);
+        });
+
+};
+
+app.listen(port, function () {
     console.log('App is listening on port ' + port);
 });
