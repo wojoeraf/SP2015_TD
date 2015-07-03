@@ -124,6 +124,11 @@ Menu.Boot.prototype = {
             // Force landscape orientation
             this.scale.forceLandscape = true;
         }
+
+        //Dummy text in order to load font right now
+        this.add.text(-100, - 100, ' ', {font: "22px MenuFont"});
+
+
     },
 
     preload: function () {

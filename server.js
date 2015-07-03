@@ -92,8 +92,9 @@ app.post('/checkSession', function(req, res, next) {
 
 app.post('/login', function (req, res, next) {
     passport.authenticate('local-login', function (err, user, info) {
+        console.log('Logging in...');
         console.log(info);
-        console.log('User has type ' + typeof user + ' and value ' + user);
+        //console.log('User has type ' + typeof user + ' and value ' + user);
         if (err) {
             return res.status(500).json({message: err}).end();
         }

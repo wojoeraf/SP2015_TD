@@ -87,7 +87,10 @@ Helper.Menu.prototype = {
      */
     placeLogoutButton: function (callback) {
         var btn = this.game.add.button(100, canvasHeight - 80, 'buttonLogout', callback, this.game);
-        btn.anchor.setTo(0, 1);
+        var text = this.game.add.text(100, canvasHeight - 115, player.name, {font: "25px MenuFont"});
+        text.addColor('#ddd', 0);
+        text.anchor.setTo(Math.round(text.width * 0.5) / text.width, Math.round(text.height * 0.5) / text.height);
+        btn.anchor.setTo(Math.round(btn.width * 0.5) / btn.width, Math.round(btn.height * 0.5) / btn.height);
         return btn;
     },
 

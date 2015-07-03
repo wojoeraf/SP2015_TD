@@ -13,6 +13,11 @@ body {
     background-attachment: fixed; */
 }
 
+@font-face {
+    font-family: MenuFont;
+    src: url('Kingthings_Foundation-webfont.woff');
+}
+
 .content {
     padding: 25px;
     background-color: #fff;
