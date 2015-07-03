@@ -14,8 +14,10 @@ var bodyParser = require('body-parser');
 var dbConfig = require('./db');
 var mongoose = require('mongoose');
 var UserModel = require('./models/user');
+var authFuncs = require('./auth/functions');
 var https = require('https');
 var util = require('util');
+var async = require('async');
 
 var fs = require('fs');
 var path = require('path');
@@ -57,7 +59,7 @@ initPassport(passport);
 //    next();
 //});
 
-app.post('/checkSession', function (req, res, next) {
+app.post('/checkSession', function (req, res) {
     util.log('Checking for active session:\nmethod: ' + req.method + '\nurl: ' + req.url);
     var response = {bool: false, message: 'no session', user: undefined};
     var status = 200;
@@ -96,7 +98,7 @@ app.post('/login', function (req, res, next) {
     passport.authenticate('local-login', function (err, user, info) {
         console.log('Logging in...');
         console.log(info);
-        //console.log('User has type ' + typeof user + ' and value ' + user);
+        console.log('User has type ' + typeof user + ' and value ' + user);
         if (err) {
             return res.status(500).json({message: err}).end();
         }
@@ -111,6 +113,86 @@ app.post('/login', function (req, res, next) {
             return res.status(200).json(user).end();
         });
     })(req, res, next);
+});
+
+app.post('/changePW', function (req, res, next) {
+    console.log('Changing PW...');
+
+    var response = {bool: false, message: '', user: undefined};
+    var status = 200;
+
+    var oldPW = req.body.oldPW;
+    var newPW = req.body.newPW;
+    var newPWConfirm = req.body.newPWConfirm;
+    var username = req.body.username;
+
+    console.log('Corresponding username: ' + username);
+    console.log('Old PW: ' + oldPW);
+
+    // Check wether new passowrd and new password confirmation equals
+    if (!(newPW === newPWConfirm)) {
+        console.log('ChangePW: Password confirmation failed.');
+        status = 200;
+        response.message = 'Password confirmation failed.';
+        res.status(status).json(response).end();
+    }
+
+    // Search for user in db
+    UserModel.findOne({'local.username': username},
+        function (err, user) {
+            if (err) {
+                status = 500;
+                response.message = 'Error on finding user.';
+                res.status(status).json(response).end();
+            }
+
+            // user does not exist
+            if (!user) {
+                console.log('ChangePW: User not found.');
+                status = 500;
+                response.message = 'User not found';
+                res.status(status).json(response).end();
+            }
+
+            // user exists
+            async.series([
+                function(callback) {
+                    // Check whether old password matches with db
+                    if (!authFuncs.isValidPassword(user.local.password, oldPW)) {
+                        console.log('ChangePW: Invalid old password!');
+                        status = 500;
+                        response.message += 'Invalid old password';
+                        res.status(status).json(response).end();
+                        callback(status);
+                    } else {
+                        callback(null);
+                    }
+                },
+                function(callback) {
+                    // Update old password with new one
+                    user.local.password = authFuncs.createHash(newPW);
+                    user.save(function(err, data) {
+                        if (err) {
+                            console.log('ChangePW: Error on saving new pw to db.');
+                            console.log(data);
+                            status = 500;
+                            response.message += ", but couldn't save new pw. Try again.";
+                            res.status(status).json(response).end();
+                            callback(status);
+                        }
+
+                        // Success. Now finish.
+                        console.log('Password updated successfully.');
+                        response.message = "Password updated successfully.";
+                        response.bool = true;
+                        res.status(status).json(response).end();
+                        callback(null);
+                    });
+                }
+            ], function(err) {
+                console.log('ChangePW: async error: ' + err);
+            });
+        });
 });
 
 app.post('/logout', function (req, res) {
@@ -130,6 +212,7 @@ app.post('/logout', function (req, res) {
 
 app.post('/signup', function (req, res, next) {
     passport.authenticate('local-signup', function (err, user, info) {
+        console.log('Registering...');
         console.log(info);
         console.log('user is ' + typeof user + ' and has value: ' + user);
         if (user === false) {
@@ -148,7 +231,7 @@ app.post('/signup', function (req, res, next) {
                 console.log('Registration successful but error on logging in with the new username.');
                 return res.status(500).json({message: 'Registration successful but error on logging in with the new username.'}).end();
             }
-            return res.json(user).end();
+            return res.status(200).json(user).end();
         });
     })(req, res, next);
 

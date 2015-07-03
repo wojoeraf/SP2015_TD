@@ -79,6 +79,7 @@ Menu.RegisterMenu.prototype = {
 
 
     goBack : function(){
+        this.helper.playSound('menuClick');
         this.fp.hideRegisterForm();
         this.state.start("LoginMenu");
     }

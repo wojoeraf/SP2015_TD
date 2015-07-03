@@ -65,6 +65,20 @@ FormProcessing.prototype = {
         this.helper.showElement("#forgotPasswordArea");
     },
 
+    /**
+     * Shows the change password form.
+     */
+    showChangePWForm: function () {
+        this.helper.showElement("#changePWArea");
+    },
+
+    /**
+     * Hides the change password form.
+     */
+    hideChangePWForm: function () {
+        this.helper.hideElement("#changePWArea");
+    },
+
 
     /**
      * Shows the ranking table

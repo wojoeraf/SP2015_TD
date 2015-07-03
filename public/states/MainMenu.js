@@ -30,8 +30,8 @@ Menu.MainMenu.prototype = {
 
         if (player.loggedIn == true) {
             this.add.button(900, 50, 'buttonBuy', this.buyDiamonds, this);
-            this.add.sprite(935,12,'diamond');
-            this.add.text(900, 10, player.diamonds, {font: "30px MenuFont"});
+            this.add.sprite(900,12,'diamond');
+            this.add.text(935, 10, player.diamonds, {font: "30px MenuFont", fill: '#ddd'});
         }
 
         this.add.button(437, 300, 'buttonPlay', this.startGame, this);

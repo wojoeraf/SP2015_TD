@@ -168,7 +168,7 @@ Helper.Menu.prototype = {
     /**
      * Toggle the frame of the sound button
      * @param bool
- * @param btn {Phaser.Button} - The sound button whose frame have to be toggled.
+     * @param btn {Phaser.Button} - The sound button whose frame have to be toggled.
      */
     toggleButtonFrame: function (bool, btn) {
         btn.frame = bool ? 1 : 0;
