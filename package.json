@@ -4,8 +4,8 @@
   "description": "Softwarepraktikum 2015 Tower Defense",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": ["Softwarepraktikum", "Tower Defense"],
   "author": "C. Popp, F. Romaguera, R. Wörner",
