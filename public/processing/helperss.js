@@ -9,6 +9,7 @@ Helpers.Menu = function () {
     this.xx = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     this.fp = new FormProcessing();
     this.helper = new Helper.Menu(this);
+    var player = new Player();
 
 };
 
@@ -137,6 +138,21 @@ Helpers.Menu.prototype = {
                 }
                 bool = false;
                 enemyWaveNr = enemyWaveNr + 1;
+                if(levelchooser==1){
+                    if(enemyWaveNr>10){
+                        callback.add.text(350,580,"You won !");
+                    }
+                }
+                else if(levelchooser==2){
+                    if(enemyWaveNr>8){
+                        callback.add.text(350,580,"You won !");
+                    }
+                }
+                else if(levelchooser==3){
+                    if(enemyWaveNr>9){
+                        callback.add.text(350,580,"You won !");
+                    }
+                }
             }
         }
         else {
@@ -559,6 +575,12 @@ Helpers.Menu.prototype = {
 
     //PopUp-Fenster
     popUp: function (callback) {
+
+        if(popup!=undefined){
+            this.closeWindow();
+        }
+
+
         callback.state.pause();
 
         this.fp.showPopup();
@@ -657,8 +679,8 @@ Helpers.Menu.prototype = {
         popupinfoTower4.destroy();
     },
     diamondClicked: function (callback) {
-        if (diamonds >= 1) {
-            diamonds = diamonds - 1;
+        if (player.diamonds >= 1) {
+            diamonds = player.diamonds - 1;
             diamondAction = true;
             diamondText.destroy();
             diamondText = callback.add.text(200, 20, diamonds);
@@ -682,6 +704,9 @@ Helpers.Menu.prototype = {
         diamondInfo.destroy();
     },
     popUpT: function (c, callback) {
+        if(popup!=undefined) {
+            this.deleteAll();
+        }
         towerB = c;
         popup = callback.add.sprite(c.x + 60, c.y - 50, 'backgroundT');
         popup.alpha = 0.8;
@@ -702,6 +727,9 @@ Helpers.Menu.prototype = {
 
     },
     popUpT2: function (c, callback) {
+        if(popup!=undefined) {
+            this.deleteAll();
+        }
         towerB = c;
         popup = callback.add.sprite(c.x + 60, c.y - 50, 'backgroundT');
         popup.alpha = 0.8;
@@ -722,6 +750,9 @@ Helpers.Menu.prototype = {
 
     },
     popUpT3: function (c, callback) {
+        if(popup!=undefined) {
+            this.deleteAll();
+        }
         towerB = c;
         popup = callback.add.sprite(c.x + 60, c.y - 50, 'backgroundT');
         popup.alpha = 0.8;
@@ -742,6 +773,9 @@ Helpers.Menu.prototype = {
 
     },
     popUpT4: function (c, callback) {
+        if(popup!=undefined) {
+            this.deleteAll();
+        }
         towerB = c;
         popup = callback.add.sprite(c.x + 60, c.y - 50, 'backgroundT');
         popup.alpha = 0.8;

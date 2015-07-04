@@ -24,7 +24,7 @@ var life;
 var heart;
 var heartText;
 var diamond;
-var diamonds=1;
+var diamonds;
 var diamondText;
 var coin;
 var coins = 70;

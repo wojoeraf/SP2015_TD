@@ -110,7 +110,7 @@ Menu.Preloader.prototype = {
         this.load.image('achieveText9', 'assets/menu/achievements/placeholder.png');
 
         //Render the captcha into the empty container
-
+/*
         var captchaContainer = null;
         loadCaptcha = function () {
             captchaContainer = grecaptcha.render('captcha_container', {
@@ -135,7 +135,7 @@ Menu.Preloader.prototype = {
             });
         };
         loadCaptcha();
-
+*/
 
 
         //Initialize the slider for the popup menu
