@@ -1,7 +1,7 @@
 ﻿#Ignore project specific stuff
 .idea/
-./config.txt
-./db.js
-./node_modules
 .DS_Store
 ./*.env
+
+db.js
+node_modules

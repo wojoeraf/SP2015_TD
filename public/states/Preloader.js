@@ -58,8 +58,6 @@ Menu.Preloader.prototype = {
         this.load.spritesheet('line2', 'assets/menu/line.png');
         this.load.spritesheet('volumeSound', 'assets/menu/settings/volume_Sound.png');
         this.load.spritesheet('volumeMusic', 'assets/menu/settings/volume_Music.png');
-        this.load.spritesheet('changePW', 'assets/menu/settings/menuButton_changePW.png');
-        this.load.spritesheet('confirm', 'assets/menu/settings/menuButton_confirm.png');
 
         // Level Selector
         this.load.spritesheet('buttonEasy', 'assets/menu/menuButton_gameEasy.png');
@@ -119,8 +117,9 @@ Menu.Preloader.prototype = {
             captchaContainer = grecaptcha.render('captcha_container', {
                 'sitekey': '6LeBSwgTAAAAAMOYTY-lEdVzRMnmvPIVLNSj75b8',
                 'callback': function (response) {
-                    console.log(response);
+                    //onsole.log(response);
 
+                    //Important: the local player instance is written in lowercase letters
                     response = response + "#" + player.name;
 
                     $.ajax({
@@ -129,17 +128,22 @@ Menu.Preloader.prototype = {
                         dataType: "text",
                         data: response
                     }).always(function (data, status, err) {
-                        console.log(status);
-                        console.log(err);
-                    }).success(function (data, status, err) {
+                        //If the response is 'true', award a diamond
+                        if(data){
+                            console.log("player diamonds OLD: " + player.diamonds);
+                            player.diamonds++;
+                            console.log("player diamonds NEW: " + player.diamonds);
+                        }
+                    });
+                        /**.success(function (data, status, err) {
                         console.log(data);
                         console.log(status);
                         console.log(err);
 
 
-                         player.diamonds++;
+                         Player.diamonds++;
                          console.log("Player now has " + Player.diamonds + " diamonds");
-                    });
+                    });**/
 
                 }
             });
@@ -199,18 +203,28 @@ Menu.Preloader.prototype = {
                 dataType: 'json',
                 data: {}
             }).done(function (data, status, err) {
-                outerThis.helper.debugLog('Session check status: ' + status, outerThis);
-                outerThis.helper.debugLog('Returned data: ' + JSON.stringify(data), outerThis);
-                //outerThis.helper.debugLog('Active session: ' + data.bool, outerThis);
+                //console.log(JSON.stringify(data, null, 4));
+                //console.log(status);
+                //console.log(err);
 
-                //If session is found and user detected, load his credentials
+                //assigning the database entries to the corresponding fields of the player
+                //player.loggedIn = true;
+                //player.name = data.local.username;
+                //player.email = data.local.email;
+                //player.diamonds = data.local.diamonds;
+                //player.achievements = data.local.achievements;
+
+                outerThis.helper.debugLog('Session check successful.', outerThis);
+                outerThis.helper.debugLog('Active session: ' + data.bool, outerThis);
                 if (data.bool == true) {
+                    // session found and user detected, so load his credentials
                     player.loadData(data.user.local);
                 }
             }).fail(function (data, status, err) {
-                outerThis.helper.debugLog('Session check status: ' + status, outerThis);
-                outerThis.helper.debugLog('Error: ' + err, outerThis);
-                outerThis.helper.debugLog('Returned data: ' + JSON.stringify(data.responseJSON), outerThis);
+                outerThis.helper.debugLog('Session check failed.');
+                outerThis.helper.debugLog('Unable to check for session\nResponse:\n' + JSON.stringify(data, null, 4));
+                var message = data.responseJSON.message;
+                outerThis.helper.debugLog(message);
 
                 player.loggedIn = false;
             });
