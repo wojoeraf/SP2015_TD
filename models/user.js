@@ -4,16 +4,17 @@ var Schema = mongoose.Schema;
 // create a schema
 var userSchema = new Schema({
 
+    diamonds: {type: Number, required: true},
+    achievements: [Number],
+    highscores: [Number],
+
     local: {
         email: {type: String, required: true, unique: true},
         username: {type: String, required: true, unique: true},
         password: {type: String, required: true},
         created_at: Date,
         updated_at: Date,
-        last_login: Date,
-        diamonds: {type: Number, required: true},
-        achievements: {type: Array, required: true}
-
+        last_login: Date
     }
 });
 

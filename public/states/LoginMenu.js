@@ -61,7 +61,10 @@ Menu.LoginMenu.prototype = {
                 outerThis.helper.debugLog('Returned data: ' + JSON.stringify(data), outerThis);
 
                 //assigning the database entries to the corresponding fields of the player
-                player.loadData(data.local);
+                player.loadData(data);
+
+                //Empty response
+                $("#responseLogin").html('');
 
                 //Start MainMenu
                 outerThis.state.start("MainMenu");

@@ -2,6 +2,7 @@ Menu.AchievementMenu = function () {
 
     this.helper = new Helper.Menu(this);
     this.fp = new FormProcessing();
+    this.achievementBtns = [];
 
 };
 
@@ -51,10 +52,17 @@ Menu.AchievementMenu.prototype = {
                     yCoord = 500;
                 }
                 console.log("adding achievement nr " + i);
-                this.addButton(xCoord, yCoord, player.achievements[i]);
-
+                this.achievementBtns[i] = this.addButton(xCoord, yCoord, player.achievements[i]);
             }
         }
+
+        this.achievementBtns.forEach(function(current) {
+             //current.onInputOver.add(over, this);
+             //current.onInputOout.add(out, this);
+            console.log(current); // TODO
+        });
+
+
 
 
         /**
@@ -92,6 +100,14 @@ Menu.AchievementMenu.prototype = {
 
     update: function () {
 
+    },
+
+    over: function() {
+        console.log('hovering...');
+    },
+
+    out: function() {
+        console.log('... not hovering');
     },
 
     // Changing the displayed achievement text

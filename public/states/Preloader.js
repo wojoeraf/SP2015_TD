@@ -215,27 +215,23 @@ Menu.Preloader.prototype = {
                 url: '/checkSession',
                 dataType: 'json',
                 data: {}
-            }).done(function (data, status, err) {
-                //console.log(JSON.stringify(data, null, 4));
-                //console.log(status);
-                //console.log(err);
-
-                //assigning the database entries to the corresponding fields of the player
-                //player.loggedIn = true;
-                //player.name = data.local.username;
-                //player.email = data.local.email;
-                //player.diamonds = data.local.diamonds;
-                //player.achievements = data.local.achievements;
+            }).done(function (data, status) {
+                outerThis.helper.debugLog('Status: ' + status, outerThis);
+                outerThis.helper.debugLog('Returned data: ' + JSON.stringify(data), outerThis);
 
                 outerThis.helper.debugLog('Session check successful.', outerThis);
                 outerThis.helper.debugLog('Active session: ' + data.bool, outerThis);
                 if (data.bool == true) {
                     // session found and user detected, so load his credentials
-                    player.loadData(data.user.local);
+                    player.loadData(data.user);
                 }
             }).fail(function (data, status, err) {
                 outerThis.helper.debugLog('Session check failed.');
                 outerThis.helper.debugLog('Unable to check for session\nResponse:\n' + JSON.stringify(data, null, 4));
+                outerThis.helper.debugLog('Status: ' + status, outerThis);
+                outerThis.helper.debugLog('Error: ' + err, outerThis);
+                outerThis.helper.debugLog('Returned data: ' + JSON.stringify(data.responseJSON), outerThis);
+
                 var message = data.responseJSON.message;
                 outerThis.helper.debugLog(message);
 

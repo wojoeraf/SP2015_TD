@@ -3,12 +3,8 @@ Menu.MainMenu = function () {
     this.helper = new Helper.Menu(this);
     this.fp = new FormProcessing();
 
-    //this.buttonSettings = null;
-    //this.buttonRanking = null;
-    this.buttonBack = null;
+    this.buttonSound = null;
     this.buttonMusic = null;
-    //this.buttonBuy = null;
-    //this.buttonAchievements = null;
 
 };
 
@@ -118,21 +114,23 @@ Menu.MainMenu.prototype = {
     //Test function for the highscore functionality
     addHighscore: function () {
         console.log("Doing highscore stuff!");
-
-        var data = {
-            username: player.name,
-            scoreh1: 135464987987937
-        };
-        $.ajax({
-            method: 'post',
-            url: '/highscore',
-            dataType: 'json',
-            data: data
-        }).done(function(data, status){
-            if(data){
-                //New highscore in the level!
-
-            }
+        var outerThis = this;
+        $(function () {
+            var data = {
+                username: 'rafael',
+                score: 123,
+                level: 1
+            };
+            $.ajax({
+                method: 'post',
+                url: '/highscore',
+                dataType: 'json',
+                data: data
+            }).always(function(data, status){
+                outerThis.helper.debugLog('Status: ' + status, outerThis);
+                outerThis.helper.debugLog('Returned data: ' + JSON.stringify(data), outerThis);
+            });
+            return false;
         });
     }
 

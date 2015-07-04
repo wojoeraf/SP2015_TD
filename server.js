@@ -58,11 +58,6 @@ app.use(passport.session());
 var initPassport = require('./auth/userAuth');
 initPassport(passport);
 
-//app.use(function(req, res, next) {
-//    console.log(req.session);
-//    next();
-//});
-
 app.post('/checkSession', function (req, res) {
     util.log('Checking for active session:\nmethod: ' + req.method + '\nurl: ' + req.url);
     var response = {bool: false, message: 'no session', user: undefined};
@@ -161,7 +156,7 @@ app.post('/logout', function (req, res) {
     });
 });
 
-app.post('/changePW', function (req, res, next) {
+app.post('/changePW', function (req, res) {
     console.log('Changing PW...');
 
     var response = {bool: false, message: ''};
@@ -241,7 +236,7 @@ app.post('/changePW', function (req, res, next) {
         });
 });
 
-app.post('/forgotPW', function (req, res, next) {
+app.post('/forgotPW', function (req, res) {
     console.log('Forgot Password request started...');
 
     var response = {bool: false, message: ''};
@@ -283,11 +278,8 @@ app.post('/forgotPW', function (req, res, next) {
 
                 // Save and send new password
                 function(callback) {
-                    //Hash new PW
-                    var newPWHashed = authFuncs.createHash(newPW);
-
                     //Write new hashed pw to user in db
-                    user.local.password = newPWHashed;
+                    user.local.password = authFuncs.createHash(newPW);
 
                     //Save to db
                     user.save(function(err, data) {
@@ -365,7 +357,7 @@ app.post('/forgotPW', function (req, res, next) {
 });
 
 //Listener for the captcha verification
-app.post('/verify', function (req, res1, next) {
+app.post('/verify', function (req, res1) {
     //extracts the response from the google api from the recieved JSON Object
     var out = JSON.stringify(req.body);
     //Split by '#' to sperate the different elements of the request message
@@ -429,53 +421,106 @@ app.post('/verify', function (req, res1, next) {
 });
 
 //Listener for new entrys to the highscore table
-app.post('/highscore', function (req, res1) {
+app.post('/highscore', function (req, res) {
+    var status = 200;
 
-    HighscoreModel.save({'local.username': "username"}, function(err, data, log){
-            console.log(err);
-            console.log(data);
-            console.log(log);
+    var username = req.body.username; console.log('Username: ' + username);
+    var score = req.body.score; console.log('Score: ' + score);
+    var level = req.body.level; console.log('Level: ' + level);
+
+    UserModel.findOne({'local.username': username}, function(err, user) {
+        if(err) {
+            console.log('Highscores error: ' + err);
+            status = 500;
+            return res.status(status).json({message: 'Error on db query.'}).end();
         }
-    );
+
+        //User not found
+        if (!user) {
+            console.log('Highscores: User not found');
+            status = 500;
+            return res.status(status).json({message: 'User not found.'}).end();
+        }
+
+        //User found
+        //Compare highscore with score and decide what to do
+        var highscores = user.highscores;
+
+        if (highscores[level -1] !== 'undefined' && highscores[level-1] > score) {
+            //last score is not a new highscore, so save nothing to db
+            console.log('Highscores: Last score is no highscore.');
+            return res.status(status).json({message: 'Last score is no highscore.'}).end();
+
+        } else if(highscores[level -1] !== 'undefined') {
+            //Last score is a new highscore. So save it for the corresponding level
+            console.log('Highscores: Last score IS a highscore.');
+            console.log('Old highscore: ' + highscores[level-1] + ' new highscore: ' + score);
+
+            user.highscores.set(level-1, score)
+
+            user.save(function(err) {
+                if(err) {
+                    console.log('Error saving new highscore: ' + err);
+                    status = 500;
+                    return res.status(status).json({message: 'Error saving new highscore.'}).end();
+                }
+                console.log('Highscore updated.');
+                return res.status(status).json({message: 'Highscore updated.'}).end();
+            });
+
+        } else {
+            console.log('Error saving new highscore: something wrong with level numbering.');
+            status = 500;
+            return res.status(status).json({message: 'Error saving new highscore.'}).end();
+        }
+    });
 
 
-    var input = JSON.stringify(req.body);
-    console.log(input);
-    var array = input.split(',');
-
-    var user = array[0].split(':');
-    var username = user[1].substring(1, user[1].length - 1);
-    var field = array[1].split(':');
-    console.log("Username is: " + username);
-
-    var type = field[0].substring(1, field[0].length - 1);
-    var score = field[1].substring(1, field[1].length - 2);
-
-    console.log("type is: " + type);
-    console.log("score is: " + score);
-
-    if (type === "scoreh1") {
-        type = "h1";
-
-    }
-    else if (type === "scoreh2") {
-        type = "h2";
-
-    } else (type === "scoreh3")
-    {
-        type = "h3";
-
-    }
-    console.log("type: " + type);
-
-    HighscoreModel.find({'local.username': 'username'},
-        function (err, log, data) {
-            console.log(err);
-            console.log(log);
-            console.log(data);
-        });
-
-    //HighscoreModel.findOne({});
+    //HighscoreModel.save({'local.username': "username"}, function(err, data, log){
+    //        console.log(err);
+    //        console.log(data);
+    //        console.log(log);
+    //    }
+    //);
+    //
+    //
+    //var input = JSON.stringify(req.body);
+    //console.log(input);
+    //var array = input.split(',');
+    //
+    //var user = array[0].split(':');
+    //var username = user[1].substring(1, user[1].length - 1);
+    //var field = array[1].split(':');
+    //console.log("Username is: " + username);
+    //
+    //var type = field[0].substring(1, field[0].length - 1);
+    //var score = field[1].substring(1, field[1].length - 2);
+    //
+    //console.log("type is: " + type);
+    //console.log("score is: " + score);
+    //
+    //if (type === "scoreh1") {
+    //    type = "h1";
+    //
+    //}
+    //else if (type === "scoreh2") {
+    //    type = "h2";
+    //
+    //} else (type === "scoreh3")
+    //{
+    //    type = "h3";
+    //
+    //}
+    //console.log("type: " + type);
+    //
+    //HighscoreModel.find({'local.username': 'username'},
+    //    function (err, log, data) {
+    //        console.log(err);
+    //        console.log(log);
+    //        console.log(data);
+    //    });
+    //
+    ////HighscoreModel.findOne({});
 
 
 });
@@ -523,11 +568,8 @@ function verifyRecaptcha(key, playername, callback) {
                 }
             });
         });
-
     });
-
-
-};
+}
 
 function captchaCallback(value, name) {
     //Method that manages the diamond awarding
@@ -540,14 +582,14 @@ function captchaCallback(value, name) {
     else {
         console.log(name + " will recieve no diamonds :(");
     }
-};
+}
 
 //Function that increments the diamond count of the user with the name 'username' by one
 function incrementDiamonds(username) {
     console.log("incrementDiamonds");
 
     //The first pair of curly brackets contains the selector, the second one the update instruction
-    UserModel.update({'local.username': username}, {$inc: {'local.diamonds': 1}},
+    UserModel.update({'local.username': username}, {$inc: {'diamonds': 1}},
         function (err, log, data) {
             if (err) {
                 status = 500;
@@ -563,15 +605,14 @@ function incrementDiamonds(username) {
             //console.log("user found!");
             //console.log(log);
         });
-
-};
+}
 
 //Function that decrements the diamond count of the player with name 'username' by one
 function decrementDiamonds(username) {
     console.log("decrementDiamonds");
 
     //The first pair of curly brackets contains the selector, the second one the update instruction
-    UserModel.update({'local.username': username}, {$inc: {'local.diamonds': -1}},
+    UserModel.update({'local.username': username}, {$inc: {'diamonds': -1}},
         function (err, log, data) {
             if (err) {
                 status = 500;
@@ -592,4 +633,4 @@ function decrementDiamonds(username) {
 
 app.listen(port, function () {
     console.log('App is listening on port ' + port);
-});
+})

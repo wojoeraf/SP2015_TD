@@ -6,14 +6,8 @@ var Schema = mongoose.Schema;
 
 var highscoreSchema = new Schema({
 
-    local: {
-        username: {type: String, required: true, unique: true},
-        h1: {type: String, required: true},
-        h2: {type: String, required: true},
-        h3: {type: String, required: true}
-
-
-    }
+    username: {type: String, required: true, unique: true},
+    highscores: [Number]
 });
 
 //Create a model using the schema

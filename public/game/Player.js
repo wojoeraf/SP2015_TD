@@ -24,19 +24,39 @@ Player = function () {
      */
     this.loggedIn = false;
 
-    /*
+    /**
      * This value holds the number of diamanods the player owns.
      * @member Player {number}
      */
     this.diamonds = 1;
-
-
 
     /**
      * The achievements array
      * @member Player {array}
      */
     this.achievements = [];
+
+    /**
+     * The highscores array
+     * @member Player {array}
+     */
+    this.highscores = [];
+
+    /**
+     * The last game object.
+     * Contains data like number of build towers etc.
+     * @member Player {array}
+     */
+    this.lastGame = {
+        canceled: true,
+        won: false,
+        level: 0,
+        score: 0,
+        towersBuild: 0,
+        towersSold: 0,
+        mobsKilled: 0,
+        useedPremiumactions: 0
+    };
 
 };
 
@@ -55,10 +75,11 @@ Player.prototype = {
         } else {
             this.loggedIn = true;
         }
-        this.name = data.username;
-        this.email = data.email;
+        this.name = data.local.username;
+        this.email = data.local.email;
         this.diamonds = data.diamonds;
         this.achievements = data.achievements;
+        this.highscores = data.highscores;
     }
 
 };

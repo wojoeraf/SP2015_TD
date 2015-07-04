@@ -115,18 +115,18 @@ module.exports = function (passport) {
                             var currentDate = new Date();
                             newUser.local.created_at = currentDate;
                             newUser.local.last_login = currentDate;
-                            newUser.local.diamonds = 5;
-                            newUser.local.achievements = [1];
+                            newUser.diamonds = 5;
+                            newUser.achievements = [];
+                            newUser.highscores = [0,0,0];
 
                             console.log("NewUser is: "+ newUser);
 
                             // save the user
-                            newUser.save(function (err, data) {
+                            newUser.save(function (err) {
                                 if (err) {
                                     console.log('Error saving new user. Registration aborted!');
-                                    console.log(data);
+                                    console.log(err);
                                     return done(null, false, {message: 'An Database error occurred.'});
-                                    //throw err;
                                 }
                                 console.log('User Registration successful');
                                 return done(null, newUser);
