@@ -15,9 +15,12 @@ var dbConfig = require('./db');
 var mongoose = require('mongoose');
 var UserModel = require('./models/user');
 var authFuncs = require('./auth/functions');
+var nodemailer = require('nodemailer');
+var smtpTransport = require('nodemailer-smtp-transport');
 var https = require('https');
 var util = require('util');
 var async = require('async');
+var crypto = require('crypto');
 
 var fs = require('fs');
 var path = require('path');
@@ -94,6 +97,33 @@ app.post('/checkSession', function (req, res) {
     }
 });
 
+app.post('/signup', function (req, res, next) {
+    passport.authenticate('local-signup', function (err, user, info) {
+        console.log('Registering...');
+        console.log(info);
+        console.log('user is ' + typeof user + ' and has value: ' + user);
+        if (user === false) {
+            //return res.status(500).json({message: 'Failed to register user.'});
+            return res.status(500).json(info).end();
+        }
+        if (err) {
+            return res.status(500).json({message: err}).end();
+        }
+        if (!user) {
+            //return res.status(401).json({message: 'Failed to register user...'});
+            return res.status(500).json(info).end();
+        }
+        req.logIn(user, function (err) {
+            if (err) {
+                console.log('Registration successful but error on logging in with the new username.');
+                return res.status(500).json({message: 'Registration successful but error on logging in with the new username.'}).end();
+            }
+            return res.status(200).json(user).end();
+        });
+    })(req, res, next);
+
+});
+
 app.post('/login', function (req, res, next) {
     passport.authenticate('local-login', function (err, user, info) {
         console.log('Logging in...');
@@ -115,10 +145,25 @@ app.post('/login', function (req, res, next) {
     })(req, res, next);
 });
 
+app.post('/logout', function (req, res) {
+    console.log('logging out...');
+    //util.log(util.inspect(req));
+    util.log('Request received: \nmethod: ' + req.method + '\nurl: ' + req.url);
+    req.session.destroy(function (err) {
+        if (err) {
+            console.log('error while logging out: ' + err);
+            res.status(500).json({message: 'Error while logging out: ' + err}).end();
+        } else {
+            res.status(200).json({message: 'Logged out successfully.'}).end();
+            console.log('User successfully logged out.');
+        }
+    });
+});
+
 app.post('/changePW', function (req, res, next) {
     console.log('Changing PW...');
 
-    var response = {bool: false, message: '', user: undefined};
+    var response = {bool: false, message: ''};
     var status = 200;
 
     var oldPW = req.body.oldPW;
@@ -195,46 +240,127 @@ app.post('/changePW', function (req, res, next) {
         });
 });
 
-app.post('/logout', function (req, res) {
-    console.log('logging out...');
-    //util.log(util.inspect(req));
-    util.log('Request received: \nmethod: ' + req.method + '\nurl: ' + req.url);
-    req.session.destroy(function (err) {
-        if (err) {
-            console.log('error while logging out: ' + err);
-            res.status(500).json({message: 'Error while logging out: ' + err}).end();
-        } else {
-            res.status(200).json({message: 'Logged out successfully.'}).end();
-            console.log('User successfully logged out.');
-        }
-    });
-});
+app.post('/forgotPW', function (req, res, next) {
+    console.log('Forgot Password request startet...');
 
-app.post('/signup', function (req, res, next) {
-    passport.authenticate('local-signup', function (err, user, info) {
-        console.log('Registering...');
-        console.log(info);
-        console.log('user is ' + typeof user + ' and has value: ' + user);
-        if (user === false) {
-            //return res.status(500).json({message: 'Failed to register user.'});
-            return res.status(500).json(info).end();
-        }
-        if (err) {
-            return res.status(500).json({message: err}).end();
-        }
-        if (!user) {
-            //return res.status(401).json({message: 'Failed to register user...'});
-            return res.status(500).json(info).end();
-        }
-        req.logIn(user, function (err) {
+    var response = {bool: false, message: ''};
+    var status = 200;
+
+    var email = req.body.email;
+
+    console.log('Given email address: ' + email);
+
+    // Search for user in db
+    UserModel.findOne({'local.email': email},
+        function (err, user) {
             if (err) {
-                console.log('Registration successful but error on logging in with the new username.');
-                return res.status(500).json({message: 'Registration successful but error on logging in with the new username.'}).end();
+                status = 500;
+                response.message = 'Error on finding user.';
+                return res.status(status).json(response).end();
             }
-            return res.status(200).json(user).end();
-        });
-    })(req, res, next);
 
+            // user does not exist
+            if (!user) {
+                console.log('ForgotPW: User not found.');
+                status = 500;
+                response.message = 'No user with given email address exists.';
+                return res.status(status).json(response).end();
+            }
+
+            var newPW = '';
+
+            // user exists
+            async.series([
+                // Create new Password
+                function(done) {
+                    crypto.randomBytes(8, function(err, buf) {
+                        newPW = buf.toString('hex');
+                        console.log('ForgotPW: New password: ' + newPW);
+                        done(err);
+                    });
+                },
+
+                // Save and send new password
+                function(callback) {
+                    //Hash new PW
+                    var newPWHashed = authFuncs.createHash(newPW);
+
+                    //Write new hashed pw to user in db
+                    user.local.password = newPWHashed;
+
+                    //Save to db
+                    user.save(function(err, data) {
+                        if (err) {
+                            console.log('ForgotPW: Error on saving new pw to db.');
+                            console.log(data);
+                            status = 500;
+                            response.message = "Can't save new password.";
+                            //res.status(status).json(response).end();
+                            callback(status);
+                        } else {
+                            console.log('ForgotPW: Password updated successfully.');
+                            response.message = 'ForgotPW: Password updated successfully.';
+                            response.bool = true;
+                            //res.status(status).json(response).end();
+                            callback(null);
+                        }
+                    });
+                },
+
+                // Send email to user
+                function(callback) {
+                    //Prepare transport
+                    var options = {
+                        port: 587,
+                        host: 'mail.gmx.net',
+                        //secure: true,
+                        auth: {
+                            user: 'MedievalTD@gmx.de',
+                            pass: 'swp-2015TD$'
+                        }
+                    };
+                    var transporter = nodemailer.createTransport(smtpTransport(options));
+
+                    // Email text string
+                    var text = 'You have requested to reset your password.\nYour new password is:\n\n';
+                    text += newPW;
+                    text += '\n\nGo ahead and login with your new password and change it in the settings menu.';
+                    text += '\n\nYour Medieval TD team.';
+
+                    // Prepare mail
+                    var mailOptions = {
+                        from: 'Medieval TD <MedievalTD@gmx.de>',
+                        to: user.local.email,
+                        subject: 'Medieval TD Password reset',
+                        text: text
+                    };
+
+                    // Send email
+                    transporter.sendMail(mailOptions, function(err, info) {
+                        if (err) {
+                            console.log('ForgotPW: Error on sending email to user.');
+                            //console.log(info.response);
+                            status = 500;
+                            response.message = "Can't send email.";
+                            //res.status(status).json(response).end();
+                            callback(status);
+                        } else {
+                            console.log('ForgotPW: Email send successfully.');
+                            console.log('ForgotPW: info response: ' + info.response);
+                            response.message = 'Email was send. Check your inbox';
+                            response.bool = true;
+                            //res.status(status).json(response).end();
+                            callback(null);
+                        }
+                    });
+                }
+            ], function(err) {
+                if (err) {
+                    console.log('ForgotPW: async error: ' + err);
+                }
+                return res.status(status).json(response).end();
+            });
+        });
 });
 
 //Listener for the captcha verification
