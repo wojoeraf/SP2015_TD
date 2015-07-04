@@ -58,6 +58,8 @@ Menu.Preloader.prototype = {
         this.load.spritesheet('line2', 'assets/menu/line.png');
         this.load.spritesheet('volumeSound', 'assets/menu/settings/volume_Sound.png');
         this.load.spritesheet('volumeMusic', 'assets/menu/settings/volume_Music.png');
+        this.load.spritesheet('changePW', 'assets/menu/settings/menuButton_changePW.png');
+        this.load.spritesheet('confirm', 'assets/menu/settings/menuButton_confirm.png');
 
         // Level Selector
         this.load.spritesheet('buttonEasy', 'assets/menu/menuButton_gameEasy.png');

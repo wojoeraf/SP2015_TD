@@ -241,7 +241,7 @@ app.post('/changePW', function (req, res, next) {
 });
 
 app.post('/forgotPW', function (req, res, next) {
-    console.log('Forgot Password request startet...');
+    console.log('Forgot Password request started...');
 
     var response = {bool: false, message: ''};
     var status = 200;
@@ -258,9 +258,6 @@ app.post('/forgotPW', function (req, res, next) {
                 response.message = 'Error on finding user.';
                 return res.status(status).json(response).end();
             }
-            return res.status(200).json(user).end();
-        });
-    })(req, res, next);
 
             // user does not exist
             if (!user) {
