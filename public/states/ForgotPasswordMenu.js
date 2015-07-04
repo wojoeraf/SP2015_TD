@@ -32,6 +32,7 @@ Menu.ForgotPasswordMenu.prototype = {
 
 
     goBack: function () {
+        this.helper.playSound('menuClick');
         this.fp.hideForgotPasswordForm();
         this.state.start("LoginMenu");
     }

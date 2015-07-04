@@ -47,13 +47,34 @@
     margin: 100px auto 0;
 }
 
+#changePWArea {
+    margin: 100px auto 0;
+}
+
+#forgotPasswordArea {
+    margin: 100px auto 0;
+}
+
 #responseRegister {
     color: #A30000;
     font-weight: bold;
 }
 
-#forgotPasswordArea {
-    margin: 100px auto 0;
+#responseLogin {
+    color: #A30000;
+    font-weight: bold;
+}
+
+#responseChangePW {
+    font-weight: bold;
+}
+
+.negative {
+    color: #A30000;
+}
+
+.positive {
+    color: #17E150;
 }
 
 #settingsMenu, #popupSlider {

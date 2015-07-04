@@ -1,6 +1,7 @@
 // Preloading state
 Menu.Preloader = function () {
     this.fp = new FormProcessing(); // for handling the forms and input
+    this.helper = new Helper.Menu(this);
 };
 
 var musicVolume = 0.5;
@@ -57,6 +58,8 @@ Menu.Preloader.prototype = {
         this.load.spritesheet('line2', 'assets/menu/line.png');
         this.load.spritesheet('volumeSound', 'assets/menu/settings/volume_Sound.png');
         this.load.spritesheet('volumeMusic', 'assets/menu/settings/volume_Music.png');
+        this.load.spritesheet('changePW', 'assets/menu/settings/menuButton_changePW.png');
+        this.load.spritesheet('confirm', 'assets/menu/settings/menuButton_confirm.png');
 
         // Level Selector
         this.load.spritesheet('buttonEasy', 'assets/menu/menuButton_gameEasy.png');
@@ -110,13 +113,15 @@ Menu.Preloader.prototype = {
         this.load.image('achieveText9', 'assets/menu/achievements/placeholder.png');
 
         //Render the captcha into the empty container
-/*
+
         var captchaContainer = null;
         loadCaptcha = function () {
             captchaContainer = grecaptcha.render('captcha_container', {
                 'sitekey': '6LeBSwgTAAAAAMOYTY-lEdVzRMnmvPIVLNSj75b8',
                 'callback': function (response) {
                     console.log(response);
+
+                    response = response + "#" + player.name;
 
                     $.ajax({
                         method: 'post',
@@ -126,16 +131,20 @@ Menu.Preloader.prototype = {
                     }).always(function (data, status, err) {
                         console.log(status);
                         console.log(err);
-                    }).success(function(data, status, err){
-                        console.log("awarding diamonds");
-                        player.diamonds++;
+                    }).success(function (data, status, err) {
+                        console.log(data);
+                        console.log(status);
+                        console.log(err);
+
+
+                         player.diamonds++;
+                         console.log("Player now has " + Player.diamonds + " diamonds");
                     });
 
                 }
             });
         };
         loadCaptcha();
-*/
 
 
         //Initialize the slider for the popup menu
@@ -161,8 +170,8 @@ Menu.Preloader.prototype = {
         });
 
         //Füge die Slider für das Settins menü hinzu
-        $(function() {
-            $( "#sliderMusic" ).slider({
+        $(function () {
+            $("#sliderMusic").slider({
                 animate: true,
                 min: 0,
                 max: 1,
@@ -171,8 +180,8 @@ Menu.Preloader.prototype = {
             });
         });
 
-        $(function() {
-            $( "#sliderSound" ).slider({
+        $(function () {
+            $("#sliderSound").slider({
                 animate: true,
                 min: 0,
                 max: 1,
@@ -181,7 +190,32 @@ Menu.Preloader.prototype = {
             });
         });
 
+        // Check for active session
+        var outerThis = this;
+        $(function () {
+            $.ajax({
+                method: 'post',
+                url: '/checkSession',
+                dataType: 'json',
+                data: {}
+            }).done(function (data, status, err) {
+                outerThis.helper.debugLog('Session check status: ' + status, outerThis);
+                outerThis.helper.debugLog('Returned data: ' + JSON.stringify(data), outerThis);
+                //outerThis.helper.debugLog('Active session: ' + data.bool, outerThis);
 
+                //If session is found and user detected, load his credentials
+                if (data.bool == true) {
+                    player.loadData(data.user.local);
+                }
+            }).fail(function (data, status, err) {
+                outerThis.helper.debugLog('Session check status: ' + status, outerThis);
+                outerThis.helper.debugLog('Error: ' + err, outerThis);
+                outerThis.helper.debugLog('Returned data: ' + JSON.stringify(data.responseJSON), outerThis);
+
+                player.loggedIn = false;
+            });
+            return false;
+        });
 
     },
 
@@ -202,8 +236,12 @@ Menu.Preloader.prototype = {
                 this.sound.play('titleMusic');
             }
 
-            // Go to login state
-            this.state.start("LoginMenu");
+            // Go to next state depending on logged in or not (due to session checking)
+            if (player.loggedIn) {
+                this.state.start("MainMenu");
+            } else {
+                this.state.start("LoginMenu");
+            }
         }
     }
 };

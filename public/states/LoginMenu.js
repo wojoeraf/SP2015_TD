@@ -22,8 +22,8 @@ Menu.LoginMenu.prototype = {
         this.fp.showLoginForm();
 
         // Add buttons and change anchors to center in order to easy align them in the middle of screen
-        this.add.button(canvasWidth / 2 - 100, 500, 'buttonLogin', this.login, this).anchor.setTo(0.5, 0.5);
-        this.add.button(canvasWidth / 2 + 100, 500, 'buttonSkip', this.skip, this).anchor.setTo(0.5, 0.5);
+        this.add.button(canvasWidth / 2 - 100, 530, 'buttonLogin', this.login, this).anchor.setTo(0.5, 0.5);
+        this.add.button(canvasWidth / 2 + 100, 530, 'buttonSkip', this.skip, this).anchor.setTo(0.5, 0.5);
         this.buttonMusic = this.helper.placeMusicButton(this.musicToggle);
         this.buttonSound = this.helper.placeSoundButton(this.soundToggle);
 
@@ -38,30 +38,41 @@ Menu.LoginMenu.prototype = {
     // Login button callback
     login: function () {
         this.helper.playSound('menuClick');
-        var state = this;
+        this.helper.debugLog('Logging in...', this);
+        var outerThis = this;
 
         $(function () {
+            var username = $("input[name=username]").val();
+            var password = $("input[name=password]").val();
+
             var data = {
-                username: $("input[name=username]").val(),
-                password: $("input[name=password]").val()
+                username: username,
+                password: password
             };
+
             $.ajax({
                 method: 'post',
                 url: '/login',
-                type: 'json',
+                dataType: 'json',
                 data: data
-            }).done(function (data, status, err) {
-                player.loggedIn = true;
-                player.name = data.local.username;
-                player.email = data.local.email;
-                $(".userInfo").html("<p>Welcome " + data.local.username + "</p>");
-                state.state.start("MainMenu");
-                state.fp.hideLoginForm();
-                state.helper.debugLog('Player ' + player.name + ' successfully logged in.');
+            }).done(function (data, status) {
+                outerThis.fp.hideLoginForm();
+                outerThis.helper.debugLog('Status: ' + status, outerThis);
+                outerThis.helper.debugLog('Returned data: ' + JSON.stringify(data), outerThis);
+
+                //assigning the database entries to the corresponding fields of the player
+                player.loadData(data.local);
+
+                //Start MainMenu
+                outerThis.state.start("MainMenu");
             }).fail(function (data, status, err) {
                 player.loggedIn = false;
-                state.helper.debugLog('Unable to login\nResponse:\n' + JSON.stringify(data, null, 4) + '\nstatus: ' + status + '\nerror message: ' + err);
-                $(".userInfo").html("<p>Login error</p>");
+                outerThis.helper.debugLog('Status: ' + status, outerThis);
+                outerThis.helper.debugLog('Error: ' + err, outerThis);
+                outerThis.helper.debugLog('Returned data: ' + JSON.stringify(data.responseJSON), outerThis);
+
+                var message = data.responseJSON.message;
+                $("#responseLogin").html(message);
             });
             return false;
         });

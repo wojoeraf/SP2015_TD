@@ -3,6 +3,7 @@
  */
 // configuring passport
 var User = require('../models/user');
+var func = require('./functions');
 var LocalStrategy = require('passport-local').Strategy;
 var bCrypt = require('bcrypt-nodejs');
 var validator = require('validator');
@@ -14,29 +15,20 @@ module.exports = function (passport) {
 
     // extend validator
     validator.extend('isUsername', function(str) {
-        return regexUsername.test(str);
+        var bool = regexUsername.test(str);
+        return str.length > 20 ? false : bool;
     });
 
     // passport need serialization for sessions
     passport.serializeUser(function (user, done) {
-        done(null, user.id);
+        done(null, {username: user.local.username, _id: user._id});
     });
 
 
     // passport need deserialization for sessions
-    passport.deserializeUser(function (id, done) {
-       done(null, id);
+    passport.deserializeUser(function (sessionUser, done) {
+       done(null, sessionUser);
     });
-
-
-    var createHash = function(password){
-        return bCrypt.hashSync(password, bCrypt.genSaltSync(10));
-    };
-
-
-    var isValidPassword = function(user, password){
-        return bCrypt.compareSync(password, user.local.password);
-    };
 
 
     // login logic
@@ -44,9 +36,11 @@ module.exports = function (passport) {
             passReqToCallback: true
         },
         function (req, username, password, done) {
+            console.log('I am here!');
             // check if user with email or username exists
             User.findOne({$or: [{'local.username': username}, {'local.email': username}]},
                 function (err, user) {
+                    console.log('I am here22222!');
                     if (err) return done(err);
 
                     // user does not exist
@@ -56,14 +50,14 @@ module.exports = function (passport) {
                     }
 
                     // user exists but wrong password, log the error
-                    if (!isValidPassword(user, password)) {
+                    if (!func.isValidPassword(user.local.password, password)) {
                         console.log('Invalid password!');
                         return done(null, false, {message: 'Invalid password'});
                     }
 
                     // user exists and password match
                     user.local.last_login = new Date();
-                    return done(null, user);
+                    return done(null, user, {message: 'User found.'});
                 }
             );
         }));
@@ -87,7 +81,7 @@ module.exports = function (passport) {
                 }
                 if (!validator.isUsername(username)) {
                     console.log('Username is not valid');
-                    return done(null, false, {message: 'Username can only contain characters, numbers and underscores'});
+                    return done(null, false, {message: 'Illegal username (2-20 characters)'});
                 }
                 if (!(password === confirmedPassword)) {
                     console.log('Password confirmation failed');
@@ -120,7 +114,7 @@ module.exports = function (passport) {
                             var newUser = new User();
                             newUser.local.email = email;
                             newUser.local.username = username;
-                            newUser.local.password = createHash(password);
+                            newUser.local.password = func.createHash(password);
                             var currentDate = new Date();
                             newUser.local.created_at = currentDate;
                             newUser.local.last_login = currentDate;

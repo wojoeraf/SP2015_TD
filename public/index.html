@@ -13,8 +13,13 @@
 
     <!-- Adding jQuery and jQuery UI(latter via CDN) -->
     <script src="external/jquery-1.11.3.min.js"></script>
-    <script src="external/jqueryUi/jquery-ui.min.js"></script>
+
+    <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
     <link href="external/jqueryUi/jquery-ui.css" rel="stylesheet">
+
+    <script src="external/jquery-ui.min.js"></script>
+    <link href="style/jquery-ui.min.css" rel="stylesheet">
+
 
     <!--Loading the main framework files, also some backend stuff -->
     <script src="libs/phaser.js"></script>
@@ -83,6 +88,7 @@
 
         <div id="loginArea" class="invisible formBody">
             <h1>Login</h1>
+            <p>Enter your data: <span id="responseLogin"></span></p>
 
             <div class="pure-form pure-form-stacked innerForm">
                 <form method="POST" action="/login">
@@ -94,7 +100,7 @@
             </div>
         </div>
 
-        <div class="userInfo"></div>
+        <!--<div class="userInfo"></div>-->
 
         <div id="registerArea" class="invisible formBody">
             <h1>Registration</h1>
@@ -119,6 +125,20 @@
             <div class="pure-form pure-form-stacked innerForm">
                 <form method="POST" action="">
                     <input type="text" name="forgotPasswordEmail" placeholder="Email">
+                </form>
+            </div>
+        </div>
+
+        <div id="changePWArea" class="invisible formBody">
+            <h1>Change Password</h1>
+
+            <p>Enter your data: <span id="responseChangePW"></span></p>
+
+            <div class="pure-form pure-form-stacked innerForm">
+                <form method="POST" action="changePW">
+                    <input type="password" name="changePWOldPassword" placeholder="Old password">
+                    <input type="password" name="changePWNewPassword" placeholder="New password">
+                    <input type="password" name="changePWNewPasswordConfirm" placeholder="New password">
                 </form>
             </div>
         </div>
