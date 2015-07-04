@@ -3,6 +3,5 @@
 .DS_Store
 ./*.env
 
-config.txt
 db.js
 node_modules
