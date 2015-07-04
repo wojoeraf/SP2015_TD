@@ -14,6 +14,7 @@ var bodyParser = require('body-parser');
 var dbConfig = require('./db');
 var mongoose = require('mongoose');
 var UserModel = require('./models/user');
+var HighscoreModel = require('./models/highscores.js');
 var https = require('https');
 var util = require('util');
 
@@ -213,6 +214,58 @@ app.post('/verify', function (req, res1, next) {
 
 
     //test end
+
+
+});
+
+//Listener for new entrys to the highscore table
+app.post('/highscore', function (req, res1) {
+
+    HighscoreModel.save({'local.username': "username"}, function(err, data, log){
+            console.log(err);
+            console.log(data);
+            console.log(log);
+        }
+    );
+
+
+    var input = JSON.stringify(req.body);
+    console.log(input);
+    var array = input.split(',');
+
+    var user = array[0].split(':');
+    var username = user[1].substring(1, user[1].length - 1);
+    var field = array[1].split(':');
+    console.log("Username is: " + username);
+
+    var type = field[0].substring(1, field[0].length - 1);
+    var score = field[1].substring(1, field[1].length - 2);
+
+    console.log("type is: " + type);
+    console.log("score is: " + score);
+
+    if (type === "scoreh1") {
+        type = "h1";
+
+    }
+    else if (type === "scoreh2") {
+        type = "h2";
+
+    } else (type === "scoreh3")
+    {
+        type = "h3";
+
+    }
+    console.log("type: " + type);
+
+    HighscoreModel.find({'local.username': 'username'},
+        function (err, log, data) {
+            console.log(err);
+            console.log(log);
+            console.log(data);
+        });
+
+    //HighscoreModel.findOne({});
 
 
 });

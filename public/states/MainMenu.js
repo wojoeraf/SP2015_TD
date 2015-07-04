@@ -30,9 +30,12 @@ Menu.MainMenu.prototype = {
 
         if (player.loggedIn == true) {
             this.add.button(900, 50, 'buttonBuy', this.buyDiamonds, this);
-            this.add.sprite(900,12,'diamond');
+            this.add.sprite(900, 12, 'diamond');
             this.add.text(935, 10, player.diamonds, {font: "30px MenuFont", fill: '#ddd'});
         }
+
+        //Test button for highscore system
+        this.add.button(1, 1, 'buttonPlay', this.addHighscore, this);
 
         this.add.button(437, 300, 'buttonPlay', this.startGame, this);
         this.add.button(437, 370, 'buttonSettings', this.showSettings, this);
@@ -110,6 +113,28 @@ Menu.MainMenu.prototype = {
     achieve: function () {
         this.helper.playSound('menuClick');
         this.state.start("AchievementMenu");
+    },
+
+    //Test function for the highscore functionality
+    addHighscore: function () {
+        console.log("Doing highscore stuff!");
+
+        var data = {
+            username: player.name,
+            scoreh1: 135464987987937
+        };
+        $.ajax({
+            method: 'post',
+            url: '/highscore',
+            dataType: 'json',
+            data: data
+        }).done(function(data, status){
+            if(data){
+                //New highscore in the level!
+
+            }
+        });
     }
 
-};
+}
+;
