@@ -24,13 +24,11 @@ Player = function () {
      */
     this.loggedIn = false;
 
-
-    this.diamonds = 1;
-
     /*
      * This value holds the number of diamanods the player owns.
      * @member Player {number}
      */
+    this.diamonds = 1;
 
 
 
