@@ -55,6 +55,7 @@ Menu.Level2.prototype = {
         coinText=this.add.text(100,20,coins);
         diamond = this.add.sprite(160,22,'diamond');
         diamond.scale.set(0.9);
+        diamonds = player.diamonds;
         diamondText = this.add.text(200,20,diamonds);
         heart= this.add.sprite(250,22,'heart');
         heart.scale.set(0.5);
