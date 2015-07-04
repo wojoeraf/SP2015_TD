@@ -2,3 +2,6 @@
 .idea/
 ./config.txt
 ./db.js
+./node_modules
+.DS_Store
+./*.env

@@ -26,8 +26,9 @@ Menu.ForgotPasswordMenu.prototype = {
 
     // Send request callback
     request: function () {
+        this.helper.playSound('menuClick');
         this.fp.hideForgotPasswordForm();
-        this.state.start("RegisterMenu");
+        this.state.start("LoginMenu");
     },
 
 
