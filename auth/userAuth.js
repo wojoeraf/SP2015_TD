@@ -5,7 +5,6 @@
 var User = require('../models/user');
 var func = require('./functions');
 var LocalStrategy = require('passport-local').Strategy;
-var bCrypt = require('bcrypt-nodejs');
 var validator = require('validator');
 
 module.exports = function (passport) {
@@ -36,11 +35,9 @@ module.exports = function (passport) {
             passReqToCallback: true
         },
         function (req, username, password, done) {
-            console.log('I am here!');
             // check if user with email or username exists
             User.findOne({$or: [{'local.username': username}, {'local.email': username}]},
                 function (err, user) {
-                    console.log('I am here22222!');
                     if (err) return done(err);
 
                     // user does not exist

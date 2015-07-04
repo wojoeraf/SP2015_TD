@@ -65,16 +65,26 @@
     font-weight: bold;
 }
 
+#responseForgotPW {
+    height: 15px;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
 #responseChangePW {
     font-weight: bold;
 }
 
-.negative {
-    color: #A30000;
-}
-
 .positive {
     color: #17E150;
+}
+
+.neutral {
+    color: #EEEC2F;
+}
+
+.negative {
+    color: #A30000;
 }
 
 #settingsMenu, #popupSlider {

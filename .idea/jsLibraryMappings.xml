@@ -2,6 +2,8 @@
 <project version="4">
   <component name="JavaScriptLibraryMappings">
     <file url="file://$PROJECT_DIR$/auth/userAuth.js" libraries="{Node.js Globals}" />
+    <file url="file://$PROJECT_DIR$/public/processing/helpers.js" libraries="{Phaser}" />
+    <file url="file://$PROJECT_DIR$/server.js" libraries="{SP2015_TD node_modules}" />
     <includedPredefinedLibrary name="Node.js Globals" />
   </component>
 </project>
