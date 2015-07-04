@@ -14,10 +14,8 @@ var bodyParser = require('body-parser');
 var dbConfig = require('./db');
 var mongoose = require('mongoose');
 var UserModel = require('./models/user');
-var authFuncs = require('./auth/functions');
 var https = require('https');
 var util = require('util');
-var async = require('async');
 
 var fs = require('fs');
 var path = require('path');
@@ -59,7 +57,7 @@ initPassport(passport);
 //    next();
 //});
 
-app.post('/checkSession', function (req, res) {
+app.post('/checkSession', function (req, res, next) {
     util.log('Checking for active session:\nmethod: ' + req.method + '\nurl: ' + req.url);
     var response = {bool: false, message: 'no session', user: undefined};
     var status = 200;
@@ -96,7 +94,6 @@ app.post('/checkSession', function (req, res) {
 
 app.post('/login', function (req, res, next) {
     passport.authenticate('local-login', function (err, user, info) {
-        console.log('Logging in...');
         console.log(info);
         console.log('User has type ' + typeof user + ' and value ' + user);
         if (err) {
@@ -113,86 +110,6 @@ app.post('/login', function (req, res, next) {
             return res.status(200).json(user).end();
         });
     })(req, res, next);
-});
-
-app.post('/changePW', function (req, res, next) {
-    console.log('Changing PW...');
-
-    var response = {bool: false, message: '', user: undefined};
-    var status = 200;
-
-    var oldPW = req.body.oldPW;
-    var newPW = req.body.newPW;
-    var newPWConfirm = req.body.newPWConfirm;
-    var username = req.body.username;
-
-    console.log('Corresponding username: ' + username);
-    console.log('Old PW: ' + oldPW);
-
-    // Check wether new passowrd and new password confirmation equals
-    if (!(newPW === newPWConfirm)) {
-        console.log('ChangePW: Password confirmation failed.');
-        status = 200;
-        response.message = 'Password confirmation failed.';
-        res.status(status).json(response).end();
-    }
-
-    // Search for user in db
-    UserModel.findOne({'local.username': username},
-        function (err, user) {
-            if (err) {
-                status = 500;
-                response.message = 'Error on finding user.';
-                res.status(status).json(response).end();
-            }
-
-            // user does not exist
-            if (!user) {
-                console.log('ChangePW: User not found.');
-                status = 500;
-                response.message = 'User not found';
-                res.status(status).json(response).end();
-            }
-
-            // user exists
-            async.series([
-                function(callback) {
-                    // Check whether old password matches with db
-                    if (!authFuncs.isValidPassword(user.local.password, oldPW)) {
-                        console.log('ChangePW: Invalid old password!');
-                        status = 500;
-                        response.message += 'Invalid old password';
-                        res.status(status).json(response).end();
-                        callback(status);
-                    } else {
-                        callback(null);
-                    }
-                },
-                function(callback) {
-                    // Update old password with new one
-                    user.local.password = authFuncs.createHash(newPW);
-                    user.save(function(err, data) {
-                        if (err) {
-                            console.log('ChangePW: Error on saving new pw to db.');
-                            console.log(data);
-                            status = 500;
-                            response.message += ", but couldn't save new pw. Try again.";
-                            res.status(status).json(response).end();
-                            callback(status);
-                        }
-
-                        // Success. Now finish.
-                        console.log('Password updated successfully.');
-                        response.message = "Password updated successfully.";
-                        response.bool = true;
-                        res.status(status).json(response).end();
-                        callback(null);
-                    });
-                }
-            ], function(err) {
-                console.log('ChangePW: async error: ' + err);
-            });
-        });
 });
 
 app.post('/logout', function (req, res) {
@@ -212,7 +129,6 @@ app.post('/logout', function (req, res) {
 
 app.post('/signup', function (req, res, next) {
     passport.authenticate('local-signup', function (err, user, info) {
-        console.log('Registering...');
         console.log(info);
         console.log('user is ' + typeof user + ' and has value: ' + user);
         if (user === false) {
@@ -231,14 +147,14 @@ app.post('/signup', function (req, res, next) {
                 console.log('Registration successful but error on logging in with the new username.');
                 return res.status(500).json({message: 'Registration successful but error on logging in with the new username.'}).end();
             }
-            return res.status(200).json(user).end();
+            return res.json(user).end();
         });
     })(req, res, next);
 
 });
 
 //Listener for the captcha verification
-app.post('/verify', function (req, res, next) {
+app.post('/verify', function (req, res1, next) {
     //extracts the response from the google api from the recieved JSON Object
     var out = JSON.stringify(req.body);
     //Split by '#' to sperate the different elements of the request message
@@ -250,21 +166,58 @@ app.post('/verify', function (req, res, next) {
         response = response + out[i];
     }
 
-    console.log("response is:");
-    console.log(response);
-
+    //Extract the playername from the JSON object
     var playername = data[1].substring(0, data[1].length - 5);
-    console.log("playername: " + playername);
+    //console.log("playername: " + playername);
 
     //Method to verify the response
     verifyRecaptcha(response, playername, captchaCallback);
 
+    //Integrated the old verifyRecaptcha function into the post listener
+    var filePath = path.join(__dirname, 'config.txt');
+    var SECRET = "toast";
+    //Initialize the stuff necessary to read the secret from the config
+    fs.readFile(filePath, 'utf8', function (err, data) {
+        if (err) {
+            return console.log(err);
+        }
+        //split the config line by line to be able to extract the desired info
+        var config = data.split('#');
+
+        //secret gets parsed
+        SECRET = config[1].substring(0);
+
+        //Verify the recieved key via the google servers
+        https.get("https://www.google.com/recaptcha/api/siteverify?secret=" + SECRET + "&response=" + response, function (res) {
+            var data = "" +
+                "";
+            res.on('data', function (chunk) {
+                data += chunk.toString();
+            });
+            res.on('end', function () {
+                try {
+                    //Gets called if the captcha was verified correctly and nothing else went wrong
+                    var parsedData = JSON.parse(data);
+                    console.log(parsedData);
+
+                    captchaCallback(parsedData.success, playername);
+                    res1.send(true);
+                } catch (e) {
+                    //response false
+                    captchaCallback(false, playername);
+                    res1.send(false);
+                }
+            });
+        });
+    });
 
 
+    //test end
 
 
 });
 
+//Probably an obsolete function
 function verifyRecaptcha(key, playername, callback) {
 
     console.log("key: " + key);
@@ -298,7 +251,7 @@ function verifyRecaptcha(key, playername, callback) {
 
                     callback(parsedData.success, playername);
                     console.log("returning true");
-                    return true;
+                    return "a";
                 } catch (e) {
                     //response false
                     callback(false, playername);
@@ -311,10 +264,10 @@ function verifyRecaptcha(key, playername, callback) {
     });
 
 
-}
+};
 
 function captchaCallback(value, name) {
-    //Method that awards the diamonds
+    //Method that manages the diamond awarding
     console.log("callback called. argument: " + value);
     if (value) {
         console.log(name + " will recieve some diamonds");
@@ -327,11 +280,11 @@ function captchaCallback(value, name) {
 };
 
 //Function that increments the diamond count of the user with the name 'username' by one
-function incrementDiamonds(username){
+function incrementDiamonds(username) {
     console.log("incrementDiamonds");
 
     //The first pair of curly brackets contains the selector, the second one the update instruction
-    UserModel.update({'local.username': username}, { $inc: {'local.diamonds': 1}},
+    UserModel.update({'local.username': username}, {$inc: {'local.diamonds': 1}},
         function (err, log, data) {
             if (err) {
                 status = 500;
@@ -344,18 +297,18 @@ function incrementDiamonds(username){
                 console.log('Session: User not found!');
                 status = 500;
             }
-            console.log("user found!");
-            console.log(log);
+            //console.log("user found!");
+            //console.log(log);
         });
 
 };
 
 //Function that decrements the diamond count of the player with name 'username' by one
-function decrementDiamonds(username){
+function decrementDiamonds(username) {
     console.log("decrementDiamonds");
 
     //The first pair of curly brackets contains the selector, the second one the update instruction
-    UserModel.update({'local.username': username}, { $inc: {'local.diamonds': -1}},
+    UserModel.update({'local.username': username}, {$inc: {'local.diamonds': -1}},
         function (err, log, data) {
             if (err) {
                 status = 500;
