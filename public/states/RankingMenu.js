@@ -12,6 +12,9 @@ Menu.RankingMenu.prototype = {
         // Add background
         this.add.sprite(0, 0, 'menuBG');
 
+        this.buildHighscore(0);
+
+
         // Add buttons
         this.buttonMusic = this.helper.placeMusicButton(this.musicToggle);
         this.buttonSound = this.helper.placeSoundButton(this.soundToggle);
@@ -31,8 +34,10 @@ Menu.RankingMenu.prototype = {
 
     },
 
+
     //Show the best players on the easy map
     showEasy: function () {
+        this.buildHighscore(0);
         this.add.button(275, 300, 'rankingEasyBright', this.showEasy, this);
         this.add.button(475, 300, 'rankingMedium', this.showMedium, this);
         this.add.button(675, 300, 'rankingHard', this.showHard, this);
@@ -42,6 +47,7 @@ Menu.RankingMenu.prototype = {
 
     //Show the best players on the medium map
     showMedium: function () {
+        this.buildHighscore(1);
         this.add.button(275, 300, 'rankingEasy', this.showEasy, this);
         this.add.button(475, 300, 'rankingMediumBright', this.showMedium, this);
         this.add.button(675, 300, 'rankingHard', this.showHard, this);
@@ -51,10 +57,41 @@ Menu.RankingMenu.prototype = {
 
     //Show the best players on the hard map
     showHard: function () {
+        this.buildHighscore(2);
         this.add.button(275, 300, 'rankingEasy', this.showEasy, this);
         this.add.button(475, 300, 'rankingMedium', this.showMedium, this);
         this.add.button(675, 300, 'rankingHardBright', this.showHard, this);
         this.helper.playSound('menuClick');
+
+    },
+
+    buildHighscore: function (level) {
+
+        console.log("building highscore for level " + level);
+
+        var data = {
+            difficulty: level
+        };
+
+        $(function () {
+
+            $.ajax({
+                method: 'post',
+                url: 'highscoreTable',
+                dataType: 'JSON',
+                data: data
+            }
+                ).always(function (data, status, err) {
+                //Place scores into the correct table
+
+
+            });
+        });
+
+
+    },
+
+    buildHighscore1: function () {
 
     },
 

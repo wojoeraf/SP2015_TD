@@ -6,7 +6,11 @@ var userSchema = new Schema({
 
     diamonds: {type: Number, required: true},
     achievements: [Number],
-    highscores: [Number],
+    highscores: {
+        level1: {type: Number},
+        level2: {type: Number},
+        level3: {type: Number}
+    },
 
     local: {
         email: {type: String, required: true, unique: true},

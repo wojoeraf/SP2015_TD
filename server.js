@@ -453,19 +453,68 @@ app.post('/highscore', function (req, res) {
 
         //User found
         //Compare highscore with score and decide what to do
-        var highscores = user.highscores;
+        var levelselector = "level" + level;
+        var highscores = "";
+        if (level == 1) {
+            highscores = user.highscores.level1;
+        }
+        else if (level == 2) {
+            highscores = user.highscores.level2;
+        }
+        else {
+            highscores = user.highscores.level3;
+        }
 
-        if (highscores[level - 1] !== 'undefined' && highscores[level - 1] > score) {
+        if (highscores !== 'undefined' && highscores > score) {
             //last score is not a new highscore, so save nothing to db
             console.log('Highscores: Last score is no highscore.');
             return res.status(status).json({message: 'Last score is no highscore.'}).end();
 
-        } else if (highscores[level - 1] !== 'undefined') {
+        } else if (highscores !== 'undefined') {
             //Last score is a new highscore. So save it for the corresponding level
             console.log('Highscores: Last score IS a highscore.');
-            console.log('Old highscore: ' + highscores[level - 1] + ' new highscore: ' + score);
+            console.log('Old highscore: ' + highscores + ' new highscore: ' + score);
 
-            user.highscores.set(level - 1, score)
+            //user.highscores.levelselector.set(score);
+            /**
+            UserModel.update({'local.username': username}, {$set:{'highscores.level1': score}}, function (err, data) {
+                console.log(data);
+                console.log(err);
+            });
+             **/
+
+            if (level == 1) {
+                UserModel.update({'local.username': username}, {$set:{'highscores.level1': score}}, function(err, data)
+                {
+                    console.log(err);
+                    console.log(data);
+                    console.log("level1");
+
+                });
+            }
+            else if (level == 2) {
+                UserModel.update({'local.username': username}, {$set:{'highscores.level2': score}}, function(err, data)
+                {
+                    console.log(err);
+                    console.log(data);
+                    console.log("level2");
+
+                });
+            }
+            else if (level == 3) {
+                UserModel.update({'local.username': username}, {$set:{'highscores.level3': score}}, function(err, data)
+                {
+                    console.log(err);
+                    console.log(data);
+                    console.log("level3");
+
+                });
+            }
+            else{
+                console.log('Error saving new highscore: something wrong with level numbering.');
+            }
+
+
 
             user.save(function (err) {
                 if (err) {
@@ -535,6 +584,26 @@ app.post('/highscore', function (req, res) {
 });
 
 app.post('/highscoreTable', function (req, res) {
+
+    console.log("Server here, recieving data");
+    console.log(req.body);
+    var level = req.body.difficulty;
+
+    /**
+     UserModel.find({}, function (err, data) {
+        console.log("error: " + err);
+        console.log(data);
+    });
+     **/
+
+
+
+    UserModel.aggregate(({$sort: {'highscores': -1}}), function (err, data) {
+        console.log("err " + err);
+        console.log(data);
+        console.log(data.length);
+    });
+
 
 });
 
