@@ -114,11 +114,14 @@ Menu.MainMenu.prototype = {
     //Test function for the highscore functionality
     addHighscore: function () {
         console.log("Doing highscore stuff!");
+
+        var name = player.name;
+
         var outerThis = this;
         $(function () {
             var data = {
-                username: 'rafael',
-                score: 123,
+                username: name,
+                score: 12223,
                 level: 1
             };
             $.ajax({

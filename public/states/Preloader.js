@@ -133,22 +133,31 @@ Menu.Preloader.prototype = {
                     //onsole.log(response);
 
                     //Important: the local player instance is written in lowercase letters
-                    response = response + "#" + player.name;
+                    //response = response + "#" + player.name;
+
+                    var name = player.name;
+
+                    var data = {
+                        playername: name,
+                        gresponse: response
+                    };
+
+                    console.log(data);
 
                     $.ajax({
                         method: 'post',
                         url: '/verify',
                         dataType: "text",
-                        data: response
+                        data: data
                     }).always(function (data, status, err) {
                         //If the response is 'true', award a diamond
-                        if(data){
+                        if (data) {
                             console.log("player diamonds OLD: " + player.diamonds);
                             player.diamonds++;
                             console.log("player diamonds NEW: " + player.diamonds);
                         }
                     });
-                        /**.success(function (data, status, err) {
+                    /**.success(function (data, status, err) {
                         console.log(data);
                         console.log(status);
                         console.log(err);
