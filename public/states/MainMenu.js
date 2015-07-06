@@ -48,6 +48,7 @@ Menu.MainMenu.prototype = {
 
         this.buttonMusic.scale.setTo(0.75, 0.75);
         this.buttonSound.scale.setTo(0.6, 0.6);
+
     },
 
     update: function () {

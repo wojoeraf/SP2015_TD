@@ -174,3 +174,74 @@ Helper.Menu.prototype = {
         btn.frame = bool ? 1 : 0;
     }
 };
+
+var popupFrame = function(game, x, y, width, text, style) {
+    Phaser.Sprite.call(this, game, x, y);
+
+    if (style === undefined) {
+        style = {font: '20px MenuFont', fill: '#fff'};
+    }
+
+    // Some sensible minimum defaults
+    width = width || 27;
+    var height = 18;
+
+    // Set up our text and run our custom wrapping routine on it
+    this.text = game.make.text(x + 12, y + 8, text, style);
+    popupFrame.wrapText(this.text, width);
+
+    // Calculate the width and height needed for the edges
+    var bounds = this.text.getLocalBounds();
+    if (bounds.width + 18 > width) {
+        width = bounds.width + 18;
+    }
+    if (bounds.height + 14 > height) {
+        height = bounds.height + 14;
+    }
+
+    // Create all of our corners and edges
+    this.borders = [
+        game.make.tileSprite(x + 5, y + 5, width - 5, height - 5, 'popupFrame', 0), //body
+        game.make.tileSprite(x, y, width + 5, 5, 'popupFrame', 1), //top horizontal
+        game.make.tileSprite(x, y + height, width + 5, 5, 'popupFrame', 1), //bottom horizontal
+        game.make.tileSprite(x, y + 5, 5, height - 5, 'popupFrame', 1), //left vert
+        game.make.tileSprite(x + width, y + 5, 5, height - 5, 'popupFrame', 1) //right vert
+    ];
+
+    // Add all of the above to this sprite
+    for (var b = 0, len = this.borders.length; b < len; b++) {
+        this.addChild(this.borders[b]);
+    }
+
+    // Add our text last so it's on top
+    this.addChild(this.text);
+    //this.text.tint = 0x111111;
+
+    // Offset the position to be centered on the end of the tail
+    this.pivot.set(x, y);
+};
+
+popupFrame.prototype = Object.create(Phaser.Sprite.prototype);
+popupFrame.prototype.constructor = popupFrame;
+
+popupFrame.wrapText = function (text, maxWidth) {
+    var words = text.text.split(' '), output = "", test = "";
+
+    for (var w = 0, len = words.length; w < len; w++) {
+        test += words[w] + " ";
+        text.text = test;
+        text.updateText();
+        //console.log('textwidth: ' + text.width + ' maxWidth: ' + maxWidth);
+        if (text.width > maxWidth) {
+            output += "\n" + words[w] + " ";
+        }
+        else {
+            output += words[w] + " ";
+        }
+        test = output;
+    }
+
+    output = output.replace(/(\s)$/gm, ""); // remove trailing spaces
+    text.text = output;
+    text.updateText();
+};

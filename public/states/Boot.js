@@ -78,7 +78,7 @@ Audio = {
     gameMusicKeys: [],
     gameSoundKeys: [],
 
-    musicIsMuted: false,
+    musicIsMuted: true,
     soundIsMuted: false,
 
     musicVolume: 1,
