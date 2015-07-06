@@ -17,11 +17,24 @@
 #rankingTable {
     font-family: MenuFont;
     font-size: 20px;
-    width: 338px;
-    margin: 275px auto 0;
+    position: absolute;
+    width: inherit;
+    top: 275px;
+    margin-left: auto;
+    margin-right: auto;
     text-align: center;
-    color: #111;
+    color: #000;
 }
+
+/*#rankingTable {*/
+    /*font-family: MenuFont;*/
+    /*font-size: 20px;*/
+    /*width: 338px;*/
+    /*margin: 275px auto 0;*/
+    /*text-align: center;*/
+    /*color: #111;*/
+    /*margin: 0;*/
+/*}*/
 
 table {
     background-color: rgba(138, 138, 159, 0.7);

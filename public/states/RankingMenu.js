@@ -88,6 +88,8 @@ Menu.RankingMenu.prototype = {
 
                     var levelKey = "level" + level;
 
+                    $("#rankingTable > table > tbody").empty();
+
                     jQuery.each(data, function(i, entry) {
                         $("#rankingTable > table").append("<tr><td>" + (i+1) + "</td><td>" +
                             entry.local.username + "</td><td>" +
