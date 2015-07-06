@@ -6,13 +6,18 @@ Menu.RankingMenu = function () {
 };
 
 Menu.RankingMenu.prototype = {
+    init: function() {
+
+        this.buildHighscore(1);
+
+    },
 
     create: function () {
 
         // Add background
         this.add.sprite(0, 0, 'menuBG');
 
-        this.buildHighscore(0);
+        this.buildHighscore(1);
 
 
         // Add buttons
@@ -73,25 +78,44 @@ Menu.RankingMenu.prototype = {
             difficulty: level
         };
 
+
         $(function () {
 
             $.ajax({
-                method: 'post',
-                url: 'highscoreTable',
-                dataType: 'JSON',
-                data: data
-            }
-                ).always(function (data, status, err) {
-                //Place scores into the correct table
+                    method: 'post',
+                    url: 'highscoreTable',
+                    dataType: 'JSON',
+                    data: data
+                }
+            ).done(function (data, status, err) {
+                    //console.log(err);
+
+                    console.log("ajax done");
+                    console.log(data);
+                    playerdata = data;
 
 
-            });
+                    var levelKey = "level" + level;
+
+                    $("#namePlayer1").html(data[0].local.username);
+                    $("#scorePlayer1").html(data[0].highscores[levelKey]);
+
+                    $("#namePlayer2").html(data[1].local.username);
+                    $("#scorePlayer2").html(data[1].highscores[levelKey]);
+
+                    $("#namePlayer3").html(data[2].local.username);
+                    $("#scorePlayer3").html(data[2].highscores[levelKey]);
+
+                    $("#namePlayer4").html(data[3].local.username);
+                    $("#scorePlayer4").html(data[3].highscores[levelKey]);
+
+                    $("#namePlayer5").html(data[4].local.username);
+                    $("#scorePlayer5").html(data[4].highscores[levelKey]);
+
+
+                });
         });
 
-
-    },
-
-    buildHighscore1: function () {
 
     },
 

@@ -597,12 +597,30 @@ app.post('/highscoreTable', function (req, res) {
      **/
 
     if(level == 1){
+        UserModel.find({},{'_id': 0, 'local.username': 1, 'highscores.level1': 1}, function (err, data) {
+            console.log("err " + err);
+            console.log("data: " + data);
+            res.send(data);
+
+        }).sort({'highscores.level1': -1}).limit(5);
 
     }
     else if(level == 2){
+        UserModel.find({},{'_id': 0, 'local.username': 1, 'highscores.level2': 1}, function (err, data) {
+            console.log("err " + err);
+            console.log("data: " + data);
+            res.send(data);
+
+        }).sort({'highscores.level2': -1}).limit(5);
 
     }
     else if(level == 3){
+        UserModel.find({},{'_id': 0, 'local.username': 1, 'highscores.level3': 1}, function (err, data) {
+            console.log("err " + err);
+            console.log("data: " + data);
+            res.send(data);
+
+        }).sort({'highscores.level3': -1}).limit(5);
 
     }
     else{
@@ -610,12 +628,13 @@ app.post('/highscoreTable', function (req, res) {
     }
 
 
-    UserModel.find({'local.username': "aa"},{'local.username': 1, 'highscores.level1': 1}, ({$sort: {'highscores.level1': -1}}), function (err, data) {
+    /**
+    UserModel.find({},{'local.username': 1, 'highscores.level1': 1}, ({$sort: {'highscores.level1': -1}}), function (err, data) {
         console.log("err " + err);
         console.log("data: " + data);
         //console.log(data.length);
     });
-
+     **/
 
 });
 
