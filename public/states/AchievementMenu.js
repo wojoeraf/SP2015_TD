@@ -63,6 +63,8 @@ Menu.AchievementMenu.prototype = {
             current.inputEnabled = true;
             current.events.onInputOver.add(outerThis.over, outerThis);
             current.events.onInputOut.add(outerThis.out, outerThis);
+            current.events.onInputDown.add(outerThis.out, outerThis);
+            current.events.onInputUp.add(outerThis.out, outerThis);
         });
     },
 

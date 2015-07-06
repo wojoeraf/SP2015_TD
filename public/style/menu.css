@@ -6,13 +6,13 @@
     margin-right: auto;
 }
 
-#tableWrapper {
-    position: absolute;
-    width: inherit;
-    top: 100px;
-    margin-left: auto;
-    margin-right: auto;
-}
+/*#tableWrapper {*/
+    /*position: absolute;*/
+    /*width: inherit;*/
+    /*top: 100px;*/
+    /*margin-left: auto;*/
+    /*margin-right: auto;*/
+/*}*/
 
 #rankingTable {
     font-family: MenuFont;

@@ -29,7 +29,7 @@ Menu.Preloader.prototype = {
         Audio.menuMusicKeys.push('titleMusic');
 
         // General
-        this.load.spritesheet('popupFrame', 'assets/sprites/popupFrameSprites1.png', 5, 5, 2);
+        this.load.spritesheet('popupFrame', 'assets/sprites/popupFrameSprites.png', 5, 5, 2);
         this.load.spritesheet('buttonLogout', 'assets/menu/menuButton_logout.png', 75, 40, 1);
         this.load.spritesheet('buttonBack', 'assets/menu/menuButton_back.png', 75, 40, 1);
         this.load.spritesheet('buttonMusic', 'assets/menu/menuButton_musicToggle_34x40.png', 34, 40, 2);
