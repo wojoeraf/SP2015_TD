@@ -13,12 +13,8 @@ Menu.RankingMenu.prototype = {
     },
 
     create: function () {
-
         // Add background
         this.add.sprite(0, 0, 'menuBG');
-
-        this.buildHighscore(1);
-
 
         // Add buttons
         this.buttonMusic = this.helper.placeMusicButton(this.musicToggle);
@@ -71,49 +67,37 @@ Menu.RankingMenu.prototype = {
     },
 
     buildHighscore: function (level) {
-
         console.log("building highscore for level " + level);
+        var outerThis = this;
 
         var data = {
             difficulty: level
         };
 
-
         $(function () {
-
             $.ajax({
                     method: 'post',
                     url: 'highscoreTable',
                     dataType: 'JSON',
                     data: data
                 }
-            ).done(function (data, status, err) {
-                    //console.log(err);
-
-                    console.log("ajax done");
-                    console.log(data);
-                    playerdata = data;
-
+            ).done(function (data, status) {
+                    outerThis.fp.hideLoginForm();
+                    outerThis.helper.debugLog('Status: ' + status, outerThis);
+                    outerThis.helper.debugLog('Returned data: ' + JSON.stringify(data), outerThis);
 
                     var levelKey = "level" + level;
 
-                    $("#namePlayer1").html(data[0].local.username);
-                    $("#scorePlayer1").html(data[0].highscores[levelKey]);
-
-                    $("#namePlayer2").html(data[1].local.username);
-                    $("#scorePlayer2").html(data[1].highscores[levelKey]);
-
-                    $("#namePlayer3").html(data[2].local.username);
-                    $("#scorePlayer3").html(data[2].highscores[levelKey]);
-
-                    $("#namePlayer4").html(data[3].local.username);
-                    $("#scorePlayer4").html(data[3].highscores[levelKey]);
-
-                    $("#namePlayer5").html(data[4].local.username);
-                    $("#scorePlayer5").html(data[4].highscores[levelKey]);
-
-
-                });
+                    jQuery.each(data, function(i, entry) {
+                        $("#rankingTable > table").append("<tr><td>" + (i+1) + "</td><td>" +
+                            entry.local.username + "</td><td>" +
+                            entry.highscores[levelKey] + "</td></tr>");
+                    });
+            }).fail(function (data, status, err) {
+                outerThis.helper.debugLog('Status: ' + status, outerThis);
+                outerThis.helper.debugLog('Error: ' + err, outerThis);
+                outerThis.helper.debugLog('Returned data: ' + JSON.stringify(data.responseJSON), outerThis);
+            });
         });
 
 
