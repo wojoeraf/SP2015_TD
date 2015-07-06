@@ -121,7 +121,7 @@ Menu.MainMenu.prototype = {
         $(function () {
             var data = {
                 username: name,
-                score: 13,
+                score: 1322,
                 level: 2
             };
             $.ajax({

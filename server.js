@@ -596,12 +596,24 @@ app.post('/highscoreTable', function (req, res) {
     });
      **/
 
+    if(level == 1){
+
+    }
+    else if(level == 2){
+
+    }
+    else if(level == 3){
+
+    }
+    else{
+        console.log("Invalid level given, cannot build highscore");
+    }
 
 
-    UserModel.aggregate(({$sort: {'highscores': -1}}), function (err, data) {
+    UserModel.find({'local.username': "aa"},{'local.username': 1, 'highscores.level1': 1}, ({$sort: {'highscores.level1': -1}}), function (err, data) {
         console.log("err " + err);
-        console.log(data);
-        console.log(data.length);
+        console.log("data: " + data);
+        //console.log(data.length);
     });
 
 
