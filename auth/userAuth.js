@@ -117,7 +117,9 @@ module.exports = function (passport) {
                             newUser.local.last_login = currentDate;
                             newUser.diamonds = 5;
                             newUser.achievements = [];
-                            newUser.highscores = [0,0,0];
+                            newUser.highscores.level1 = 0;
+                            newUser.highscores.level2 = 0;
+                            newUser.highscores.level3 = 0;
 
                             console.log("NewUser is: "+ newUser);
 

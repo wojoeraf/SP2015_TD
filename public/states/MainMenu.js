@@ -115,12 +115,15 @@ Menu.MainMenu.prototype = {
     //Test function for the highscore functionality
     addHighscore: function () {
         console.log("Doing highscore stuff!");
+
+        var name = player.name;
+
         var outerThis = this;
         $(function () {
             var data = {
-                username: 'rafael',
-                score: 123,
-                level: 1
+                username: name,
+                score: 1322,
+                level: 2
             };
             $.ajax({
                 method: 'post',

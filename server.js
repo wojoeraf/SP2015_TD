@@ -197,7 +197,7 @@ app.post('/changePW', function (req, res) {
 
             // user exists
             async.series([
-                function(callback) {
+                function (callback) {
                     // Check whether old password matches with db
                     if (!authFuncs.isValidPassword(user.local.password, oldPW)) {
                         console.log('ChangePW: Invalid old password!');
@@ -209,10 +209,10 @@ app.post('/changePW', function (req, res) {
                         callback(null);
                     }
                 },
-                function(callback) {
+                function (callback) {
                     // Update old password with new one
                     user.local.password = authFuncs.createHash(newPW);
-                    user.save(function(err, data) {
+                    user.save(function (err, data) {
                         if (err) {
                             console.log('ChangePW: Error on saving new pw to db.');
                             console.log(data);
@@ -230,7 +230,7 @@ app.post('/changePW', function (req, res) {
                         callback(null);
                     });
                 }
-            ], function(err) {
+            ], function (err) {
                 console.log('ChangePW: async error: ' + err);
             });
         });
@@ -268,8 +268,8 @@ app.post('/forgotPW', function (req, res) {
             // user exists
             async.series([
                 // Create new Password
-                function(done) {
-                    crypto.randomBytes(8, function(err, buf) {
+                function (done) {
+                    crypto.randomBytes(8, function (err, buf) {
                         newPW = buf.toString('hex');
                         console.log('ForgotPW: New password: ' + newPW);
                         done(err);
@@ -277,12 +277,12 @@ app.post('/forgotPW', function (req, res) {
                 },
 
                 // Save and send new password
-                function(callback) {
+                function (callback) {
                     //Write new hashed pw to user in db
                     user.local.password = authFuncs.createHash(newPW);
 
                     //Save to db
-                    user.save(function(err, data) {
+                    user.save(function (err, data) {
                         if (err) {
                             console.log('ForgotPW: Error on saving new pw to db.');
                             console.log(data);
@@ -301,7 +301,7 @@ app.post('/forgotPW', function (req, res) {
                 },
 
                 // Send email to user
-                function(callback) {
+                function (callback) {
                     //Prepare transport
                     var options = {
                         port: 587,
@@ -329,7 +329,7 @@ app.post('/forgotPW', function (req, res) {
                     };
 
                     // Send email
-                    transporter.sendMail(mailOptions, function(err, info) {
+                    transporter.sendMail(mailOptions, function (err, info) {
                         if (err) {
                             console.log('ForgotPW: Error on sending email to user.');
                             //console.log(info.response);
@@ -347,7 +347,7 @@ app.post('/forgotPW', function (req, res) {
                         }
                     });
                 }
-            ], function(err) {
+            ], function (err) {
                 if (err) {
                     console.log('ForgotPW: async error: ' + err);
                 }
@@ -358,12 +358,19 @@ app.post('/forgotPW', function (req, res) {
 
 //Listener for the captcha verification
 app.post('/verify', function (req, res1) {
-    //extracts the response from the google api from the recieved JSON Object
-    var out = JSON.stringify(req.body);
-    //Split by '#' to sperate the different elements of the request message
-    var data = out.split("#");
 
-    //We need to cut of the first characters of the string because for some reason it contains {" , a sequence that is neither desired nor needed
+    console.log(req);
+
+    var name = req.body.playername;
+    var response = req.body.gresponse;
+
+    /**
+     //extracts the response from the google api from the recieved JSON Object
+     var out = JSON.stringify(req.body);
+     //Split by '#' to sperate the different elements of the request message
+     var data = out.split("#");
+
+     //We need to cut of the first characters of the string because for some reason it contains {" , a sequence that is neither desired nor needed
     var response = "";
     for (var i = 2; i < data[0].length; i++) {
         response = response + out[i];
@@ -372,9 +379,8 @@ app.post('/verify', function (req, res1) {
     //Extract the playername from the JSON object
     var playername = data[1].substring(0, data[1].length - 5);
     //console.log("playername: " + playername);
+    **/
 
-    //Method to verify the response
-    verifyRecaptcha(response, playername, captchaCallback);
 
     //Integrated the old verifyRecaptcha function into the post listener
     var filePath = path.join(__dirname, 'config.txt');
@@ -403,11 +409,11 @@ app.post('/verify', function (req, res1) {
                     var parsedData = JSON.parse(data);
                     console.log(parsedData);
 
-                    captchaCallback(parsedData.success, playername);
+                    captchaCallback(parsedData.success, name);
                     res1.send(true);
                 } catch (e) {
                     //response false
-                    captchaCallback(false, playername);
+                    captchaCallback(false, name);
                     res1.send(false);
                 }
             });
@@ -424,12 +430,15 @@ app.post('/verify', function (req, res1) {
 app.post('/highscore', function (req, res) {
     var status = 200;
 
-    var username = req.body.username; console.log('Username: ' + username);
-    var score = req.body.score; console.log('Score: ' + score);
-    var level = req.body.level; console.log('Level: ' + level);
+    var username = req.body.username;
+    console.log('Username: ' + username);
+    var score = req.body.score;
+    console.log('Score: ' + score);
+    var level = req.body.level;
+    console.log('Level: ' + level);
 
-    UserModel.findOne({'local.username': username}, function(err, user) {
-        if(err) {
+    UserModel.findOne({'local.username': username}, function (err, user) {
+        if (err) {
             console.log('Highscores error: ' + err);
             status = 500;
             return res.status(status).json({message: 'Error on db query.'}).end();
@@ -444,22 +453,71 @@ app.post('/highscore', function (req, res) {
 
         //User found
         //Compare highscore with score and decide what to do
-        var highscores = user.highscores;
+        var levelselector = "level" + level;
+        var highscores = "";
+        if (level == 1) {
+            highscores = user.highscores.level1;
+        }
+        else if (level == 2) {
+            highscores = user.highscores.level2;
+        }
+        else {
+            highscores = user.highscores.level3;
+        }
 
-        if (highscores[level -1] !== 'undefined' && highscores[level-1] > score) {
+        if (highscores !== 'undefined' && highscores > score) {
             //last score is not a new highscore, so save nothing to db
             console.log('Highscores: Last score is no highscore.');
             return res.status(status).json({message: 'Last score is no highscore.'}).end();
 
-        } else if(highscores[level -1] !== 'undefined') {
+        } else if (highscores !== 'undefined') {
             //Last score is a new highscore. So save it for the corresponding level
             console.log('Highscores: Last score IS a highscore.');
-            console.log('Old highscore: ' + highscores[level-1] + ' new highscore: ' + score);
+            console.log('Old highscore: ' + highscores + ' new highscore: ' + score);
 
-            user.highscores.set(level-1, score)
+            //user.highscores.levelselector.set(score);
+            /**
+            UserModel.update({'local.username': username}, {$set:{'highscores.level1': score}}, function (err, data) {
+                console.log(data);
+                console.log(err);
+            });
+             **/
 
-            user.save(function(err) {
-                if(err) {
+            if (level == 1) {
+                UserModel.update({'local.username': username}, {$set:{'highscores.level1': score}}, function(err, data)
+                {
+                    console.log(err);
+                    console.log(data);
+                    console.log("level1");
+
+                });
+            }
+            else if (level == 2) {
+                UserModel.update({'local.username': username}, {$set:{'highscores.level2': score}}, function(err, data)
+                {
+                    console.log(err);
+                    console.log(data);
+                    console.log("level2");
+
+                });
+            }
+            else if (level == 3) {
+                UserModel.update({'local.username': username}, {$set:{'highscores.level3': score}}, function(err, data)
+                {
+                    console.log(err);
+                    console.log(data);
+                    console.log("level3");
+
+                });
+            }
+            else{
+                console.log('Error saving new highscore: something wrong with level numbering.');
+            }
+
+
+
+            user.save(function (err) {
+                if (err) {
                     console.log('Error saving new highscore: ' + err);
                     status = 500;
                     return res.status(status).json({message: 'Error saving new highscore.'}).end();
@@ -525,51 +583,60 @@ app.post('/highscore', function (req, res) {
 
 });
 
-//Probably an obsolete function
-function verifyRecaptcha(key, playername, callback) {
+app.post('/highscoreTable', function (req, res) {
 
-    console.log("key: " + key);
-    console.log("username: " + playername);
+    console.log("Server here, recieving data");
+    console.log(req.body);
+    var level = req.body.difficulty;
 
-
-    var filePath = path.join(__dirname, 'config.txt');
-    var SECRET = "toast";
-    //Initialize the stuff necessary to read the secret from the config
-    fs.readFile(filePath, 'utf8', function (err, data) {
-        if (err) {
-            return console.log(err);
-        }
-        //split the config line by line to be able to extract the desired info
-        var config = data.split('#');
-
-        //secret gets parsed
-        SECRET = config[1].substring(0);
-
-        https.get("https://www.google.com/recaptcha/api/siteverify?secret=" + SECRET + "&response=" + key, function (res) {
-            var data = "" +
-                "";
-            res.on('data', function (chunk) {
-                data += chunk.toString();
-            });
-            res.on('end', function () {
-                try {
-                    //Gets called if the captcha was verified correctly and nothing else went wrong
-                    var parsedData = JSON.parse(data);
-                    console.log(parsedData);
-
-                    callback(parsedData.success, playername);
-                    console.log("returning true");
-                    return "a";
-                } catch (e) {
-                    //response false
-                    callback(false, playername);
-                    console.log("returning false");
-                    return false;
-                }
-            });
-        });
+    /**
+     UserModel.find({}, function (err, data) {
+        console.log("error: " + err);
+        console.log(data);
     });
-}
+     **/
+
+    if(level == 1){
+        UserModel.find({},{'_id': 0, 'local.username': 1, 'highscores.level1': 1}, function (err, data) {
+            console.log("err " + err);
+            console.log("data: " + data);
+            res.send(data);
+
+        }).sort({'highscores.level1': -1}).limit(5);
+
+    }
+    else if(level == 2){
+        UserModel.find({},{'_id': 0, 'local.username': 1, 'highscores.level2': 1}, function (err, data) {
+            console.log("err " + err);
+            console.log("data: " + data);
+            res.send(data);
+
+        }).sort({'highscores.level2': -1}).limit(5);
+
+    }
+    else if(level == 3){
+        UserModel.find({},{'_id': 0, 'local.username': 1, 'highscores.level3': 1}, function (err, data) {
+            console.log("err " + err);
+            console.log("data: " + data);
+            res.send(data);
+
+        }).sort({'highscores.level3': -1}).limit(5);
+
+    }
+    else{
+        console.log("Invalid level given, cannot build highscore");
+    }
+
+
+    /**
+    UserModel.find({},{'local.username': 1, 'highscores.level1': 1}, ({$sort: {'highscores.level1': -1}}), function (err, data) {
+        console.log("err " + err);
+        console.log("data: " + data);
+        //console.log(data.length);
+    });
+     **/
+
+});
 
 function captchaCallback(value, name) {
     //Method that manages the diamond awarding
@@ -587,6 +654,7 @@ function captchaCallback(value, name) {
 //Function that increments the diamond count of the user with the name 'username' by one
 function incrementDiamonds(username) {
     console.log("incrementDiamonds");
+    console.log("username: " + username);
 
     //The first pair of curly brackets contains the selector, the second one the update instruction
     UserModel.update({'local.username': username}, {$inc: {'diamonds': 1}},
