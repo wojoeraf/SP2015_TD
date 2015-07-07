@@ -21,12 +21,14 @@ Helpers.Menu.prototype = {
         new Wave1(xPoint, yPoint, callback);
         bool = true;
 
+
     },
     wave2: function (xPoint, yPoint, callback) {
         //EnemiesGesamt = 5 Stück
         enemyNumber = 5;
         new Wave2(xPoint, yPoint, callback);
         bool = true;
+
 
     },
     wave3: function (xPoint, yPoint, callback) {
@@ -198,7 +200,7 @@ Helpers.Menu.prototype = {
                 else {
                     marker.lineStyle(2, 0x000000, 1);
                     marker.drawRect(0, 0, 32, 32);
-                    var c = callback.physics.arcade.collide(marker.x, marker.y, 'tower1');
+                    var c = false;
                     if (callback.input.mousePointer.isDown == true) {
 
                         //Welcher Button 0=Links,1=Mitte
@@ -214,8 +216,7 @@ Helpers.Menu.prototype = {
                                         c = true;
                                     }
                                 }
-                            }
-
+                        }
                             if (c == false) {
                                 //Je nach Tower -> unterschiedliche Eigenschaften (Reichweite etc..)
                                 //Tower 1
@@ -1082,3 +1083,4 @@ Helpers.Menu.prototype = {
     }
 
 };
+

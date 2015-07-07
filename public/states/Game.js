@@ -33,7 +33,15 @@ Menu.Game.prototype = {
 
     preload: function(){
 
-        //Tower auf Tower platzieren nicht möglich machen
+
+        bool=false;
+        enemyWaveNr=0;
+        life=5;
+        coins=70;
+        score=0;
+        diamonds=1;
+
+        //Alle Tower zerstören
         for (var k = 0; k < towerC; k++) {
             if (towers[k].isDestroyed == false) {
                 towers[k].destroy();
@@ -72,10 +80,6 @@ Menu.Game.prototype = {
     },
 
     quitGame: function () {
-
-        //TODO
-
-
 
     }
 
