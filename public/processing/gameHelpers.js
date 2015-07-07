@@ -227,8 +227,8 @@ Helpers.Menu.prototype = {
                                         var tower = new Tower1(marker.x, marker.y, callback);
                                         towers[towerC] = tower.tower;
                                         coins = coins - 30;
-                                        coinText.destroy();
-                                        coinText = callback.add.text(100, 20, coins);
+                                        coinsVal.destroy();
+                                        coinsVal = callback.add.text(100, 20, coins);
                                         bullets[towerC] = callback.add.sprite(marker.x, marker.y, 'bullet');
                                         bullets[towerC].visible = false;
                                         callback.physics.enable(towers[towerC], Phaser.Physics.ARCADE);
@@ -245,8 +245,8 @@ Helpers.Menu.prototype = {
                                         var tower = new Tower2(marker.x, marker.y, callback);
                                         towers[towerC] = tower.tower;
                                         coins = coins - 70;
-                                        coinText.destroy();
-                                        coinText = callback.add.text(100, 20, coins);
+                                        coinsVal.destroy();
+                                        coinsVal = callback.add.text(100, 20, coins);
                                         bullets[towerC] = callback.add.sprite(marker.x, marker.y, 'bullet2');
                                         bullets[towerC].visible = false;
                                         callback.physics.enable(towers[towerC], Phaser.Physics.ARCADE);
@@ -261,8 +261,8 @@ Helpers.Menu.prototype = {
                                         var tower = new Tower3(marker.x, marker.y, callback);
                                         towers[towerC] = tower.tower;
                                         coins = coins - 70;
-                                        coinText.destroy();
-                                        coinText = callback.add.text(100, 20, coins);
+                                        coinsVal.destroy();
+                                        coinsVal = callback.add.text(100, 20, coins);
                                         bullets[towerC] = callback.add.sprite(marker.x, marker.y, 'bullet3');
                                         bullets[towerC].visible = false;
                                         callback.physics.enable(towers[towerC], Phaser.Physics.ARCADE);
@@ -278,8 +278,8 @@ Helpers.Menu.prototype = {
                                         var tower = new Tower4(marker.x, marker.y, callback);
                                         towers[towerC] = tower.tower;
                                         coins = coins - 30;
-                                        coinText.destroy();
-                                        coinText = callback.add.text(100, 20, coins);
+                                        coinsVal.destroy();
+                                        coinsVal = callback.add.text(100, 20, coins);
                                         bullets[towerC] = callback.add.sprite(marker.x, marker.y, 'bullet4');
                                         bullets[towerC].visible = false;
                                         callback.physics.enable(towers[towerC], Phaser.Physics.ARCADE);
@@ -433,8 +433,8 @@ Helpers.Menu.prototype = {
                                             spriteArray[j].destroy();
                                             spriteArray[j] = null;
                                             coins = coins + 7;
-                                            coinText.destroy();
-                                            coinText = callback.add.text(100, 20, coins);
+                                            coinsVal.destroy();
+                                            coinsVal = callback.add.text(100, 20, coins);
                                             score = score + 100;
                                             scoreText.destroy();
                                             scoreText = callback.add.text(730, 20, "Score: " + score);
@@ -461,8 +461,8 @@ Helpers.Menu.prototype = {
                                                             spriteArray[y] = null;
                                                             array[y] = 5;
                                                             coins = coins + 7;
-                                                            coinText.destroy();
-                                                            coinText = callback.add.text(100, 20, coins);
+                                                            coinsVal.destroy();
+                                                            coinsVal = callback.add.text(100, 20, coins);
                                                             score = score + 100;
                                                             scoreText.destroy();
                                                             scoreText = callback.add.text(730, 20, "Score: " + score);
@@ -493,8 +493,8 @@ Helpers.Menu.prototype = {
                                             spriteArray[j].destroy();
                                             spriteArray[j] = null;
                                             coins = coins + 7;
-                                            coinText.destroy();
-                                            coinText = callback.add.text(100, 20, coins);
+                                            coinsVal.destroy();
+                                            coinsVal = callback.add.text(100, 20, coins);
                                             score = score + 100;
                                             scoreText.destroy();
                                             scoreText = callback.add.text(730, 20, "Score: " + score);
@@ -515,8 +515,8 @@ Helpers.Menu.prototype = {
                                                 spriteArray[j].destroy();
                                                 spriteArray[j] = null;
                                                 coins = coins + 7;
-                                                coinText.destroy();
-                                                coinText = callback.add.text(100, 20, coins);
+                                                coinsVal.destroy();
+                                                coinsVal = callback.add.text(100, 20, coins);
                                                 score = score + 100;
                                                 scoreText.destroy();
                                                 scoreText = callback.add.text(730, 20, "Score: " + score);
@@ -552,8 +552,8 @@ Helpers.Menu.prototype = {
                                             spriteArray[j].destroy();
                                             spriteArray[j] = null;
                                             coins = coins + 7;
-                                            coinText.destroy();
-                                            coinText = callback.add.text(100, 20, coins);
+                                            coinsVal.destroy();
+                                            coinsVal = callback.add.text(100, 20, coins);
                                             score = score + 100;
                                             scoreText.destroy();
                                             scoreText = callback.add.text(730, 20, "Score: " + score);
@@ -690,8 +690,8 @@ Helpers.Menu.prototype = {
         if (player.diamonds >= 1) {
             diamonds = player.diamonds - 1;
             diamondAction = true;
-            diamondText.destroy();
-            diamondText = callback.add.text(200, 20, diamonds);
+            diamondsVal.destroy();
+            diamondsVal = callback.add.text(200, 20, diamonds);
         }
         if(diamondInfo!=null){
             diamondInfo.destroy();
@@ -833,8 +833,8 @@ Helpers.Menu.prototype = {
                     c.reach = 250;
                     c.isUpgraded = true;
                     coins = coins - 25;
-                    coinText.destroy();
-                    coinText = this.add.text(100, 20, coins);
+                    coinsVal.destroy();
+                    coinsVal = this.add.text(100, 20, coins);
                 }
 
             }
@@ -843,8 +843,8 @@ Helpers.Menu.prototype = {
                     c.speeed = 450;
                     c.reach = 300;
                     coins = coins - 50;
-                    coinText.destroy();
-                    coinText = this.add.text(100, 20, coins);
+                    coinsVal.destroy();
+                    coinsVal = this.add.text(100, 20, coins);
                 }
             }
 
@@ -866,8 +866,8 @@ Helpers.Menu.prototype = {
                     c.reach = 300;
                     c.isUpgraded = true;
                     coins = coins - 50;
-                    coinText.destroy();
-                    coinText = this.add.text(100, 20, coins);
+                    coinsVal.destroy();
+                    coinsVal = this.add.text(100, 20, coins);
                 }
 
             }
@@ -876,8 +876,8 @@ Helpers.Menu.prototype = {
                     c.speeed = 650;
                     c.reach = 350;
                     coins = coins - 100;
-                    coinText.destroy();
-                    coinText = this.add.text(100, 20, coins);
+                    coinsVal.destroy();
+                    coinsVal = this.add.text(100, 20, coins);
                 }
             }
 
@@ -899,8 +899,8 @@ Helpers.Menu.prototype = {
                     c.reach = 220;
                     c.isUpgraded = true;
                     coins = coins - 50;
-                    coinText.destroy();
-                    coinText = this.add.text(100, 20, coins);
+                    coinsVal.destroy();
+                    coinsVal = this.add.text(100, 20, coins);
                 }
 
             }
@@ -909,8 +909,8 @@ Helpers.Menu.prototype = {
                     c.speeed = 400;
                     c.reach = 270;
                     coins = coins - 100;
-                    coinText.destroy();
-                    coinText = this.add.text(100, 20, coins);
+                    coinsVal.destroy();
+                    coinsVal = this.add.text(100, 20, coins);
                 }
             }
 
@@ -932,8 +932,8 @@ Helpers.Menu.prototype = {
                     c.reach = 200;
                     c.isUpgraded = true;
                     coins = coins - 25;
-                    coinText.destroy();
-                    coinText = this.add.text(100, 20, coins);
+                    coinsVal.destroy();
+                    coinsVal = this.add.text(100, 20, coins);
                 }
 
             }
@@ -942,8 +942,8 @@ Helpers.Menu.prototype = {
                     c.speeed = 300;
                     c.reach = 230;
                     coins = coins - 50;
-                    coinText.destroy();
-                    coinText = this.add.text(100, 20, coins);
+                    coinsVal.destroy();
+                    coinsVal = this.add.text(100, 20, coins);
                 }
             }
 
@@ -972,8 +972,8 @@ Helpers.Menu.prototype = {
         upgradeButton.destroy();
         exitButton.destroy();
         coins = Math.round(coins + towerB.cost * (0.66));
-        coinText.destroy();
-        coinText = this.add.text(100, 20, coins);
+        coinsVal.destroy();
+        coinsVal = this.add.text(100, 20, coins);
         towerB.isDestroyed = true;
         towerB.destroy();
 

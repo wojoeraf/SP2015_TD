@@ -22,13 +22,12 @@ var scoreText;
 var xpBar;
 var life;
 var heart;
-var heartText;
+var heartsVal;
 var diamond;
 var diamonds;
-var diamondText;
+var diamondsVal;
 var coin;
-var coins = 70;
-var coinText;
+var coinsVal = 70;
 var diamondInfo;
 var diamondAction=false;
 //Tower und zugehörige Waffen speichern
