@@ -706,7 +706,12 @@ Helpers.Menu.prototype = {
     },
     popUpT: function (c, callback) {
         if(popup!=undefined) {
-            this.deleteAll();
+            popup.destroy();
+        }
+        if(deleteButton!=undefined){
+            deleteButton.destroy();
+            upgradeButton.destroy();
+            exitButton.destroy();
         }
         towerB = c;
         popup = callback.add.sprite(c.x + 60, c.y - 50, 'backgroundT');
@@ -729,7 +734,12 @@ Helpers.Menu.prototype = {
     },
     popUpT2: function (c, callback) {
         if(popup!=undefined) {
-            this.deleteAll();
+            popup.destroy();
+        }
+        if(deleteButton!=undefined){
+            deleteButton.destroy();
+            upgradeButton.destroy();
+            exitButton.destroy();
         }
         towerB = c;
         popup = callback.add.sprite(c.x + 60, c.y - 50, 'backgroundT');
@@ -752,7 +762,12 @@ Helpers.Menu.prototype = {
     },
     popUpT3: function (c, callback) {
         if(popup!=undefined) {
-            this.deleteAll();
+            popup.destroy();
+        }
+        if(deleteButton!=undefined){
+            deleteButton.destroy();
+            upgradeButton.destroy();
+            exitButton.destroy();
         }
         towerB = c;
         popup = callback.add.sprite(c.x + 60, c.y - 50, 'backgroundT');
@@ -775,7 +790,12 @@ Helpers.Menu.prototype = {
     },
     popUpT4: function (c, callback) {
         if(popup!=undefined) {
-            this.deleteAll();
+            popup.destroy();
+        }
+        if(deleteButton!=undefined){
+            deleteButton.destroy();
+            upgradeButton.destroy();
+            exitButton.destroy();
         }
         towerB = c;
         popup = callback.add.sprite(c.x + 60, c.y - 50, 'backgroundT');
