@@ -270,16 +270,12 @@ Menu.Level2.prototype = {
                 if(player.x<this.myPoint5.x+0.5){
                     player.destroy();
                     array[arraynumber]=5;
-
+                    var zahl = arraynumber;
+                    healthBars[zahl].destroy();
                     if((life-1)>=-1){
                         life = life-1;
                         heartText.destroy();
                         heartText = this.add.text(290,20,life);
-                        if(coins-10>=0) {
-                            coins = coins - 5;
-                            coinText.destroy();
-                            coinText = this.add.text(100, 20, coins);
-                        }
                     }
 
                     if(life==0){

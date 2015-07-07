@@ -13,6 +13,8 @@ Menu.Level1.prototype = {
     //Alle Dateien des 1. Levels laden
     preload: function(){
 
+
+
         this.visiblePoint=990;
         this.myPoint1 = new Phaser.Point(590,190);
         this.myPoint2 = new Phaser.Point(590,380);
@@ -20,6 +22,7 @@ Menu.Level1.prototype = {
         this.myPoint4 = new Phaser.Point(270,130);
         this.myPoint5 = new Phaser.Point(0,130);
         this.start = new Phaser.Point(1000,190);
+        this.pointarray=[this.start,this.myPoint1,this.myPoint2,this.myPoint3,this.myPoint4,this.myPoint5];
         //Map
         this.load.tilemap('map', 'assets/tilemaps/csv/newMap.csv', null, Phaser.Tilemap.CSV);
         this.load.image('tiles', 'assets/tilemaps/tiles/grass-tiles-2-small.png');
@@ -88,7 +91,7 @@ Menu.Level1.prototype = {
         this.helpers.towerBuilding(this);
 
         //Ab hier lautstärkeregler stuff
-
+/*
         //Lautstärke auslesen und entsprechend anpassen
         musicVolume = $( "#popupMusic" ).slider( "option", "value" );
         this.game.sound.volume = musicVolume;
@@ -99,6 +102,7 @@ Menu.Level1.prototype = {
         //Setting slider auf den neuen Wert setzen
         $("#sliderMusic").slider('value',musicVolume);
         $("#sliderSound").slider('value',soundVolume);
+        */
 },
     //TowerTyp 1 hinzufügen
     addTower: function () {
@@ -215,6 +219,7 @@ Menu.Level1.prototype = {
             player.visible=true;
         }
 
+
         switch(a){
             case 0:
                 this.physics.arcade.moveToObject(player,this.myPoint1,player.speed,0);
@@ -263,16 +268,12 @@ Menu.Level1.prototype = {
                 if(player.x<this.myPoint5.x+0.5){
                     player.destroy();
                     array[arraynumber]=5;
-
+                    var zahl = arraynumber;
+                    healthBars[zahl].destroy();
                     if((life-1)>=-1){
                         life = life-1;
                         heartText.destroy();
                         heartText = this.add.text(290,20,life);
-                        if(coins-10>=0) {
-                            coins = coins - 5;
-                            coinText.destroy();
-                            coinText = this.add.text(100, 20, coins);
-                        }
                     }
 
                     if(life==0){

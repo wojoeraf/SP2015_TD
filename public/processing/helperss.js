@@ -140,6 +140,8 @@ Helpers.Menu.prototype = {
                 }
                 bool = false;
                 enemyWaveNr = enemyWaveNr + 1;
+
+                //Je nach Level -> Sieg nach bestimmter Welle
                 if(levelchooser==1){
                     if(enemyWaveNr>10){
                         callback.add.text(350,580,"You won !");
@@ -391,6 +393,7 @@ Helpers.Menu.prototype = {
                         }
                     }
                 }
+
                 for (var k = 0; k < spriteArray.length; k++) {
                     var i = towerC - l - 1;
                     var j = spriteArray.length - k - 1;
@@ -444,6 +447,7 @@ Helpers.Menu.prototype = {
                                             bullet.reset(towers[i].x, towers[i].y);
                                             bullet.visible = false;
                                             healthBars[j].destroy();
+                                            healthBars[j]=null;
                                         }
                                         for (var y = 0; y < spriteArray.length; y++) {
                                             if (spriteArray[y] != null) {
@@ -503,6 +507,7 @@ Helpers.Menu.prototype = {
                                             bullet.reset(towers[i].x, towers[i].y);
                                             bullet.visible = false;
                                             healthBars[j].destroy();
+                                            healthBars[j]=null;
                                         }
                                         if (spriteArray[j] != null) {
                                             if (spriteArray[j].life <= 0) {
@@ -524,6 +529,7 @@ Helpers.Menu.prototype = {
                                                 bullet.reset(towers[i].x, towers[i].y);
                                                 bullet.visible = false;
                                                 healthBars[j].destroy();
+                                                healthBars[j]=null;
                                             }
                                         }
                                     }
@@ -560,6 +566,7 @@ Helpers.Menu.prototype = {
                                             bullet.reset(towers[i].x, towers[i].y);
                                             bullet.visible = false;
                                             healthBars[j].destroy();
+                                            healthBars[j]=null;
                                         }
                                     }
 
