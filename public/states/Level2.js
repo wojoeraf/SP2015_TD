@@ -127,7 +127,7 @@ Menu.Level2.prototype = {
         this.helpers.addTower3(this);
     },
     addTower4: function(){
-      this.helpers.addTower4(this);
+        this.helpers.addTower4(this);
     },
     //Je nach Welle -> Sprites hinzufügen (Aufruf von buildWave(EnemyTyp,Anzahl,Speed,Lifes)
     boolF : function(){
@@ -202,7 +202,7 @@ Menu.Level2.prototype = {
                 this.helpers.wave11(this.start.x, this.start.y, this);
             }
         }
-        
+
     },
     //Popup-Menü öffen und je nach Button verlinken
     popUp : function(){
@@ -270,16 +270,12 @@ Menu.Level2.prototype = {
                 if(player.x<this.myPoint5.x+0.5){
                     player.destroy();
                     array[arraynumber]=5;
-
+                    var zahl = arraynumber;
+                    healthBars[zahl].destroy();
                     if((life-1)>=-1){
                         life = life-1;
                         heartsVal.destroy();
                         heartsVal = this.add.text(290,20,life);
-                        if(coins-10>=0) {
-                            coins = coins - 5;
-                            coinsVal.destroy();
-                            coinsVal = this.add.text(100, 20, coins);
-                        }
                     }
 
                     if(life==0){

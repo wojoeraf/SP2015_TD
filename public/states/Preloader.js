@@ -128,6 +128,7 @@ Menu.Preloader.prototype = {
 
 
         var captchaContainer = null;
+
         loadCaptcha = function () {
             captchaContainer = grecaptcha.render('captcha_container', {
                 'sitekey': '6LeBSwgTAAAAAMOYTY-lEdVzRMnmvPIVLNSj75b8',
@@ -173,7 +174,6 @@ Menu.Preloader.prototype = {
             });
         };
         loadCaptcha();
-
 
 
         //Initialize the slider for the popup menu
