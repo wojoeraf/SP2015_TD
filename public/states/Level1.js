@@ -21,8 +21,13 @@ Menu.Level1.prototype = {
         this.myPoint5 = new Phaser.Point(0,130);
         this.start = new Phaser.Point(1000,190);
         //Map
-        this.load.tilemap('map', 'assets/tilemaps/csv/newMap.csv', null, Phaser.Tilemap.CSV);
-        this.load.image('tiles', 'assets/tilemaps/tiles/grass-tiles-2-small.png');
+        //this.load.tilemap('map', 'assets/tilemaps/csv/newMap.csv', null, Phaser.Tilemap.CSV);
+        //this.load.image('tiles', 'assets/tilemaps/tiles/grass-tiles-2-small.png');
+
+        this.load.tilemap('map', 'assets/tilemaps/level1.json', null, Phaser.Tilemap.TILED_JSON);
+        this.load.image('tiles', 'assets/tilemaps/tiles.png');
+        this.load.image('meta_tiles', 'assets/tilemaps/meta_tiles.png');
+
          },
 
     create: function (game) {
@@ -30,32 +35,74 @@ Menu.Level1.prototype = {
         //Physics-Engine laden
         this.physics.startSystem(Phaser.Physics.ARCADE);
         //Spielfeld laden
-         map = this.add.tilemap('map', 64, 64);
-         map.addTilesetImage('tiles');
+        // map = this.add.tilemap('map', 16, 16);
+        map = this.add.tilemap('map');
+        map.addTilesetImage('tiles');
+        map.addTilesetImage('meta_tiles');
+
+        console.log('world width: ' + this.world.width + ', world height: ' + this.world.height);
+        //console.log(JSON.stringify(map.objects.waypoints));
+        //console.log(JSON.stringify(map.objects.waypoints[0].x));
+
          //  Create our layer
-         layer = map.createLayer(0);
-         //  Resize the world
-         layer.resizeWorld();
+
+        var baseLayer = map.createLayer('Base');
+        var decoLayer = map.createLayer('Deco');
+        var treeLayer = map.createLayer('Trees');
+        var metaLayer = map.createLayer('Meta');
+        metaLayer.visible = false;
 
 
         //Verfügbare Leben
         life = 5;
-        // Obere Leiste laden mit Daten wie Leben, Score und XP
-        scoreText = this.add.text(730,20,"Score: " +score);
-        this.add.text(400,20, "XP: ");
-        xpBar =  this.add.image(470, 30, 'xpBar2');
-        xpBar.scale.set(0.2);
-        xpBar.scale.x=0.0;
-        coin = this.add.image(60,22,'coin',1);
+        //Create HUD group
+        var HUD = this.add.group(this.world, 'HUD');
+
+        //Create the bar representing the hud and colr it
+        var hudBar = this.add.graphics(0, 0);
+        hudBar.beginFill(0x867A69, 0.75);
+        hudBar.drawRoundedRect(20, 20, canvasWidth-40, 50, 15);
+
+        //Add hud bar to HUD group
+        HUD.add(hudBar);
+        var hudTextStyle = {font: '20px MenuFont', fill: '#eee'};
+
+        //Create coin, diamond, heart images and XP and score text and add to HUD Group
+        coin        = this.add.image(60, 45, 'coin',1);
+        diamond     = this.add.sprite(160, 45, 'diamond');
+        heart       = this.add.sprite(250, 45, 'heart');
+        var xpText  = this.add.text(500, 45, 'XP:', hudTextStyle);
+        scoreText   = this.add.text(800, 45, 'Score:', hudTextStyle);
         coin.scale.set(0.9);
-        coinText=this.add.text(100,20,coins);
-        diamond = this.add.sprite(160,22,'diamond');
         diamond.scale.set(0.9);
-        diamonds = player.diamonds;
-        diamondText = this.add.text(200,20,diamonds);
-        heart= this.add.sprite(250,22,'heart');
         heart.scale.set(0.5);
-        heartText = this.add.text(290,20,life);
+        coin.anchor.set(0.5);
+        diamond.anchor.set(0.5);
+        heart.anchor.set(0.5);
+        scoreText.anchor.set(0.5);
+        xpText.anchor.set(0.5);
+        HUD.add(coin);
+        HUD.add(diamond);
+        HUD.add(heart);
+        HUD.add(xpText);
+        HUD.add(scoreText);
+
+        //Create values
+        coinsVal    = this.add.text(coin.x + 30, coin.y, coins, hudTextStyle);
+        diamondsVal = this.add.text(diamond.x + 30, diamond.y, player.diamonds, hudTextStyle);
+        heartsVal   = this.add.text(heart.x + 30, heart.y, life, hudTextStyle);
+        xpBar       = this.add.image(570, 45, 'xpBar2');
+
+        xpBar.scale.set(0, 0.2);
+        coinsVal.anchor.set(0.5);
+        diamondsVal.anchor.set(0.5);
+        heartsVal.anchor.set(0.5);
+        xpBar.anchor.set(0.5);
+
+        HUD.add(coinsVal);
+        HUD.add(diamondsVal);
+        HUD.add(heartsVal);
+        HUD.add(xpBar);
 
         //Next-Wave-Button und Tower-Buttons hinzufügen
         this.add.button(850,630,'nextWave',this.boolF,this);
@@ -116,8 +163,8 @@ Menu.Level1.prototype = {
             if (enemyWaveNr == 0) {
                 //Zinssystem
                 coins = Math.round(coins + coins * 0.2);
-                coinText.destroy();
-                coinText = this.add.text(100, 20, coins);
+                coinsVal.destroy();
+                coinsVal = this.add.text(100, 20, coins);
                 this.helpers.wave1(this.start.x, this.start.y, this);
 
             }
@@ -125,73 +172,73 @@ Menu.Level1.prototype = {
             else if (enemyWaveNr == 1) {
                 //Zinssystem
                 coins = Math.round(coins + coins * 0.2);
-                coinText.destroy();
-                coinText = this.add.text(100, 20, coins);
+                coinsVal.destroy();
+                coinsVal = this.add.text(100, 20, coins);
                 this.helpers.wave2(this.start.x, this.start.y, this);
 
             }
             else if (enemyWaveNr == 2) {
                 //Zinssystem
                 coins = Math.round(coins + coins * 0.2);
-                coinText.destroy();
-                coinText = this.add.text(100, 20, coins);
+                coinsVal.destroy();
+                coinsVal = this.add.text(100, 20, coins);
                 this.helpers.wave3(this.start.x, this.start.y, this);
 
             }
             else if (enemyWaveNr == 3) {
                 //Zinssystem
                 coins = Math.round(coins + coins * 0.2);
-                coinText.destroy();
-                coinText = this.add.text(100, 20, coins);
+                coinsVal.destroy();
+                coinsVal = this.add.text(100, 20, coins);
                 this.helpers.wave4(this.start.x, this.start.y, this);
             }
             else if (enemyWaveNr == 4) {
                 //Zinssystem
                 coins = Math.round(coins + coins * 0.2);
-                coinText.destroy();
-                coinText = this.add.text(100, 20, coins);
+                coinsVal.destroy();
+                coinsVal = this.add.text(100, 20, coins);
                 this.helpers.wave5(this.start.x, this.start.y, this);
             }
             else if (enemyWaveNr == 5) {
                 //Zinssystem
                 coins = Math.round(coins + coins * 0.2);
-                coinText.destroy();
-                coinText = this.add.text(100, 20, coins);
+                coinsVal.destroy();
+                coinsVal = this.add.text(100, 20, coins);
                 this.helpers.wave6(this.start.x, this.start.y, this);
             }
             else if (enemyWaveNr == 6) {
                 //Zinssystem
                 coins = Math.round(coins + coins * 0.2);
-                coinText.destroy();
-                coinText = this.add.text(100, 20, coins);
+                coinsVal.destroy();
+                coinsVal = this.add.text(100, 20, coins);
                 this.helpers.wave7(this.start.x, this.start.y, this);
             }
             else if (enemyWaveNr == 7) {
                 //Zinssystem
                 coins = Math.round(coins + coins * 0.2);
-                coinText.destroy();
-                coinText = this.add.text(100, 20, coins);
+                coinsVal.destroy();
+                coinsVal = this.add.text(100, 20, coins);
                 this.helpers.wave8(this.start.x, this.start.y, this);
             }
             else if (enemyWaveNr == 8) {
                 //Zinssystem
                 coins = Math.round(coins + coins * 0.2);
-                coinText.destroy();
-                coinText = this.add.text(100, 20, coins);
+                coinsVal.destroy();
+                coinsVal = this.add.text(100, 20, coins);
                 this.helpers.wave9(this.start.x, this.start.y, this);
             }
             else if (enemyWaveNr == 9) {
                 //Zinssystem
                 coins = Math.round(coins + coins * 0.2);
-                coinText.destroy();
-                coinText = this.add.text(100, 20, coins);
+                coinsVal.destroy();
+                coinsVal = this.add.text(100, 20, coins);
                 this.helpers.wave10(this.start.x, this.start.y, this);
             }
             else if (enemyWaveNr == 10) {
                 //Zinssystem
                 coins = Math.round(coins + coins * 0.2);
-                coinText.destroy();
-                coinText = this.add.text(100, 20, coins);
+                coinsVal.destroy();
+                coinsVal = this.add.text(100, 20, coins);
                 this.helpers.wave11(this.start.x, this.start.y, this);
             }
         }
@@ -266,12 +313,12 @@ Menu.Level1.prototype = {
 
                     if((life-1)>=-1){
                         life = life-1;
-                        heartText.destroy();
-                        heartText = this.add.text(290,20,life);
+                        heartsVal.destroy();
+                        heartsVal = this.add.text(290,20,life);
                         if(coins-10>=0) {
                             coins = coins - 5;
-                            coinText.destroy();
-                            coinText = this.add.text(100, 20, coins);
+                            coinsVal.destroy();
+                            coinsVal = this.add.text(100, 20, coins);
                         }
                     }
 

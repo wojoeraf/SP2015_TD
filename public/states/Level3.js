@@ -52,14 +52,14 @@ Menu.Level3.prototype = {
         coins=70;
         coin = this.add.image(60,22,'coin',1);
         coin.scale.set(0.9);
-        coinText=this.add.text(100,20,coins);
+        coinsVal=this.add.text(100,20,coins);
         diamond = this.add.sprite(160,22,'diamond');
         diamond.scale.set(0.9);
         diamonds = player.diamonds;
-        diamondText = this.add.text(200,20,diamonds);
+        diamondsVal = this.add.text(200,20,diamonds);
         heart= this.add.sprite(250,22,'heart');
         heart.scale.set(0.5);
-        heartText = this.add.text(290,20,life);
+        heartsVal = this.add.text(290,20,life);
 
         //Next-Wave-Button und Tower-Buttons hinzufügen
         this.add.button(850,630,'nextWave',this.boolF,this);
@@ -134,8 +134,8 @@ Menu.Level3.prototype = {
             if (enemyWaveNr == 0) {
                 //Zinssystem
                 coins = Math.round(coins + coins * 0.2);
-                coinText.destroy();
-                coinText = this.add.text(100, 20, coins);
+                coinsVal.destroy();
+                coinsVal = this.add.text(100, 20, coins);
                 this.helpers.wave1(this.start.x, this.start.y, this);
 
             }
@@ -143,66 +143,66 @@ Menu.Level3.prototype = {
             else if (enemyWaveNr == 1) {
                 //Zinssystem
                 coins = Math.round(coins + coins * 0.2);
-                coinText.destroy();
-                coinText = this.add.text(100, 20, coins);
+                coinsVal.destroy();
+                coinsVal = this.add.text(100, 20, coins);
                 this.helpers.wave2(this.start.x, this.start.y, this);
 
             }
             else if (enemyWaveNr == 2) {
                 //Zinssystem
                 coins = Math.round(coins + coins * 0.2);
-                coinText.destroy();
-                coinText = this.add.text(100, 20, coins);
+                coinsVal.destroy();
+                coinsVal = this.add.text(100, 20, coins);
                 this.helpers.wave5(this.start.x, this.start.y, this);
 
             }
             else if (enemyWaveNr == 3) {
                 //Zinssystem
                 coins = Math.round(coins + coins * 0.2);
-                coinText.destroy();
-                coinText = this.add.text(100, 20, coins);
+                coinsVal.destroy();
+                coinsVal = this.add.text(100, 20, coins);
                 this.helpers.wave7(this.start.x, this.start.y, this);
             }
             else if (enemyWaveNr == 4) {
                 //Zinssystem
                 coins = Math.round(coins + coins * 0.2);
-                coinText.destroy();
-                coinText = this.add.text(100, 20, coins);
+                coinsVal.destroy();
+                coinsVal = this.add.text(100, 20, coins);
                 this.helpers.wave7(this.start.x, this.start.y, this);
             }
             else if (enemyWaveNr == 5) {
                 //Zinssystem
                 coins = Math.round(coins + coins * 0.2);
-                coinText.destroy();
-                coinText = this.add.text(100, 20, coins);
+                coinsVal.destroy();
+                coinsVal = this.add.text(100, 20, coins);
                 this.helpers.wave8(this.start.x, this.start.y, this);
             }
             else if (enemyWaveNr == 6) {
                 //Zinssystem
                 coins = Math.round(coins + coins * 0.2);
-                coinText.destroy();
-                coinText = this.add.text(100, 20, coins);
+                coinsVal.destroy();
+                coinsVal = this.add.text(100, 20, coins);
                 this.helpers.wave9(this.start.x, this.start.y, this);
             }
             else if (enemyWaveNr == 7) {
                 //Zinssystem
                 coins = Math.round(coins + coins * 0.2);
-                coinText.destroy();
-                coinText = this.add.text(100, 20, coins);
+                coinsVal.destroy();
+                coinsVal = this.add.text(100, 20, coins);
                 this.helpers.wave9(this.start.x, this.start.y, this);
             }
             else if (enemyWaveNr == 8) {
                 //Zinssystem
                 coins = Math.round(coins + coins * 0.4);
-                coinText.destroy();
-                coinText = this.add.text(100, 20, coins);
+                coinsVal.destroy();
+                coinsVal = this.add.text(100, 20, coins);
                 this.helpers.wave12(this.start.x, this.start.y, this);
             }
             else if (enemyWaveNr == 9) {
                 //Zinssystem
                 coins = Math.round(coins + coins * 0.2);
-                coinText.destroy();
-                coinText = this.add.text(100, 20, coins);
+                coinsVal.destroy();
+                coinsVal = this.add.text(100, 20, coins);
                 this.helpers.wave13(this.start.x, this.start.y, this);
             }
         }
@@ -299,12 +299,12 @@ Menu.Level3.prototype = {
 
                     if((life-1)>=-1){
                         life = life-1;
-                        heartText.destroy();
-                        heartText = this.add.text(290,20,life);
+                        heartsVal.destroy();
+                        heartsVal = this.add.text(290,20,life);
                         if(coins-10>=0) {
                             coins = coins - 5;
-                            coinText.destroy();
-                            coinText = this.add.text(100, 20, coins);
+                            coinsVal.destroy();
+                            coinsVal = this.add.text(100, 20, coins);
                         }
                     }
 
