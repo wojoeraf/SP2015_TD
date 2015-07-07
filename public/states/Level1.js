@@ -89,8 +89,8 @@ Menu.Level1.prototype = {
 
         //Create values
         coinsVal    = this.add.text(coin.x + 30, coin.y, coins, hudTextStyle);
-        diamondsVal = this.add.text(diamond.x + 30, diamond.y, player.diamonds, hudTextStyle);
-        heartsVal   = this.add.text(heart.x + 30, heart.y, life, hudTextStyle);
+        diamondsVal = this.add.text(diamond.x + 30, diamond.y, diamonds, hudTextStyle);
+        heartsVal   = this.add.text(heart.x + 30, heart.y, 5, hudTextStyle);
         xpBar       = this.add.image(570, 45, 'xpBar2');
 
         xpBar.scale.set(0, 0.2);
@@ -257,6 +257,7 @@ Menu.Level1.prototype = {
     nextWave : function(player,arraynumber){
 
         this.physics.arcade.collide(player, layer);
+        // a hat mit dem korrekten ablaufen der Wegpunkte zu tun.
         var a = array[arraynumber];
         if(player.x<this.visiblePoint){
             player.visible=true;
@@ -329,7 +330,7 @@ Menu.Level1.prototype = {
                         life=5;
                         coins=70;
                         score=0;
-                        diamonds=1;
+                        diamonds= player.diamonds;
                         this.state.start("MainMenu");
                     }
                     break;

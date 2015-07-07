@@ -115,7 +115,7 @@ Helpers.Menu.prototype = {
                 var healthbar = healthBars[j];
                 var sprite = sprites[j];
                 if (sprite != null) {
-                    healthbar.x = sprite.x+12;
+                    healthbar.x = sprite.x + 12;
                     healthbar.y = sprite.y - 10;
                 }
             }
@@ -140,19 +140,19 @@ Helpers.Menu.prototype = {
                 }
                 bool = false;
                 enemyWaveNr = enemyWaveNr + 1;
-                if(levelchooser==1){
-                    if(enemyWaveNr>10){
-                        callback.add.text(350,580,"You won !");
+                if (levelchooser == 1) {
+                    if (enemyWaveNr > 10) {
+                        callback.add.text(350, 580, "You won !");
                     }
                 }
-                else if(levelchooser==2){
-                    if(enemyWaveNr>8){
-                        callback.add.text(350,580,"You won !");
+                else if (levelchooser == 2) {
+                    if (enemyWaveNr > 8) {
+                        callback.add.text(350, 580, "You won !");
                     }
                 }
-                else if(levelchooser==3){
-                    if(enemyWaveNr>9){
-                        callback.add.text(350,580,"You won !");
+                else if (levelchooser == 3) {
+                    if (enemyWaveNr > 9) {
+                        callback.add.text(350, 580, "You won !");
                     }
                 }
             }
@@ -216,7 +216,7 @@ Helpers.Menu.prototype = {
                                         c = true;
                                     }
                                 }
-                        }
+                            }
                             if (c == false) {
                                 //Je nach Tower -> unterschiedliche Eigenschaften (Reichweite etc..)
                                 //Tower 1
@@ -577,7 +577,7 @@ Helpers.Menu.prototype = {
     //PopUp-Fenster
     popUp: function (callback) {
 
-        if(popup!=undefined){
+        if (popup != undefined) {
             this.closeWindow();
         }
 
@@ -679,14 +679,20 @@ Helpers.Menu.prototype = {
     infoTower4Delete: function () {
         popupinfoTower4.destroy();
     },
+
+    //Warcry logik
     diamondClicked: function (callback) {
         if (player.diamonds >= 1) {
-            diamonds = player.diamonds - 1;
+            diamonds--;
+            //von allen diamantencountern wird 1 abgezogen
+            player.diamonds--;
             diamondAction = true;
-            diamondsVal.destroy();
+            diamondsVal.destroy();this.decrementDiamonds();
+
+            //Zeichne diamanten text neu
             diamondsVal = callback.add.text(200, 20, diamonds);
         }
-        if(diamondInfo!=null){
+        if (diamondInfo != null) {
             diamondInfo.destroy();
         }
     },
@@ -705,10 +711,10 @@ Helpers.Menu.prototype = {
         diamondInfo.destroy();
     },
     popUpT: function (c, callback) {
-        if(popup!=undefined) {
+        if (popup != undefined) {
             popup.destroy();
         }
-        if(deleteButton!=undefined){
+        if (deleteButton != undefined) {
             deleteButton.destroy();
             upgradeButton.destroy();
             exitButton.destroy();
@@ -733,10 +739,10 @@ Helpers.Menu.prototype = {
 
     },
     popUpT2: function (c, callback) {
-        if(popup!=undefined) {
+        if (popup != undefined) {
             popup.destroy();
         }
-        if(deleteButton!=undefined){
+        if (deleteButton != undefined) {
             deleteButton.destroy();
             upgradeButton.destroy();
             exitButton.destroy();
@@ -761,10 +767,10 @@ Helpers.Menu.prototype = {
 
     },
     popUpT3: function (c, callback) {
-        if(popup!=undefined) {
+        if (popup != undefined) {
             popup.destroy();
         }
-        if(deleteButton!=undefined){
+        if (deleteButton != undefined) {
             deleteButton.destroy();
             upgradeButton.destroy();
             exitButton.destroy();
@@ -789,10 +795,10 @@ Helpers.Menu.prototype = {
 
     },
     popUpT4: function (c, callback) {
-        if(popup!=undefined) {
+        if (popup != undefined) {
             popup.destroy();
         }
-        if(deleteButton!=undefined){
+        if (deleteButton != undefined) {
             deleteButton.destroy();
             upgradeButton.destroy();
             exitButton.destroy();
@@ -979,6 +985,26 @@ Helpers.Menu.prototype = {
         exitButton.destroy();
     },
 
+    decrementDiamonds: function () {
+        var data = {
+            name: player.name
+        };
+
+        $(function () {
+            $.ajax({
+                method: 'post',
+                url: 'decrement',
+                dataType: 'JSON',
+                data: data
+
+            }).done(function (data, staus) {
+                console.log(data);
+                console.log(status);
+            })
+        });
+
+    },
+
     upgradeTowerInfo1: function () {
         var c = towerB;
         if (c.speeed != 450) {
@@ -1102,5 +1128,5 @@ Helpers.Menu.prototype = {
 
     }
 
-};
+}
 

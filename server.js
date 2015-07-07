@@ -477,15 +477,14 @@ app.post('/highscore', function (req, res) {
 
             //user.highscores.levelselector.set(score);
             /**
-            UserModel.update({'local.username': username}, {$set:{'highscores.level1': score}}, function (err, data) {
+             UserModel.update({'local.username': username}, {$set:{'highscores.level1': score}}, function (err, data) {
                 console.log(data);
                 console.log(err);
             });
              **/
 
             if (level == 1) {
-                UserModel.update({'local.username': username}, {$set:{'highscores.level1': score}}, function(err, data)
-                {
+                UserModel.update({'local.username': username}, {$set: {'highscores.level1': score}}, function (err, data) {
                     console.log(err);
                     console.log(data);
                     console.log("level1");
@@ -493,8 +492,7 @@ app.post('/highscore', function (req, res) {
                 });
             }
             else if (level == 2) {
-                UserModel.update({'local.username': username}, {$set:{'highscores.level2': score}}, function(err, data)
-                {
+                UserModel.update({'local.username': username}, {$set: {'highscores.level2': score}}, function (err, data) {
                     console.log(err);
                     console.log(data);
                     console.log("level2");
@@ -502,18 +500,16 @@ app.post('/highscore', function (req, res) {
                 });
             }
             else if (level == 3) {
-                UserModel.update({'local.username': username}, {$set:{'highscores.level3': score}}, function(err, data)
-                {
+                UserModel.update({'local.username': username}, {$set: {'highscores.level3': score}}, function (err, data) {
                     console.log(err);
                     console.log(data);
                     console.log("level3");
 
                 });
             }
-            else{
+            else {
                 console.log('Error saving new highscore: something wrong with level numbering.');
             }
-
 
 
             user.save(function (err) {
@@ -596,8 +592,8 @@ app.post('/highscoreTable', function (req, res) {
     });
      **/
 
-    if(level == 1){
-        UserModel.find({},{'_id': 0, 'local.username': 1, 'highscores.level1': 1}, function (err, data) {
+    if (level == 1) {
+        UserModel.find({}, {'_id': 0, 'local.username': 1, 'highscores.level1': 1}, function (err, data) {
             console.log("err " + err);
             console.log("data: " + data);
             res.send(data);
@@ -605,8 +601,8 @@ app.post('/highscoreTable', function (req, res) {
         }).sort({'highscores.level1': -1}).limit(5);
 
     }
-    else if(level == 2){
-        UserModel.find({},{'_id': 0, 'local.username': 1, 'highscores.level2': 1}, function (err, data) {
+    else if (level == 2) {
+        UserModel.find({}, {'_id': 0, 'local.username': 1, 'highscores.level2': 1}, function (err, data) {
             console.log("err " + err);
             console.log("data: " + data);
             res.send(data);
@@ -614,8 +610,8 @@ app.post('/highscoreTable', function (req, res) {
         }).sort({'highscores.level2': -1}).limit(5);
 
     }
-    else if(level == 3){
-        UserModel.find({},{'_id': 0, 'local.username': 1, 'highscores.level3': 1}, function (err, data) {
+    else if (level == 3) {
+        UserModel.find({}, {'_id': 0, 'local.username': 1, 'highscores.level3': 1}, function (err, data) {
             console.log("err " + err);
             console.log("data: " + data);
             res.send(data);
@@ -623,18 +619,25 @@ app.post('/highscoreTable', function (req, res) {
         }).sort({'highscores.level3': -1}).limit(5);
 
     }
-    else{
+    else {
         console.log("Invalid level given, cannot build highscore");
     }
 
 
     /**
-    UserModel.find({},{'local.username': 1, 'highscores.level1': 1}, ({$sort: {'highscores.level1': -1}}), function (err, data) {
+     UserModel.find({},{'local.username': 1, 'highscores.level1': 1}, ({$sort: {'highscores.level1': -1}}), function (err, data) {
         console.log("err " + err);
         console.log("data: " + data);
         //console.log(data.length);
     });
      **/
+
+});
+
+app.post('/decrement', function (req, res) {
+    var name = req.body.name;
+    console.log(name);
+    decrementDiamonds(name);
 
 });
 

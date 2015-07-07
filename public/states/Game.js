@@ -31,50 +31,50 @@ var layer;
 Menu.Game.prototype = {
 
 
-    preload: function(){
+    preload: function () {
 
 
-        bool=false;
-        enemyWaveNr=0;
-        life=5;
-        coins=70;
-        score=0;
-        diamonds=1;
+
+        bool = false;
+        enemyWaveNr = 0;
+        life = 5;
+        coins = 70;
+        score = 0;
+        diamonds = player.diamonds;
+
 
         //Alle Tower zerstören
         for (var k = 0; k < towerC; k++) {
             if (towers[k].isDestroyed == false) {
                 towers[k].destroy();
-                towers[k]=0;
+                towers[k] = 0;
             }
         }
 
-        if(levelchooser==1){
+        if (levelchooser == 1) {
             this.state.start("Level1");
         }
-        else if(levelchooser==2){
+        else if (levelchooser == 2) {
             this.state.start("Level2");
         }
         else {
             this.state.start('Level3');
         }
-
 
 
     },
 
     update: function () {
 
-        if(levelchooser==1){
+        if (levelchooser == 1) {
             this.state.start("Level1");
         }
-        else if(levelchooser==2){
+        else if (levelchooser == 2) {
             this.state.start("Level2");
         }
         else {
             this.state.start('Level3');
         }
-
 
 
     },
