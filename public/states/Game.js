@@ -34,6 +34,10 @@ Menu.Game.prototype = {
     preload: function () {
 
 
+        player.lastGame.score = 0;
+        player.lastGame.level = 0;
+
+
 
         bool = false;
         enemyWaveNr = 0;

@@ -32,6 +32,8 @@ Menu.Level1.prototype = {
 
     create: function (game) {
 
+        player.lastGame.level = 1;
+
         //Physics-Engine laden
         this.physics.startSystem(Phaser.Physics.ARCADE);
         //Spielfeld laden
@@ -320,6 +322,9 @@ Menu.Level1.prototype = {
                     }
 
                     if (life == 0) {
+                        //Spieler stirbt
+
+
                         this.add.text(350, 300, "GAME OVER");
                         bool = false;
                         enemyWaveNr = 0;

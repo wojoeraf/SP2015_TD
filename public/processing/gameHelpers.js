@@ -436,6 +436,9 @@ Helpers.Menu.prototype = {
                                             coinsVal.destroy();
                                             coinsVal = callback.add.text(100, 20, coins);
                                             score = score + 100;
+
+                                            player.lastGame.score+= 100;
+
                                             scoreText.destroy();
                                             scoreText = callback.add.text(730, 20, "Score: " + score);
                                             xpBar.scale.x = xpBar.scale.x + 0.002;
@@ -464,6 +467,9 @@ Helpers.Menu.prototype = {
                                                             coinsVal.destroy();
                                                             coinsVal = callback.add.text(100, 20, coins);
                                                             score = score + 100;
+
+                                                            player.lastGame.score+= 100;
+
                                                             scoreText.destroy();
                                                             scoreText = callback.add.text(730, 20, "Score: " + score);
                                                         }
@@ -496,6 +502,10 @@ Helpers.Menu.prototype = {
                                             coinsVal.destroy();
                                             coinsVal = callback.add.text(100, 20, coins);
                                             score = score + 100;
+
+                                            player.lastGame.score+= 100;
+
+
                                             scoreText.destroy();
                                             scoreText = callback.add.text(730, 20, "Score: " + score);
                                             xpBar.scale.x = xpBar.scale.x + 0.002;
@@ -518,6 +528,10 @@ Helpers.Menu.prototype = {
                                                 coinsVal.destroy();
                                                 coinsVal = callback.add.text(100, 20, coins);
                                                 score = score + 100;
+
+                                                player.lastGame.score+= 100;
+
+
                                                 scoreText.destroy();
                                                 scoreText = callback.add.text(730, 20, "Score: " + score);
                                                 xpBar.scale.x = xpBar.scale.x + 0.002;
@@ -555,6 +569,9 @@ Helpers.Menu.prototype = {
                                             coinsVal.destroy();
                                             coinsVal = callback.add.text(100, 20, coins);
                                             score = score + 100;
+
+                                            player.lastGame.score+= 100;
+
                                             scoreText.destroy();
                                             scoreText = callback.add.text(730, 20, "Score: " + score);
                                             xpBar.scale.x = xpBar.scale.x + 0.002;
@@ -612,6 +629,7 @@ Helpers.Menu.prototype = {
 
     },
 
+    //Player clicks on the "return to main menu" button in the popup menu
     quit: function () {
 
         this.fp = new FormProcessing();
@@ -623,6 +641,11 @@ Helpers.Menu.prototype = {
         for (var k = 0; k < towerC; k++) {
             towers[k] = 0;
         }
+
+        console.log("game End!");
+        console.log(player.name);
+        player.lastGame.score = score;
+
         this.state.clearCurrentState();
         this.state.start("MainMenu");
 

@@ -18,6 +18,15 @@ Menu.MainMenu.prototype = {
 
 
     create: function () {
+        //Debug code
+        this.updateHighscore();
+
+        console.log(player.lastGame.score);
+        console.log("last level: " + player.lastGame.level);
+
+
+
+        //End debug code
 
         // Add background
         this.add.sprite(0, 0, 'menuBG');
@@ -113,7 +122,7 @@ Menu.MainMenu.prototype = {
     },
 
     //Test function for the highscore functionality
-    addHighscore: function () {
+    updateHighscore: function () {
         console.log("Doing highscore stuff!");
 
         var name = player.name;
@@ -121,9 +130,9 @@ Menu.MainMenu.prototype = {
         var outerThis = this;
         $(function () {
             var data = {
-                username: name,
-                score: 1322,
-                level: 2
+                username: player.name,
+                score: player.lastGame.score,
+                level: player.lastGame.level
             };
             $.ajax({
                 method: 'post',
@@ -131,7 +140,7 @@ Menu.MainMenu.prototype = {
                 dataType: 'json',
                 data: data
             }).always(function(data, status){
-                outerThis.helper.debugLog('Status: ' + status, outerThis);
+                //outerThis.helper.debugLog('Status: ' + status, outerThis);
                 outerThis.helper.debugLog('Returned data: ' + JSON.stringify(data), outerThis);
             });
             return false;

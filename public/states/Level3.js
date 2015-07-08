@@ -29,6 +29,8 @@ Menu.Level3.prototype = {
 
     create: function (game) {
 
+        player.lastGame.level = 3;
+
         //Physics-Engine laden
         this.physics.startSystem(Phaser.Physics.ARCADE);
         //Spielfeld laden
