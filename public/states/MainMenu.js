@@ -18,6 +18,7 @@ Menu.MainMenu.prototype = {
 
 
     create: function () {
+        //
         //highscore updade code
         this.updateHighscore();
 
