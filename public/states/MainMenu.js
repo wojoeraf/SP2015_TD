@@ -18,15 +18,12 @@ Menu.MainMenu.prototype = {
 
 
     create: function () {
-        //Debug code
+        //highscore updade code
         this.updateHighscore();
 
-        console.log(player.lastGame.score);
-        console.log("last level: " + player.lastGame.level);
+        //console.log(player.lastGame.score);
+        //console.log("last level: " + player.lastGame.level);
 
-
-
-        //End debug code
 
         // Add background
         this.add.sprite(0, 0, 'menuBG');
@@ -38,9 +35,6 @@ Menu.MainMenu.prototype = {
             this.add.sprite(900, 12, 'diamond');
             this.add.text(935, 10, player.diamonds, {font: "30px MenuFont", fill: '#ddd'});
         }
-
-        //Test button for highscore system
-        this.add.button(1, 1, 'buttonPlay', this.addHighscore, this);
 
         this.add.button(437, 300, 'buttonPlay', this.startGame, this);
         this.add.button(437, 370, 'buttonSettings', this.showSettings, this);

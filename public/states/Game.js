@@ -46,6 +46,31 @@ Menu.Game.prototype = {
         score = 0;
         diamonds = player.diamonds;
 
+        console.log(player.achievements);
+
+        if (player.loggedIn && player.achievements[0] != 1){
+            player.achievements = [1];
+            console.log(player.achievements);
+
+            var data = {
+                name: player.name,
+                achievement: player.achievements
+            }
+
+            $(function () {
+                $.ajax({
+                        method: 'post',
+                        url: 'achievements',
+                        dataType: 'JSON',
+                        data: data
+                    }
+                ).done(function (data, status) {
+
+                    });
+            });
+
+        }
+
 
         //Alle Tower zerstören
         for (var k = 0; k < towerC; k++) {

@@ -426,6 +426,35 @@ app.post('/verify', function (req, res1) {
 
 });
 
+app.post('/achievements', function(req, res){
+    console.log(req.body);
+
+    var name = req.body.name;
+    var achieve = [1];
+    console.log(name);
+    console.log(achieve);
+
+    UserModel.update({'local.username': name}, {$set: {'achievements': achieve}},
+        function (err, log, data) {
+            if (err) {
+                status = 500;
+                response.message = 'Session error';
+                console.log("Database Error!");
+            }
+
+            // user does not exist
+            if (!log) {
+                console.log('Session: User not found!');
+                status = 500;
+            }
+            console.log("user found!");
+            //console.log(log);
+            //console.log(err);
+            //console.log(data);
+        });
+
+});
+
 //Listener for new entrys to the highscore table
 app.post('/highscore', function (req, res) {
     var status = 200;

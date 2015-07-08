@@ -158,6 +158,7 @@ Menu.Preloader.prototype = {
                             console.log("player diamonds OLD: " + player.diamonds);
                             player.diamonds++;
                             console.log("player diamonds NEW: " + player.diamonds);
+
                         }
                     });
                     /**.success(function (data, status, err) {

@@ -21,12 +21,12 @@ Menu.Level1.prototype = {
         this.myPoint5 = new Phaser.Point(0, 130);
         this.start = new Phaser.Point(1000, 190);
         //Map
-        //this.load.tilemap('map', 'assets/tilemaps/csv/newMap.csv', null, Phaser.Tilemap.CSV);
-        //this.load.image('tiles', 'assets/tilemaps/tiles/grass-tiles-2-small.png');
+        this.load.tilemap('map', 'assets/tilemaps/csv/newMap.csv', null, Phaser.Tilemap.CSV);
+        this.load.image('tiles', 'assets/tilemaps/tiles/grass-tiles-2-small.png');
 
-        this.load.tilemap('map', 'assets/tilemaps/level1.json', null, Phaser.Tilemap.TILED_JSON);
-        this.load.image('tiles', 'assets/tilemaps/tiles.png');
-        this.load.image('meta_tiles', 'assets/tilemaps/meta_tiles.png');
+        //this.load.tilemap('map', 'assets/tilemaps/level1.json', null, Phaser.Tilemap.TILED_JSON);
+        //this.load.image('tiles', 'assets/tilemaps/tiles.png');
+        //this.load.image('meta_tiles', 'assets/tilemaps/meta_tiles.png');
 
     },
 
@@ -37,22 +37,12 @@ Menu.Level1.prototype = {
         //Physics-Engine laden
         this.physics.startSystem(Phaser.Physics.ARCADE);
         //Spielfeld laden
-        // map = this.add.tilemap('map', 16, 16);
-        map = this.add.tilemap('map');
-        map.addTilesetImage('tiles');
-        map.addTilesetImage('meta_tiles');
-
-        console.log('world width: ' + this.world.width + ', world height: ' + this.world.height);
-        //console.log(JSON.stringify(map.objects.waypoints));
-        //console.log(JSON.stringify(map.objects.waypoints[0].x));
-
-        //  Create our layer
-
-        var baseLayer = map.createLayer('Base');
-        var decoLayer = map.createLayer('Deco');
-        var treeLayer = map.createLayer('Trees');
-        var metaLayer = map.createLayer('Meta');
-        metaLayer.visible = false;
+         map = this.add.tilemap('map', 64, 64);
+         map.addTilesetImage('tiles');
+         //  Create our layer
+         layer = map.createLayer(0);
+         //  Resize the world
+         layer.resizeWorld();
 
 
         //Verfügbare Leben
@@ -60,7 +50,7 @@ Menu.Level1.prototype = {
         //Create HUD group
         var HUD = this.add.group(this.world, 'HUD');
 
-        //Create the bar representing the hud and colr it
+        //Create the bar representing the hud and color it
         var hudBar = this.add.graphics(0, 0);
         hudBar.beginFill(0x867A69, 0.75);
         hudBar.drawRoundedRect(20, 20, canvasWidth - 40, 50, 15);
