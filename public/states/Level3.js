@@ -3,11 +3,11 @@
  */
 
 
-Menu.Level3 = function(game){
+Game.Level3 = function(){
     this.helpers = new Helpers.Menu();
 }
 
-Menu.Level3.prototype = {
+Game.Level3.prototype = {
 
 
     //Alle Dateien des 1. Levels laden
@@ -27,10 +27,10 @@ Menu.Level3.prototype = {
         this.load.image('tiles', 'assets/tilemaps/tiles/grass-tiles-2-small.png');
     },
 
-    create: function (game) {
+    create: function () {
 
         //Physics-Engine laden
-        this.physics.startSystem(Phaser.Physics.ARCADE);
+        //this.physics.startSystem(Phaser.Physics.ARCADE);
         //Spielfeld laden
         map = this.add.tilemap('map', 64, 64);
         map.addTilesetImage('tiles');
@@ -44,7 +44,7 @@ Menu.Level3.prototype = {
         life = 5;
 
         // Obere Leiste laden mit Daten wie Leben, Score und XP
-        scoreText = this.add.text(730,20,"Score: " +score);
+        scoreText = this.add.text(730,20,"Score: " + Game.Main.score);
         this.add.text(400,20, "XP: ");
         xpBar =  this.add.image(470, 30, 'xpBar2');
         xpBar.scale.set(0.2);
@@ -88,7 +88,7 @@ Menu.Level3.prototype = {
         //Popup-Button
         this.add.button(850,100,'menuB',this.popUp,this);
         //NextWave-Sperre, nur wenn auf true geändert-> nächste Enemy-Welle
-        bool = false;
+        Game.waveRunning = false;
 
     },
 
@@ -130,7 +130,7 @@ Menu.Level3.prototype = {
     //Je nach Welle -> Sprites hinzufügen (Aufruf von buildWave(EnemyTyp,Anzahl,Speed,Lifes)
     boolF : function(){
 
-        if(bool!=true) {
+        if(Game.waveRunning!=true) {
             if (enemyWaveNr == 0) {
                 //Zinssystem
                 coins = Math.round(coins + coins * 0.2);
@@ -310,11 +310,11 @@ Menu.Level3.prototype = {
 
                     if(life==0){
                         this.add.text(350,300,"GAME OVER");
-                        bool=false;
+                        Game.waveRunning=false;
                         enemyWaveNr=0;
                         life=5;
                         coins=70;
-                        score=0;
+                        Game.Main.score=0;
                         diamonds=1;
                         this.state.start("MainMenu");
                     }

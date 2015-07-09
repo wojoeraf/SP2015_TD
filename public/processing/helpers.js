@@ -11,7 +11,7 @@
  */
 
 /**
- * Helper Namespace
+ * Helper namespace
  * @namespace Helper
  */
 var Helper = {};

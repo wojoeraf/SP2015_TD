@@ -14,10 +14,7 @@ var layer;
 var marker=null;
 
 
-//NextWave-Button gedrückt?
-var bool = false;
 //Obere Leiste (Score,XP etc..)
-var score = 1;
 var scoreText;
 var xpBar;
 var life;
@@ -92,6 +89,9 @@ var player = new Player();
 // Namespace for game menu
 var Menu = {};
 
+// Namespace for game
+var Game = {};
+
 
 // boot state
 Menu.Boot = function () {
@@ -137,6 +137,7 @@ Menu.Boot.prototype = {
 
         //SPIELDATEN FÜR HELPERKLASSE
         //Towers
+        this.load.spritesheet('towerTest', 'assets/sprites/tower.png', 64, 64, 1);
         this.load.spritesheet('tower', 'assets/sprites/block.png', 32, 32);
         this.load.spritesheet('tower1', 'assets/sprites/tower_1.png');
         this.load.spritesheet('tower2Text', 'assets/sprites/tower_2.png');
@@ -152,9 +153,10 @@ Menu.Boot.prototype = {
         this.load.spritesheet('bullet4', 'assets/sprites/bullet4.png');
         //Elemente obere Leiste
         this.load.spritesheet('xpBar2', 'assets/sprites/xpBar2.png');
+        this.load.spritesheet('xpBar', 'assets/sprites/xpBar.png');
         this.load.spritesheet('heart', 'assets/sprites/heart.png');
         this.load.spritesheet('diamond', 'assets/sprites/diamond.png');
-        this.load.spritesheet('coin', 'assets/sprites/coin1.png');
+        this.load.spritesheet('coin', 'assets/sprites/coin.png');
         //Hintergrund Popup-Menü
         this.load.image('background', 'assets/sprites/background3.png');
         this.load.image('towerInfo1', 'assets/sprites/towerInfos1.png');

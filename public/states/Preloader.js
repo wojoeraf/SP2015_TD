@@ -237,15 +237,11 @@ Menu.Preloader.prototype = {
                     // session found and user detected, so load his credentials
                     player.loadData(data.user);
                 }
-            }).fail(function (data, status, err) {
+            }).fail(function (jqxhr, status, err) {
                 outerThis.helper.debugLog('Session check failed.');
-                outerThis.helper.debugLog('Unable to check for session\nResponse:\n' + JSON.stringify(data, null, 4));
+                outerThis.helper.debugLog('Unable to check for session\nResponse:\n' + JSON.stringify(jqxhr, null, 4));
                 outerThis.helper.debugLog('Status: ' + status, outerThis);
                 outerThis.helper.debugLog('Error: ' + err, outerThis);
-                outerThis.helper.debugLog('Returned data: ' + JSON.stringify(data.responseJSON), outerThis);
-
-                var message = data.responseJSON.message;
-                outerThis.helper.debugLog(message);
 
                 player.loggedIn = false;
             });

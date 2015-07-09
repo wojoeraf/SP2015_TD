@@ -64,7 +64,8 @@
     <script src="game/Wave11.js"></script>
     <script src="game/Wave12.js"></script>
     <script src="game/Wave13.js"></script>
-    <script src="game/Tower1.js"></script>
+    <script src="game/Tower.js"></script>
+    <script src="game/Mobs.js"></script>
     <script src="game/Tower2.js"></script>
     <script src="game/Tower3.js"></script>
     <script src="game/Tower4.js"></script>
@@ -233,16 +234,16 @@
         game.state.add('LoginMenu', Menu.LoginMenu);
         game.state.add('RegisterMenu', Menu.RegisterMenu);
         game.state.add('MainMenu', Menu.MainMenu);
-        game.state.add('Game', Menu.Game);
+        game.state.add('Game', Game.Main);
         game.state.add('SettingsMenu', Menu.SettingsMenu);
         game.state.add('ForgotPasswordMenu', Menu.ForgotPasswordMenu);
         game.state.add('RankingMenu', Menu.RankingMenu);
         game.state.add('BuyMenu', Menu.BuyMenu);
         game.state.add('AchievementMenu', Menu.AchievementMenu);
         game.state.add('LevelSelector', Menu.LevelSelector);
-        game.state.add('Level1', Menu.Level1);
-        game.state.add('Level2', Menu.Level2);
-        game.state.add('Level3', Menu.Level3);
+        game.state.add('Level1', Game.Level1);
+        game.state.add('Level2', Game.Level2);
+        game.state.add('Level3', Game.Level3);
         //Start game with boot state
         game.state.start('Boot');
 

@@ -3,110 +3,74 @@
  */
 
 
-Menu.Level1 = function(game){
-    this.helpers = new Helpers.Menu();
+Game.Level1 = function(){
+    this.handler    = new Game.Handling(this);
+    this.helpers    = new Helpers.Menu();
+    this.map        = null;
+    this.metaLayer  = null;
+    this.startPoint = null;
+    this.waypoints  = null;
+    this.timer      = null;
+    this.mobs       = [];
+
+    this.waves = {
+        0: {1: 5},
+        1: {0: 8}
+    };
+
 }
 
-Menu.Level1.prototype = {
+Game.Level1.prototype = {
+
+    //render: function() {
+    //    this.game.debug.body(this.mobs[0].sprite, '#aa0000', true);
+    //    this.game.debug.spriteInfo(this.mobs[0].sprite, 32, 32);
+    //},
+
+    //Level specific initialisations
+    init: function() {
+        this.handler.init();
+        this.handler.coins = 100; //Beginning coins
+        this.handler.lifes = 20; //Beginning lifes
+        this.handler.interestRate = 0.2;
+    },
 
 
-    //Alle Dateien des 1. Levels laden
+    //Load level 1 data
     preload: function(){
-
-        this.visiblePoint=990;
-        this.myPoint1 = new Phaser.Point(590,190);
-        this.myPoint2 = new Phaser.Point(590,380);
-        this.myPoint3 = new Phaser.Point(270,380);
-        this.myPoint4 = new Phaser.Point(270,130);
-        this.myPoint5 = new Phaser.Point(0,130);
-        this.start = new Phaser.Point(1000,190);
-        //Map
-        //this.load.tilemap('map', 'assets/tilemaps/csv/newMap.csv', null, Phaser.Tilemap.CSV);
-        //this.load.image('tiles', 'assets/tilemaps/tiles/grass-tiles-2-small.png');
-
+        //Load the map
         this.load.tilemap('map', 'assets/tilemaps/level1.json', null, Phaser.Tilemap.TILED_JSON);
         this.load.image('tiles', 'assets/tilemaps/tiles.png');
         this.load.image('meta_tiles', 'assets/tilemaps/meta_tiles.png');
+    },
 
-         },
 
-    create: function (game) {
-
-        //Physics-Engine laden
-        this.physics.startSystem(Phaser.Physics.ARCADE);
-        //Spielfeld laden
-        // map = this.add.tilemap('map', 16, 16);
-        map = this.add.tilemap('map');
-        map.addTilesetImage('tiles');
-        map.addTilesetImage('meta_tiles');
+    create: function () {
+        //Add the map
+        this.map = this.add.tilemap('map');
+        this.map.addTilesetImage('tiles');
+        this.map.addTilesetImage('meta_tiles');
 
         console.log('world width: ' + this.world.width + ', world height: ' + this.world.height);
-        //console.log(JSON.stringify(map.objects.waypoints));
-        //console.log(JSON.stringify(map.objects.waypoints[0].x));
+        console.log(JSON.stringify(this.map.objects.waypoints));
+        console.log(JSON.stringify(this.map.objects.waypoints[0].x));
+        this.waypoints = this.map.objects.waypoints;
 
-         //  Create our layer
+        this.startPoint = new Phaser.Point(this.waypoints[0].x, this.waypoints[0].y);
 
-        var baseLayer = map.createLayer('Base');
-        var decoLayer = map.createLayer('Deco');
-        var treeLayer = map.createLayer('Trees');
-        var metaLayer = map.createLayer('Meta');
-        metaLayer.visible = false;
+        // Create layers
+        var baseLayer = this.map.createLayer('Base');
+        var decoLayer = this.map.createLayer('Deco');
+        var treeLayer = this.map.createLayer('Trees');
+        this.metaLayer = this.map.createLayer('Meta');
+        this.metaLayer.visible = false;
 
-
-        //Verfügbare Leben
-        life = 5;
-        //Create HUD group
-        var HUD = this.add.group(this.world, 'HUD');
-
-        //Create the bar representing the hud and colr it
-        var hudBar = this.add.graphics(0, 0);
-        hudBar.beginFill(0x867A69, 0.75);
-        hudBar.drawRoundedRect(20, 20, canvasWidth-40, 50, 15);
-
-        //Add hud bar to HUD group
-        HUD.add(hudBar);
-        var hudTextStyle = {font: '20px MenuFont', fill: '#eee'};
-
-        //Create coin, diamond, heart images and XP and score text and add to HUD Group
-        coin        = this.add.image(60, 45, 'coin',1);
-        diamond     = this.add.sprite(160, 45, 'diamond');
-        heart       = this.add.sprite(250, 45, 'heart');
-        var xpText  = this.add.text(500, 45, 'XP:', hudTextStyle);
-        scoreText   = this.add.text(800, 45, 'Score:', hudTextStyle);
-        coin.scale.set(0.9);
-        diamond.scale.set(0.9);
-        heart.scale.set(0.5);
-        coin.anchor.set(0.5);
-        diamond.anchor.set(0.5);
-        heart.anchor.set(0.5);
-        scoreText.anchor.set(0.5);
-        xpText.anchor.set(0.5);
-        HUD.add(coin);
-        HUD.add(diamond);
-        HUD.add(heart);
-        HUD.add(xpText);
-        HUD.add(scoreText);
-
-        //Create values
-        coinsVal    = this.add.text(coin.x + 30, coin.y, coins, hudTextStyle);
-        diamondsVal = this.add.text(diamond.x + 30, diamond.y, player.diamonds, hudTextStyle);
-        heartsVal   = this.add.text(heart.x + 30, heart.y, life, hudTextStyle);
-        xpBar       = this.add.image(570, 45, 'xpBar2');
-
-        xpBar.scale.set(0, 0.2);
-        coinsVal.anchor.set(0.5);
-        diamondsVal.anchor.set(0.5);
-        heartsVal.anchor.set(0.5);
-        xpBar.anchor.set(0.5);
-
-        HUD.add(coinsVal);
-        HUD.add(diamondsVal);
-        HUD.add(heartsVal);
-        HUD.add(xpBar);
+        //Draw HUD
+        this.handler.helperHUD.drawHUD();
 
         //Next-Wave-Button und Tower-Buttons hinzufügen
-        this.add.button(850,630,'nextWave',this.boolF,this);
-        button1 = this.add.button(50,630,'tower1',this.addTower,this);
+        this.add.button(850, 630, 'nextWave', this.myNextWave, this);
+        button1 = this.add.button(50,630,'tower1', this.buildTower, this);
         button1.events.onInputOver.add(this.helpers.infoTower1,this);
         button1.events.onInputOut.add(this.helpers.infoTower1Delete,this);
 
@@ -122,17 +86,33 @@ Menu.Level1.prototype = {
         this.add.button(850,100,'menuB',this.popUp,this);
 
         //NextWave-Sperre, nur wenn auf true geändert-> nächste Enemy-Welle
-        bool = false;
+        this.handler.waveRunning = false;
+        this.timer = this.time.create(false);
+        this.timer.start();
+        //this.timer.loop(1000, function() {console.log(this.map.getTileWorldXY(this.input.mousePointer.x, this.input.mousePointer.y, 16, 16, 'Meta'));}, this);
 
+
+        //this.mob = new Mob.WalkingMob(startX, startY, 1, this.waypoints, this);
+        //this.mob.init(15, 0.5, 0.5);
     },
 
     update: function () {
-
         this.helpers.createHealthbars();
+
         //Wenn Next-Wave gedrückt wurde -> Enemies laufen den Weg entlang
         this.helpers.enemiesRun(this);
+
         //Marker -> Rechteck -> Turm platzieren
-        this.helpers.towerBuilding(this);
+        //this.helpers.towerBuilding(this);
+        this.helpers.buildTower(this);
+
+        for (var i = 0; i < this.mobs.length; i++) {
+            var outer = this;
+            //console.log(this.mobs[i]);
+            this.mobs[i].spawn();
+            //this.mobs[i].move();
+            //this.time.events.add(750, function() {outer.mobs[i].move();}, this);
+        }
 
         //Ab hier lautstärkeregler stuff
 
@@ -146,25 +126,77 @@ Menu.Level1.prototype = {
         //Setting slider auf den neuen Wert setzen
         $("#sliderMusic").slider('value',musicVolume);
         $("#sliderSound").slider('value',soundVolume);
-},
-    //TowerTyp 1 hinzufügen
-    addTower: function () {
-        this.helpers.addTower(this);
     },
+
+
+    //TowerTyp 1 hinzufügen
+    buildTower: function() {
+        this.handler.buildTowerID = 0;
+        this.handler.buildTower(0);
+    },
+
+
     //TowerTyp 2 hinzufügen
     addTower2: function () {
         this.helpers.addTower2(this);
     },
+
+
+    myNextWave: function() {
+        console.log("Next wave pressed");
+
+        var outer = this;
+
+        var currentWave = this.waves[this.handler.currentWaveNumber];
+
+        //Push all mobs of current wave in the mobs array
+        for (var mobID in currentWave) {
+            for (var k = 0; k < currentWave[mobID]; k++) {
+                var mob = new Mob.WalkingMob(this.startPoint.x, this.startPoint.y, mobID, this.waypoints, this)
+                mob.init(15, 0.5, 0.5);
+                this.physics.arcade.collide(mob, this.metaLayer);
+                for (var i = 0; i < this.mobs.length; i++) {
+                    this.physics.arcade.collide(mob, this.mobs[i]);
+                }
+                this.mobs.push(mob);
+            }
+        }
+
+        var counter = 0;
+        this.time.events.loop(750, function() {
+            if (counter < outer.mobs.length) {
+                outer.mobs[counter].spawnNow = true;
+                counter++;
+            }
+        }, this);
+
+        this.handler.currentWaveNumber++
+
+        //this.handler.spawnNow = true;
+
+
+        //this.physics.arcade.collide(mob, 'Base');
+        //this.physics.arcade.moveToXY(mob, this.waypoints[1].x, this.waypoints[1].y, 50);
+        //this.physics.arcade.moveToXY(mob, this.waypoints[2].x, this.waypoints[2].y, 50);
+
+        //this.helpers.wave1(this.waypoints[0].x, this.waypoints[0].y, this);
+        //
+        //for(var i = 0; i < this.waypoints.length; i++) {
+        //    this.physics.arcade.moveToObject(sprites[0], this.waypoints[i].x, this.waypoints[i].y, sprites[0].speed);
+        //}
+
+    },
+
+
     //Je nach Welle -> Sprites hinzufügen (Aufruf von buildWave(EnemyTyp,Anzahl,Speed,Lifes)
     boolF : function(){
 
-        if(bool!=true) {
+        if(Game.waveRunning!=true) {
 
             if (enemyWaveNr == 0) {
-                //Zinssystem
-                coins = Math.round(coins + coins * 0.2);
-                coinsVal.destroy();
-                coinsVal = this.add.text(100, 20, coins);
+                var tmpCoins = this.handler.coins;
+                this.handler.coins = Math.round(tmpCoins + tmpCoins * this.handler.interestRate);
+                this.handler.helperHUD.updateCoins();
                 this.helpers.wave1(this.start.x, this.start.y, this);
 
             }
@@ -324,11 +356,11 @@ Menu.Level1.prototype = {
 
                     if(life==0){
                         this.add.text(350,300,"GAME OVER");
-                        bool=false;
+                        Game.waveRunning=false;
                         enemyWaveNr=0;
                         life=5;
                         coins=70;
-                        score=0;
+                        Game.Main.score=0;
                         diamonds=1;
                         this.state.start("MainMenu");
                     }
@@ -336,6 +368,14 @@ Menu.Level1.prototype = {
                 }
                 break;
         }
+    },
+
+    shutDown: function() {
+        this.map        = null;
+        this.metaLayer  = null;
+        this.waypoints  = null;
+        this.timer      = null;
+        this.mobs       = [];
     }
 
 }

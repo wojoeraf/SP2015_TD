@@ -1,11 +1,12 @@
 /**
  * Created by Felix on 10.06.2015.
  */
-Menu.Level2 = function(game){
+Game.Level2 = function(){
     this.helpers = new Helpers.Menu();
-}
+    Game.Main.score = 0;
+};
 
-Menu.Level2.prototype = {
+Game.Level2.prototype = {
 
 
     //Alle Dateien des 1. Levels laden
@@ -23,10 +24,11 @@ Menu.Level2.prototype = {
         this.load.image('tiles', 'assets/tilemaps/tiles/grass-tiles-2-small.png');
     },
 
-    create: function (game) {
+    create: function () {
+
 
         //Physics-Engine laden
-        this.physics.startSystem(Phaser.Physics.ARCADE);
+        //this.physics.startSystem(Phaser.Physics.ARCADE);
         //Spielfeld laden
         map = this.add.tilemap('map', 64, 64);
         map.addTilesetImage('tiles');
@@ -44,7 +46,7 @@ Menu.Level2.prototype = {
         life = 5;
 
         // Obere Leiste laden mit Daten wie Leben, Score und XP
-        scoreText = this.add.text(730,20,"Score: " +score);
+        scoreText = this.add.text(730,20,"Score: " + Game.Main.score);
         this.add.text(400,20, "XP: ");
         xpBar =  this.add.image(470, 30, 'xpBar2');
         xpBar.scale.set(0.2);
@@ -89,12 +91,13 @@ Menu.Level2.prototype = {
         //Popup-Button
         this.add.button(850,100,'menuB',this.popUp,this);
         //NextWave-Sperre, nur wenn auf true geändert-> nächste Enemy-Welle
-        bool = false;
+        Game.waveRunning = false;
 
     },
 
     update: function () {
 
+        //console.log('Score: ' + Game.Main.score);
         this.helpers.createHealthbars();
         //Wenn Next-Wave gedrückt wurde -> Enemies laufen den Weg entlang
         this.helpers.enemiesRun(this);
@@ -132,7 +135,7 @@ Menu.Level2.prototype = {
     //Je nach Welle -> Sprites hinzufügen (Aufruf von buildWave(EnemyTyp,Anzahl,Speed,Lifes)
     boolF : function(){
 
-        if(bool!=true) {
+        if(Game.waveRunning!=true) {
 
             if (enemyWaveNr == 0) {
                 //Zinssystem
@@ -284,11 +287,11 @@ Menu.Level2.prototype = {
 
                     if(life==0){
                         this.add.text(350,300,"GAME OVER");
-                        bool=false;
+                        Game.waveRunning=false;
                         enemyWaveNr=0;
                         life=5;
                         coins=70;
-                        score=0;
+                        Game.Main.score=0;
                         diamonds=1;
                         this.game.state.start("MainMenu");
                     }
