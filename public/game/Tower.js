@@ -32,6 +32,9 @@ Tower.Model = function () {
     this.damage = null;         //Array[Number] (for each level)
     this.isAoe = null;         //Boolean
     this.isChain = null;         //Boolean
+    this.animFrameRate = 15;
+    this.scaleX = 1;
+    this.scaleY = 1;
 };
 
 Tower.Model.prototype = {};
@@ -63,6 +66,10 @@ Tower.Builded.prototype = {
     init: function () {
         this.sprite                 = this.game.add.sprite(this.x, this.y, this.tower.spriteKey);
         this.sprite.inputEnabled    = true;
+        this.sprite.animations.add('up', this.tower.animations.up, this.tower.animFrameRate, true);
+        this.sprite.animations.add('down', this.tower.animations.down, this.tower.animFrameRate, true);
+        this.sprite.animations.add('right', this.tower.animations.right, this.tower.animFrameRate, true);
+        this.sprite.animations.add('left', this.tower.animations.left, this.tower.animFrameRate, true);
         this.bullet                 = this.game.add.group();
         this.bullet.enableBody      = true;
         this.bullet.physicsBodyType = Phaser.Physics.ARCADE;
@@ -102,6 +109,7 @@ Tower.Builded.prototype = {
     },
 
     fire: function () {
+        var dir = '';
         this.findTarget();
         if (this.game.time.now > this.nextFire && this.bullet.countDead() > 0 && this.target !== null) {
             //console.log('fire');
@@ -110,7 +118,22 @@ Tower.Builded.prototype = {
             var bullet = this.bullet.getFirstExists(false);
             bullet.reset(this.x + (this.tower.width / 2), this.y + (this.tower.height / 2));
             //console.log(this.target);
-            this.game.physics.arcade.moveToObject(bullet, this.target, this.tower.bulletSpeed, this.game.activePointer);
+            var ang = this.game.physics.arcade.moveToObject(bullet, this.target, this.tower.bulletSpeed, this.game.activePointer);
+
+            //animation direction:
+            var angle = ang * 57.2957795 //rad to deg
+            if (angle > -45 && angle < 45) dir = 'right';
+            if (angle >= -135 && angle <= -45) dir = 'up';
+            if (angle >= -180 && angle < -135) dir = 'left';
+            if (angle > 135 && angle <= 180) dir = 'left';
+            if (angle >= 45 && angle <= 135) dir = 'down';
+            //console.log(angle);
+
+            this.sprite.animations.play(dir);
+
+        }
+        if (this.target === null && this.game.waveHandler.mobPool.length === 0) {
+            this.sprite.animations.stop();
         }
         this.target = null;
     },
@@ -182,67 +205,6 @@ Tower.Builded.prototype = {
 };
 
 
-///**
-// * The Tower.Bullet class represents bullet types, which every tower need to have exact one.
-// * @class
-// */
-//
-//Tower.BulletModel = function() {
-//    this.id = null;
-//    this.spriteKey = null;
-//    this.animations = null;     //Object holding the animations
-//    this.scaleX = 1;
-//    this.scaleY = 1;
-//    this.speed = null;
-//};
-//
-//Tower.Bullet = function (x, y, id, game) {
-//    this.bulletID = id;       //The ID of the bullet type
-//    this.game = game;
-//    this.sprite = null;
-//    this.bullet = Tower.bulletList[this.bulletID];
-//    this.x = x;              //Origin (tower center)
-//    this.y = y;              //Origin (tower center)
-//    this.target = null;
-//};
-//
-//Tower.Bullet.prototype = {
-//    init: function () {
-//        this.sprite = this.game.add.sprite(this.x, this.y, this.tower.spriteKey);
-//        this.sprite.anchor.set(0.5);
-//        this.sprite.scale.set(this.bullet.scaleX, this.bullet.scaleY);
-//        this.sprite.checkWorldBounds = true;
-//        this.sprite.outOfBoundsKill = true;
-//        //this.sprite.events.onOutOfBounds.add(this.mobCameThrough, this, 10);
-//        this.sprite.visible = false;
-//        this.sprite.speed = this.bullet.speed;
-//        this.game.physics.enable(this.sprite, Phaser.Physics.ARCADE);
-//        this.sprite.body.immovable = true;
-//        //this.sprite.animations.add('right', this.mob.animations.right, this.mob.animFrameRate, true);
-//    },
-//
-//    fire: function () {
-//        if (target === undefined || target === null) {
-//            //No target, so cannot fire.
-//        } else {
-//            this.game.physics.moveTo(this.sprite, this.target.sprite, this.bullet.speed);
-//        }
-//    }
-//};
-//
-//var Arrow = new Tower.BulletModel();
-//Arrow.id = 0;
-//Arrow.spriteKey = 'bullet';
-//Arrow.speed = 100;
-//Arrow.animations = {
-//
-//};
-//
-//Tower.bulletList = {
-//    0: Arrow
-//};
-
-
 /**
  * Now the tower models follow
  */
@@ -250,7 +212,13 @@ Tower.Builded.prototype = {
 var Archer         = new Tower.Model();
 Archer.id          = 0;
 Archer.name        = 'Archer Tower';
-Archer.spriteKey   = 'towerTest';
+Archer.spriteKey   = 'ArcherTower';
+Archer.animations = {
+    up:     [ 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12],
+    left:   [13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25],
+    down:   [26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38],
+    right:  [39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51]
+};
 Archer.width       = 64;
 Archer.height      = 64;
 Archer.cost        = [100, 135, 180];

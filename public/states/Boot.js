@@ -79,6 +79,7 @@ Menu.Boot.prototype = {
         //SPIELDATEN FÜR HELPERKLASSE
         //Towers
         this.load.spritesheet('towerTest', 'assets/sprites/tower.png', 64, 64, 1);
+        this.load.spritesheet('ArcherTower', 'assets/sprites/ArcherTower_sprite.png', 64, 64, 52);
         this.load.spritesheet('tower', 'assets/sprites/block.png', 32, 32);
         this.load.spritesheet('tower1', 'assets/sprites/tower_1.png');
         this.load.spritesheet('tower2Text', 'assets/sprites/tower_2.png');

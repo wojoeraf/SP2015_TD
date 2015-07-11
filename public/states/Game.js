@@ -129,9 +129,9 @@ Game.Handling.prototype = {
         } else {
             this.lvl.waves[this.currentWaveNumber].init();
             this.lvl.waves[this.currentWaveNumber].start();
-            this.currentWaveNumber++;
             this.coins += Math.round(this.interestRate * this.coins);
             this.score += this.lvl.waves[this.currentWaveNumber].reward;
+            this.currentWaveNumber++;
             //this.helperHUD.updateWavenumber();
             //this.helperHUD.updateCoins();
         }
