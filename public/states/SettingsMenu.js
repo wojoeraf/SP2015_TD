@@ -31,15 +31,14 @@ Menu.SettingsMenu.prototype = {
 
 
     update: function () {
-        //Neue Lautstärke = Wert der Slider
-        musicVolume = $("#sliderMusic").slider("option", "value");
-        this.game.sound.volume = musicVolume;
+        //Get volume
+        Audio.musicVolume = $( "#popupMusic" ).slider( "option", "value" );
+        Audio.soundVolume = $( "#popupSound" ).slider( "option", "value" );
+        this.game.sound.volume = Audio.musicVolume;
 
-        soundVolume = $("#sliderSound").slider("option", "value");
-        Audio.soundVolume = soundVolume;
-
-        $("#popupMusic").slider('value', musicVolume);
-        $("#popupSound").slider('value', soundVolume);
+        //Set sliders
+        $("#sliderMusic").slider('value', Audio.musicVolume);
+        $("#sliderSound").slider('value',Audio.soundVolume);
     },
 
     changePW: function() {

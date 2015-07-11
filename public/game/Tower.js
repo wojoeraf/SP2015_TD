@@ -5,7 +5,8 @@
 
 var Tower = {
     maxLevel: 3,
-    towerList: {}
+    towerList: {},
+    bulletList: {}
 };
 
 
@@ -21,91 +22,246 @@ Tower.Model = function () {
     this.id = null;         //Number
     this.name = null;       //String
     this.spriteKey = null;  //String
+    this.animations = null; //Object
     this.width = null;         //Number
     this.height = null;         //Number
     this.cost = null;         //Array[Number] (for each level)
     this.speed = null;         //Array[Number] (for each level)
+    this.bulletSpeed = null;    //Number
     this.range = null;         //Array[Number] (for each level)
     this.damage = null;         //Array[Number] (for each level)
     this.isAoe = null;         //Boolean
     this.isChain = null;         //Boolean
 };
 
-Tower.Model.prototype = {
+Tower.Model.prototype = {};
 
+/**
+ * The Tower.Builded class represents a tower which is build on the map
+ * @class
+ */
 
-
-};
-
-Tower.Builded = function(x, y, id, game) {
-    this.towerID = id;
-    this.game = game;
+Tower.Builded = function (x, y, id, game) {
+    this.towerID = id;                                  //The ID of the tower type.
+    this.game  = game;
     this.tower = Tower.towerList[this.towerID];          //Holds a Tower.Model instance (Archer etc.)
     this.time = Date.now();                             //Timestamp of creation time
     this.sprite = null;                               //Holding the sprite of the tower in the game
-    this.bullets = null;
-    this.x = x;
-    this.y = y;
-    this.sold = false;           //Is tower sold?
+    this.bullet   = null;
+    this.nextFire = 0;
+    this.x        = x;
+    this.y        = y;
+    this.sold     = false;           //Is tower sold?
     this.level = 0;          //Zero based counting
+    this.target       = null;
+    this.popup        = null;
+    this.rangePreview = null;
 };
 
 Tower.Builded.prototype = {
 
-    init: function() {
-        this.sprite = this.game.add.sprite(this.x, this.y, this.tower.spriteKey);
+    init: function () {
+        this.sprite                 = this.game.add.sprite(this.x, this.y, this.tower.spriteKey);
+        this.sprite.inputEnabled    = true;
+        this.bullet                 = this.game.add.group();
+        this.bullet.enableBody      = true;
+        this.bullet.physicsBodyType = Phaser.Physics.ARCADE;
+        this.bullet.createMultiple(20, 'bullet');
+        this.bullet.setAll('anchor.x', 0.5);
+        this.bullet.setAll('anchor.y', 0.5);
+        this.bullet.setAll('outOfBoundsKill', true);
+        this.bullet.setAll('checkWorldBounds', true);
+        //this.sprite.anchor.set(0.5);
     },
 
-    destroy: function() {
+    destroy: function () {
         this.sprite.destroy();
         this.sold = true;
+    },
+
+    findTarget: function () {
+        //console.log(this.game.waveHandler.mobSpritePool.length);
+        var first = -1;
+        if (this.game.waveHandler.mobPool.length > 0) {
+            // Find always the first mob within tower range
+            var len = this.game.waveHandler.mobPool.length;
+            for (var i = 0; i < len; i++) {
+                if (this.game.physics.arcade.distanceBetween(this.sprite, this.game.waveHandler.mobPool[i].sprite) < this.tower.range[this.level]) {
+                    first = i;
+                    break;
+                }
+                len = this.game.waveHandler.mobPool.length;
+            }
+            if (first > -1) {
+                //console.log(this.game.physics.arcade.distanceBetween(this.sprite, this.game.waveHandler.mobPool[first].sprite));
+                this.target = this.game.waveHandler.mobPool[first].sprite;
+            } else {
+                this.target = null;
+            }
+        }
+    },
+
+    fire: function () {
+        this.findTarget();
+        if (this.game.time.now > this.nextFire && this.bullet.countDead() > 0 && this.target !== null) {
+            //console.log('fire');
+            this.nextFire = this.game.time.now + (10000 / this.tower.speed[this.level]);
+            //console.log(this.nextFire);
+            var bullet = this.bullet.getFirstExists(false);
+            bullet.reset(this.x + (this.tower.width / 2), this.y + (this.tower.height / 2));
+            //console.log(this.target);
+            this.game.physics.arcade.moveToObject(bullet, this.target, this.tower.bulletSpeed, this.game.activePointer);
+        }
+        this.target = null;
+    },
+
+    collisionCheck: function () {
+        var outer     = this;
+        var len       = this.game.waveHandler.mobPool.length;
+        var collision = false;
+        for (var i = 0; i < len; i++) {
+            collision = this.game.physics.arcade.overlap(this.bullet, this.game.waveHandler.mobPool[i].sprite, this.killBullet, null, this.game);
+            if (collision) {
+                this.mobHitted(this.game.waveHandler.mobPool[i], outer);
+                //console.log(this.bullet);
+                //this.bullet.kill();
+            }
+        }
+    },
+
+    killBullet: function (a, bullet) {
+        bullet.kill()
+    },
+
+    mobHitted: function (mob) {
+        mob.actualHealth -= this.tower.damage[this.level];
+        if (mob.actualHealth <= 0) {
+            this.game.handler.score += mob.mob.reward * 7;
+            this.game.handler.coins += mob.mob.reward;
+            this.game.handler.xp += mob.mob.reward;
+        }
+    },
+
+    inputListener: function () {
+        this.sprite.events.onInputDown.add(this.showPopup, this);
+        this.sprite.events.onInputOver.add(this.showRange, this);
+        this.sprite.events.onInputOut.add(this.hideRange, this);
+        if (this.popup !== null && this.popup !== undefined) {
+            this.popup.events.onInputOut.add(this.showPopup, this);
+        }
+    },
+
+    showPopup: function () {
+        if (this.popup === null || this.popup === undefined) {
+            this.popup = this.game.add.sprite(this.game.input.mousePointer.x, this.game.input.mousePointer.y, 'towerInfo1');
+        } else {
+            this.popup.kill();
+            this.popup = null
+        }
+    },
+
+    showRange: function () {
+        if (this.previewCircle === null || this.previewCircle === undefined) {
+            var radius           = this.tower.range[0];
+            var circ             = this.game.add.graphics(0, 0);
+            circ.lineStyle(3, 0xeeeeee, 0.3);
+            circ.drawEllipse(0, 0, radius, radius);
+            this.previewCircle   = circ;
+            this.previewCircle.x = this.x + this.tower.width / 2;
+            this.previewCircle.y = this.y + this.tower.height / 2;
+        }
+    },
+
+    hideRange: function () {
+        if (this.previewCircle !== null && this.previewCircle !== undefined) {
+            this.previewCircle.kill();
+            this.previewCircle = null;
+        }
     }
 
 };
 
-var Archer = new Tower.Model();
-Archer.id = 0;
-Archer.name = 'Archer Tower';
-Archer.spriteKey = 'towerTest';
-Archer.width = 64;
-Archer.height = 64;
-Archer.cost = [100, 135, 180];
-Archer.speed = [100, 200, 300];
-Archer.range = [100, 175, 250];
-Archer.damage = [2, 4, 7];
-Archer.isAoe = false;
-Archer.isChain = false;
 
-//this.helpers = new Helpers.Menu();
+///**
+// * The Tower.Bullet class represents bullet types, which every tower need to have exact one.
+// * @class
+// */
 //
-//this.tower=game.add.sprite(x, y, 'tower');
-//this.tower.inputEnabled = true;
-//this.tower.input.useHandCursor = true;
-//this.tower.events.onInputDown.add(this.upgradeTower1, game);
-//this.tower.x=markerX;
-//this.tower.y=markerY;
-//this.tower.typ = 0;
-//this.tower.cost = 30;
-//this.tower.speeed=300;
-//this.tower.reach=200;
-//this.tower.isUpgraded=false;
-//this.tower.isDestroyed=false;
-//this.tower.boll=false;
-
-//Tower1.prototype = {
+//Tower.BulletModel = function() {
+//    this.id = null;
+//    this.spriteKey = null;
+//    this.animations = null;     //Object holding the animations
+//    this.scaleX = 1;
+//    this.scaleY = 1;
+//    this.speed = null;
+//};
 //
-//    //Tower1 upgraden
-//    upgradeTower1: function(c) {
-//        if (marker == null) {
+//Tower.Bullet = function (x, y, id, game) {
+//    this.bulletID = id;       //The ID of the bullet type
+//    this.game = game;
+//    this.sprite = null;
+//    this.bullet = Tower.bulletList[this.bulletID];
+//    this.x = x;              //Origin (tower center)
+//    this.y = y;              //Origin (tower center)
+//    this.target = null;
+//};
 //
-//            if ((this.input.mouse.button == 0)) {
-//                this.helpers.popUpT(c,this);
-//            }
+//Tower.Bullet.prototype = {
+//    init: function () {
+//        this.sprite = this.game.add.sprite(this.x, this.y, this.tower.spriteKey);
+//        this.sprite.anchor.set(0.5);
+//        this.sprite.scale.set(this.bullet.scaleX, this.bullet.scaleY);
+//        this.sprite.checkWorldBounds = true;
+//        this.sprite.outOfBoundsKill = true;
+//        //this.sprite.events.onOutOfBounds.add(this.mobCameThrough, this, 10);
+//        this.sprite.visible = false;
+//        this.sprite.speed = this.bullet.speed;
+//        this.game.physics.enable(this.sprite, Phaser.Physics.ARCADE);
+//        this.sprite.body.immovable = true;
+//        //this.sprite.animations.add('right', this.mob.animations.right, this.mob.animFrameRate, true);
+//    },
+//
+//    fire: function () {
+//        if (target === undefined || target === null) {
+//            //No target, so cannot fire.
+//        } else {
+//            this.game.physics.moveTo(this.sprite, this.target.sprite, this.bullet.speed);
 //        }
 //    }
+//};
+//
+//var Arrow = new Tower.BulletModel();
+//Arrow.id = 0;
+//Arrow.spriteKey = 'bullet';
+//Arrow.speed = 100;
+//Arrow.animations = {
 //
 //};
+//
+//Tower.bulletList = {
+//    0: Arrow
+//};
+
+
+/**
+ * Now the tower models follow
+ */
+
+var Archer         = new Tower.Model();
+Archer.id          = 0;
+Archer.name        = 'Archer Tower';
+Archer.spriteKey   = 'towerTest';
+Archer.width       = 64;
+Archer.height      = 64;
+Archer.cost        = [100, 135, 180];
+Archer.speed       = [20, 20, 30];
+Archer.range       = [200, 275, 350];
+Archer.bulletSpeed = 800;
+Archer.damage      = [10, 4, 7];
+Archer.isAoe       = false;
+Archer.isChain     = false;
+//Archer.bullet = Arrow;
 
 Tower.towerList = {
-        0: Archer
-    };
+    0: Archer
+};

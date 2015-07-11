@@ -134,7 +134,7 @@ FormProcessing.prototype = {
             url: '/logout',
             dataType: 'json',
             data: {}
-        }).done(function (data, status, err) {
+        }).done(function (data, status) {
                 helper.debugLog('Status: ' + status, outerThis);
                 helper.debugLog('Returned data: ' + JSON.stringify(data), outerThis);
             }).fail(function (status, err) {

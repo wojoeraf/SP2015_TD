@@ -3,71 +3,9 @@ var canvasWidth = 1024;
 var canvasHeight = 768;
 
 
-
-
-
-
-var map;
-var layer;
-
-//marker=Turmauswahlrechteck
-var marker=null;
-
-
-//Obere Leiste (Score,XP etc..)
-var scoreText;
-var xpBar;
-var life;
-var heart;
-var heartsVal;
-var diamond;
-var diamonds;
-var diamondsVal;
-var coin;
-var coinsVal = 70;
-var diamondInfo;
-var diamondAction=false;
-//Tower und zugehörige Waffen speichern
-var bullets = [0,0,0,0,0,0,0,0,0];
-var towers=[0,0,0,0,0,0,0,0,0,0];
-//Tower-Counter
-var towerC=0;
-//Welcher TowerButton wurde gedrückt -> unterschiedliche Tower
-var towerButton=-1;
-//Hilfsarrays für nextWave und checkCol
-var array = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-var counterArray = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-var sprites = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-var healthBars = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-var enemyWaveNr=0;
-var enemyNumber;
-var upgradeButton;
-var deleteButton;
-var towerB;
-var exitButton;
-var levelchooser;
-//PopUp-Menü
-var popup;
-var backButton;
-var quitButton;
-var button1;
-var popupinfoTower1;
-var button2;
-var button3;
-var button4;
-var button5;
-var popupinfoTower2;
-var popupinfoTower3;
-var popupinfoTower4;
-var popupinfoTower1U;
-var towerButtons=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-
-
 // Namespace for audio
-var Audio = {};
-
 // Initialize empty arrays holding sound and music keys in order to distinguish them for muting.
-Audio = {
+var Audio = {
     menuMusicKeys: [],
     menuSoundKeys: [],
 
@@ -87,7 +25,10 @@ var player = new Player();
 
 
 // Namespace for game menu
-var Menu = {};
+var Menu = {
+    levelSelector: 0                //Levelselector variable
+};
+
 
 // Namespace for game
 var Game = {};
