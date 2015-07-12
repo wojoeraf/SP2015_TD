@@ -51,7 +51,7 @@ Game.Level2.prototype = {
         xpBar =  this.add.image(470, 30, 'xpBar2');
         xpBar.scale.set(0.2);
         xpBar.scale.x=0.0;
-        coins=70;
+        coins=250;
         coin = this.add.image(60,22,'coin',1);
         coin.scale.set(0.9);
         coinsVal=this.add.text(100,20,coins);

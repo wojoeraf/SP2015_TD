@@ -3,14 +3,14 @@
  */
 
 
-Game.Level1 = function(){
-    this.handler    = new Game.Handling(this);
-    this.map        = null;
-    this.metaLayer  = null;
+Game.Level1 = function () {
+    this.handler = new Game.Handling(this);
+    this.map = null;
+    this.metaLayer = null;
     this.startPoint = null;
-    this.waypoints  = null;
-    this.timer      = null;
-    this.debug      = 0;
+    this.waypoints = null;
+    this.timer = null;
+    this.debug = 0;
     this.waveHandler = null;
 
     this.waves = [
@@ -26,7 +26,7 @@ Game.Level1 = function(){
 
 Game.Level1.prototype = {
 
-    render: function() {
+    render: function () {
         if (this.waveHandler.mobPool.length > 0) {
             //this.game.debug.body(this.waveHandler.mobPool[0].sprite, '#aa0000', true);
             //this.game.debug.box2dBody(this.waveHandler.mobPool[0].sprite);
@@ -37,7 +37,7 @@ Game.Level1.prototype = {
     },
 
     //Level specific initialisations
-    init: function() {
+    init: function () {
         //this.handler.init();
         this.handler.coins = 100; //Beginning coins
         this.handler.lifes = 20; //Beginning lifes
@@ -48,7 +48,7 @@ Game.Level1.prototype = {
 
 
     //Load level 1 data
-    preload: function(){
+    preload: function () {
         this.time.advancedTiming = true;
         //Load the map
         this.load.tilemap('map', 'assets/tilemaps/level1.json', null, Phaser.Tilemap.TILED_JSON);
@@ -82,7 +82,12 @@ Game.Level1.prototype = {
 
         //Next-Wave-Button und Tower-Buttons hinzufügen
         this.add.button(850, 630, 'nextWave', this.handler.nextWave, this.handler);
-        button1 = this.add.button(50,630,'tower1', this.buildTower, this);
+        button1 = this.add.button(50, 630, 'tower1', function () {
+            this.buildTower(0)
+        }, this);
+        button2 = this.add.button(200, 630, 'tower1', function () {
+            this.buildTower(1)
+        }, this);
         //button1.events.onInputOver.add(this.helpers.infoTower1,this);
         //button1.events.onInputOut.add(this.helpers.infoTower1Delete,this);
 
@@ -95,7 +100,7 @@ Game.Level1.prototype = {
         //button5.events.onInputOver.add(this.helpers.diamondInfo,this);
         //button5.events.onInputOut.add(this.helpers.diamondInfoDelete,this);
         //Popup-Button
-        this.add.button(850,100,'menuB',this.popUp,this);
+        this.add.button(850, 100, 'menuB', this.popUp, this);
 
         //this.timer.loop(1000, function() {console.log(this.map.getTileWorldXY(this.input.mousePointer.x, this.input.mousePointer.y, 16, 16, 'Meta'));}, this);
 
@@ -116,28 +121,29 @@ Game.Level1.prototype = {
 
 
     //Archer Tower build request
-    buildTower: function() {
-        this.handler.buildTowerID = 0;  //The ID of the archer Tower (look in the Tower.towerList)
-        this.handler.buildTower(0);     //Start the building process
+    buildTower: function (id) {
+        console.log(id);
+        this.handler.buildTowerID = id;  //The ID of the archer Tower (look in the Tower.towerList)
+        this.handler.buildTower();     //Start the building process
     },
 
 
     //Popup-Menü öffen und je nach Button verlinken
-    popUp : function(){
+    popUp: function () {
         this.helpers.popUp(this);
     },
 
 
-    diamondClicked:function(){
+    diamondClicked: function () {
         this.helpers.diamondClicked(this);
     },
 
 
-    shutDown: function() {
-        this.map        = null;
-        this.metaLayer  = null;
-        this.waypoints  = null;
-        this.timer      = null;
+    shutDown: function () {
+        this.map = null;
+        this.metaLayer = null;
+        this.waypoints = null;
+        this.timer = null;
     }
 
 }

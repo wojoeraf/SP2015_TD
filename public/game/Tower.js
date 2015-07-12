@@ -230,6 +230,29 @@ Archer.isAoe       = false;
 Archer.isChain     = false;
 //Archer.bullet = Arrow;
 
+var Spearman         = new Tower.Model();
+Spearman.id          = 1;
+Spearman.name        = 'Spearman Tower';
+Spearman.spriteKey   = 'SpearmanTower';
+Spearman.animations = {
+    up:     [ 0,  1,  2,  3,  4,  5,  6, 7],
+    left:   [ 8, 9, 10, 11, 12, 13, 14, 15],
+    down:   [16, 17, 18, 19, 20, 21, 22, 23],
+    right:  [24, 25, 26, 27, 28, 29, 30, 31]
+};
+Spearman.width       = 64;
+Spearman.height      = 64;
+Spearman.cost        = [100, 135, 180];
+Spearman.speed       = [20, 20, 30];
+Spearman.range       = [200, 275, 350];
+Spearman.bulletSpeed = 800;
+Spearman.damage      = [10, 4, 7];
+Spearman.isAoe       = false;
+Spearman.isChain     = false;
+//Spearman.bullet = Arrow;
+
+
 Tower.towerList = {
-    0: Archer
+    0: Archer,
+    1: Spearman
 };
