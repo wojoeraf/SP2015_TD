@@ -133,8 +133,8 @@ Menu.Boot.prototype = {
         this.load.image('Exit', 'assets/sprites/exit.png');
         this.load.image('Premium', 'assets/sprites/premium_1.png');
 
-        this.load.image('Quit', 'assets/sprites/quit_to_main_menu.png');
-        this.load.image('Return', 'assets/sprites/return_to_the_game.png');
+        this.load.image('Quit', 'assets/menu/quit.png');
+        this.load.image('Return', 'assets/menu/return.png');
 
         this.load.image('DiamondInfo', 'assets/sprites/DiamondInfo.png');
         this.load.image('nextWave', 'assets/sprites/next_wave.png');

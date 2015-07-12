@@ -38,8 +38,8 @@ Game.Level1.prototype = {
 
     //Level specific initialisations
     init: function() {
-        //this.handler.init();
-        this.handler.coins = 100; //Beginning coins
+        this.handler.init();
+        this.handler.coins = 200; //Beginning coins
         this.handler.lifes = 20; //Beginning lifes
         this.handler.interestRate = 0.15;
         this.handler.maxWaves = this.waves.length;
@@ -95,7 +95,7 @@ Game.Level1.prototype = {
         //button5.events.onInputOver.add(this.helpers.diamondInfo,this);
         //button5.events.onInputOut.add(this.helpers.diamondInfoDelete,this);
         //Popup-Button
-        this.add.button(850,100,'menuB',this.popUp,this);
+        this.add.button(850,100,'menuB', this.handler.showGameMenu, this.handler);
 
         //this.timer.loop(1000, function() {console.log(this.map.getTileWorldXY(this.input.mousePointer.x, this.input.mousePointer.y, 16, 16, 'Meta'));}, this);
 
@@ -118,7 +118,7 @@ Game.Level1.prototype = {
     //Archer Tower build request
     buildTower: function() {
         this.handler.buildTowerID = 0;  //The ID of the archer Tower (look in the Tower.towerList)
-        this.handler.buildTower(0);     //Start the building process
+        this.handler.buildTower();     //Start the building process
     },
 
 

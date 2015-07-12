@@ -27,6 +27,9 @@ Menu.LevelSelector.prototype = {
 
     },
 
+
+    //TODO Levelselector eine funktion, mit parameter in state.start('name', true, false, parameter). Wird in init funktion des nächsten states verarbeitet.
+
     // Start game in easy mode
     startEasy: function () {
         Menu.levelSelector = 1;

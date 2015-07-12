@@ -25,6 +25,7 @@ Game.Handling = function (lvl) {
     this.lvl            = lvl;
     this.helperIngame   = new GameHelper.Ingame(this.lvl);
     this.helperHUD      = new GameHelper.HUD(this.lvl);
+    this.fp             = new FormProcessing();
     this.coins          = 0;
     this.lifes          = 0;
     this.xp             = 0;
@@ -39,6 +40,7 @@ Game.Handling = function (lvl) {
     this.towerPreviewCircle = null;
     this.buildTowerID    = null;            //Id of the requested tower to build
     this.currentTowers  = [];           // Holds the towers build in one level
+    this.gameMenu       = null;
 
 };
 
@@ -67,6 +69,34 @@ Game.Handling.prototype = {
                 }
             }
         }, this);
+
+        // Create Menu popup
+        this.gameMenu = this.lvl.add.sprite(0, 0);
+        this.gameMenu.visible = false;
+        var rectangle = this.lvl.add.graphics(0, 0);
+
+        rectangle.lineStyle(4, 0x333333, 0.5);
+        rectangle.beginFill(0xeeeeee, 0.5);
+        rectangle.drawRoundedRect(0, 0, 300, 450, 15);
+        this.gameMenu.addChild(rectangle);
+        this.gameMenu.anchor.set(0.5);
+        this.gameMenu.y = 130;
+        this.gameMenu.x = canvasWidth / 2 - 150;
+
+        var menuCaption = this.lvl.add.text(100, 20, 'Menu', {font: '40px MenuFont', fill: '#111111'});
+        var menuMusic = this.lvl.add.text(70, 100, 'Music Volume', {font: '25px MenuFont', fill: '#111111'});
+        var menuSound = this.lvl.add.text(70, 200, 'Sound Volume', {font: '25px MenuFont', fill: '#111111'});
+        this.gameMenu.addChild(menuCaption);
+        this.gameMenu.addChild(menuMusic);
+        this.gameMenu.addChild(menuSound);
+
+        var quitBtn = this.lvl.add.button(150, 350, 'Quit', this.quit, this);
+        var returnBtn = this.lvl.add.button(150, 400, 'Return', this.showGameMenu, this);
+        quitBtn.anchor.set(0.5);
+        returnBtn.anchor.set(0.5);
+        this.gameMenu.addChild(quitBtn);
+        this.gameMenu.addChild(returnBtn);
+
     },
 
 
@@ -143,6 +173,23 @@ Game.Handling.prototype = {
     },
 
 
+    showGameMenu: function () {
+        if (!this.gameMenu.visible) {
+            this.lvl.world.bringToTop(this.gameMenu);
+            this.gameMenu.visible = true;
+            this.fp.showPopup();
+        } else {
+            this.gameMenu.visible = false;
+            this.fp.hidePopup();
+        }
+    },
+
+    quit: function () {
+        this.lvl.state.clearCurrentState();
+        this.fp.hidePopup();
+        this.lvl.state.start("MainMenu");
+    },
+
     soundMenu: function () {
         //Get volume
         Audio.musicVolume = $( "#popupMusic" ).slider( "option", "value" );
@@ -153,4 +200,6 @@ Game.Handling.prototype = {
         $("#sliderMusic").slider('value', Audio.musicVolume);
         $("#sliderSound").slider('value',Audio.soundVolume);
     }
+
+
 };
