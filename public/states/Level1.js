@@ -12,17 +12,9 @@ Game.Level1 = function(){
     this.timer      = null;
     this.debug      = 0;
     this.waveHandler = null;
+    this.waves = null;
 
-    this.waves = [
-        new Wave(this, 50, {1: 2}),
-        new Wave(this, 75, {1: 7, 0: 3}),
-        new Wave(this, 125, {1: 10, 0: 5}),
-        new Wave(this, 180, {1: 15, 0: 10}),
-        new Wave(this, 250, {1: 20}),
-        new Wave(this, 350, {1: 50})
-    ];
-
-}
+};
 
 Game.Level1.prototype = {
 
@@ -38,8 +30,16 @@ Game.Level1.prototype = {
 
     //Level specific initialisations
     init: function() {
+        this.waves = [
+            new Wave(this, 50, {1: 5}),
+            new Wave(this, 75, {1: 8, 0: 0}),
+            new Wave(this, 125, {1: 10, 0: 5}),
+            new Wave(this, 180, {1: 15, 0: 10}),
+            new Wave(this, 250, {1: 20}),
+            new Wave(this, 350, {1: 50})
+        ];
         this.handler.init();
-        this.handler.coins = 200; //Beginning coins
+        this.handler.coins = 80; //Beginning coins
         this.handler.lifes = 20; //Beginning lifes
         this.handler.interestRate = 0.15;
         this.handler.maxWaves = this.waves.length;
@@ -63,9 +63,9 @@ Game.Level1.prototype = {
         this.map.addTilesetImage('tiles');
         this.map.addTilesetImage('meta_tiles');
 
-        console.log('world width: ' + this.world.width + ', world height: ' + this.world.height);
-        console.log(JSON.stringify(this.map.objects.waypoints));
-        console.log(JSON.stringify(this.map.objects.waypoints[0].x));
+        //console.log('world width: ' + this.world.width + ', world height: ' + this.world.height);
+        //console.log(JSON.stringify(this.map.objects.waypoints));
+        //console.log(JSON.stringify(this.map.objects.waypoints[0].x));
         this.waypoints = this.map.objects.waypoints;
 
         this.startPoint = new Phaser.Point(this.waypoints[0].x, this.waypoints[0].y);
@@ -100,7 +100,6 @@ Game.Level1.prototype = {
         //button5.events.onInputOver.add(this.helpers.diamondInfo,this);
         //button5.events.onInputOut.add(this.helpers.diamondInfoDelete,this);
         //Popup-Button
-        this.add.button(850, 100, 'menuB', this.handler.showGameMenu, this.handler);
 
         //this.timer.loop(1000, function() {console.log(this.map.getTileWorldXY(this.input.mousePointer.x, this.input.mousePointer.y, 16, 16, 'Meta'));}, this);
 

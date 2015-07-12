@@ -91,6 +91,8 @@ Menu.Boot.prototype = {
         this.load.spritesheet('tower4Text', 'assets/sprites/tower_4.png');
         this.load.spritesheet('tower3Text', 'assets/sprites/tower_3.png');
         //Bullets
+        this.load.spritesheet('noBullet', 'assets/sprites/empty_bullet.png', 8, 8);
+        this.load.spritesheet('arrow', 'assets/sprites/arrow16.png', 16, 16);
         this.load.spritesheet('bullet', 'assets/sprites/bullet.png', 8, 8);
         this.load.spritesheet('bullet2', 'assets/sprites/slime.png', 14, 14);
         this.load.spritesheet('bullet3', 'assets/sprites/bullet3.png');

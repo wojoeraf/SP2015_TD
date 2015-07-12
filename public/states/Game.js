@@ -41,6 +41,7 @@ Game.Handling = function (lvl) {
     this.buildTowerID    = null;            //Id of the requested tower to build
     this.currentTowers  = [];           // Holds the towers build in one level
     this.gameMenu       = null;
+    this.menuBtn        = null;
 
 };
 
@@ -57,7 +58,10 @@ Game.Handling.prototype = {
             console.log(this.currentTowers);
             if(this.towerPreview !== null) {
                 this.towerPreview.kill();
-                this.towerPreview = null;}
+                this.towerPreviewCircle.kill();
+                this.towerPreview = null;
+                this.towerPreviewCircle = null;
+            }
 
             //hide tower popups
             for (var i = 0; i < this.currentTowers.length; i++) {
@@ -70,7 +74,18 @@ Game.Handling.prototype = {
             }
         }, this);
 
-        // Create Menu popup
+        // Menu stuff
+        this.menuBtn = this.lvl.add.sprite(0,0);
+        this.menuBtn.inputEnabled = true;
+        this.menuBtn.visible = true;
+        var txt = this.lvl.add.text(100, 20, 'menuuu', {font: '40px MenuFont', fill: '#111111'});
+        this.menuBtn.addChild(txt);
+        this.menuBtn = this.lvl.add.button(850, 100, 'menuB', this.showGameMenu, this);
+
+
+        this.menuBtn.events.onInputUp.add(function() {
+            this.lvl.paused = true;
+        }, this);
         this.gameMenu = this.lvl.add.sprite(0, 0);
         this.gameMenu.visible = false;
         var rectangle = this.lvl.add.graphics(0, 0);
@@ -91,12 +106,13 @@ Game.Handling.prototype = {
         this.gameMenu.addChild(menuSound);
 
         var quitBtn = this.lvl.add.button(150, 350, 'Quit', this.quit, this);
-        var returnBtn = this.lvl.add.button(150, 400, 'Return', this.showGameMenu, this);
+        var returnBtn = this.lvl.add.button(150, 400, 'Return', this.return, this);
         quitBtn.anchor.set(0.5);
         returnBtn.anchor.set(0.5);
         this.gameMenu.addChild(quitBtn);
         this.gameMenu.addChild(returnBtn);
 
+        this.lvl.game.input.onDown.add(this.unpause, this);
     },
 
 
@@ -104,6 +120,7 @@ Game.Handling.prototype = {
         this.helperHUD.updateAll();
         this.soundMenu();
         this.towerHandling();
+        this.lvl.world.bringToTop(this.menuBtn);
     },
 
 
@@ -156,6 +173,7 @@ Game.Handling.prototype = {
         if (this.currentWaveNumber >= this.maxWaves) {
             //No more waves
             //if not game over: Player won.
+            this.playerWon();
         } else {
             this.lvl.waves[this.currentWaveNumber].init();
             this.lvl.waves[this.currentWaveNumber].start();
@@ -168,26 +186,44 @@ Game.Handling.prototype = {
     },
 
 
+    playerWon: function () {
+        //TODO
+    },
+
+
     checkGameOver: function () {
         //TODO
     },
 
 
     showGameMenu: function () {
-        if (!this.gameMenu.visible) {
-            this.lvl.world.bringToTop(this.gameMenu);
-            this.gameMenu.visible = true;
-            this.fp.showPopup();
-        } else {
-            this.gameMenu.visible = false;
-            this.fp.hidePopup();
-        }
+        this.lvl.game.paused = true;
+        this.lvl.world.bringToTop(this.gameMenu);
+        this.gameMenu.visible = true;
+        this.fp.showPopup();
     },
 
     quit: function () {
         this.lvl.state.clearCurrentState();
         this.fp.hidePopup();
-        this.lvl.state.start("MainMenu");
+        this.shutdown();
+        this.lvl.state.start("MainMenu", true);
+    },
+
+    return: function () {
+        if (this.lvl.game.paused) {
+            this.lvl.game.paused = false;
+            this.gameMenu.visible = false;
+            this.fp.hidePopup();
+        }
+    },
+
+    unpause: function(event) {
+        var rect = new Phaser.Rectangle(0, 0, 200, 200).copyFrom(this.gameMenu);
+        if (rect.contains(this.lvl.game.input.x, this.lvl.game.input.y)) {
+            //this.game.input.onDown.remove(unpause.back, this);
+            this.game.paused = false;
+        }
     },
 
     soundMenu: function () {
@@ -199,6 +235,24 @@ Game.Handling.prototype = {
         //Set sliders
         $("#sliderMusic").slider('value', Audio.musicVolume);
         $("#sliderSound").slider('value',Audio.soundVolume);
+    },
+
+
+    shutdown: function () {
+        this.coins          = 0;
+        this.lifes          = 0;
+        this.xp             = 0;
+        this.score          = 0;
+        this.interestRate   = 0;
+        this.spawnNow       = false;
+        this.currentWaveNumber = 0;
+        this.maxWaves       = null;
+        this.waveRunning    = false;        // Determines whether there is a wave running at the moment
+        this.towerPreview   = null;         // Variable holds tower preview rectangle in case of tower building process
+        this.towerPreviewCircle = null;
+        this.buildTowerID    = null;            //Id of the requested tower to build
+        this.currentTowers  = [];           // Holds the towers build in one level
+        this.gameMenu       = null;
     }
 
 

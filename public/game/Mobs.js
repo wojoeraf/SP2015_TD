@@ -153,6 +153,7 @@ Mob.WalkingMob.prototype = {
             // Or no health anymore
 
             this.destroy();
+            this.spawnNow = false;
 
             // End distance calculation for this mob.
             this.game.time.events.remove(this.distanceCalcEvent);
@@ -174,8 +175,9 @@ Artil.animations = {
     left: [8,9],
     up: [11,12,13]
 };
-Artil.speed = 100;
+Artil.speed = 75;
 Artil.health = 15;
+Artil.reward = 5;
 Artil.isBoss = false;
 Artil.type = 'ground';
 
@@ -189,9 +191,9 @@ test.animations = {
     left: [117,118,119,120,121,122,123,124,125],
     up: [104,105,106,107,108,109,110,111,112]
 };
-test.speed = 75;
-test.health = 18;
-test.reward = 7;
+test.speed = 60;
+test.health = 12;
+test.reward = 3;
 test.isBoss = false;
 test.type = 'ground';
 test.scaleX = 0.5;
